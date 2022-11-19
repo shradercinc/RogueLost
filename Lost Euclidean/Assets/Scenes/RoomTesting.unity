@@ -5580,6 +5580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f49b22aff97ba4db70e547dc8cee23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomPrefab: {fileID: 8734781558015247215, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
 --- !u!4 &1686645945
 Transform:
   m_ObjectHideFlags: 0
@@ -6518,6 +6519,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8324198973896802180, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734781557769998061, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8734781558015247214, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -6565,6 +6574,10 @@ PrefabInstance:
     - target: {fileID: 8734781558015247215, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
       propertyPath: m_Name
       value: Room
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734781558015247215, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8734781558318380033, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
       propertyPath: m_Size.x
@@ -7901,6 +7914,10 @@ PrefabInstance:
     - target: {fileID: 8734781558318380033, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
       propertyPath: m_Tiles.Array.data[152].second.m_TileObjectToInstantiateIndex
       value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734781558318380044, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
