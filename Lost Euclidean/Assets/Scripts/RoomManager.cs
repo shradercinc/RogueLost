@@ -188,7 +188,33 @@ public class RoomManager : MonoBehaviour
             {
                 Debug.Log(roomGrid[i, j]);
                 if (roomGrid[i, j] == 1)
-                    Instantiate(roomPrefab, new Vector3(i * 18, 0, j * 11), Quaternion.identity);
+                {
+                    var room = Instantiate(roomPrefab, new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
+                    
+                    // Checks for adjacent rooms and generate walls accordingly.
+                    bool north = false;
+                    bool south = false;
+                    bool east = false;
+                    bool west = false;
+                    if (j + 1 < roomGrid.GetLength(1))
+                    {
+                        north = roomGrid[i, j + 1] == 1;
+                    }
+                    if (j - 1 >= 0)
+                    {
+                        south = roomGrid[i, j - 1] == 1;
+                    }
+                    if (i + 1 < roomGrid.GetLength(0))
+                    {
+                        east = roomGrid[i + 1, j] == 1;
+                    }
+                    if (i - 1 >= 0)
+                    {
+                        west = roomGrid[i - 1, j] == 1;
+                    }
+                    
+                    room.GenerateWalls(north, south, east, west);
+                }
             }
         }
     }
