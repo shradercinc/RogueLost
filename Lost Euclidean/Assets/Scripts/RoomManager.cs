@@ -4,6 +4,9 @@ using UnityEngine;
 using System.Linq;
 // using System;
 
+/*
+Coords class for storing room coords, might move/change later to struct or other file.
+*/
 public class Coords
 {
     public int x, y;
@@ -12,7 +15,6 @@ public class Coords
         this.x = x;
         this.y = y;
     }
-
     public void SetCoords(int x, int y)
     {
         this.x = x;
@@ -20,14 +22,19 @@ public class Coords
     }
 }
 
+/*
+Manages room generation and room info.
+*/
 public class RoomManager : MonoBehaviour
 {
+    //2D array for room map, 1: has room, 0: no room
     private int[,] roomGrid;
     private Dictionary<int, RoomData> roomInfo;
-    private int roomNo = 14;
 
+    //current room coords that player is in (NOT IMPLEMENTED YET)
     private Coords currCoords;
 
+    private int roomNo = 14;
     private int maxGridX = 6;
     private int maxGridY = 6;
 
@@ -65,7 +72,8 @@ public class RoomManager : MonoBehaviour
         // }
     }
 
-    //using Prim's Algorithm
+    //using Prim's Algorithm to fill roomGrid 2D array
+    //http://weblog.jamisbuck.org/2011/1/10/maze-generation-prim-s-algorithm
     private void GenerateRoomLayout()
     {
         Dictionary<string, Coords> activeCoords = new Dictionary<string, Coords>();
@@ -158,22 +166,22 @@ public class RoomManager : MonoBehaviour
         // }
     }
 
+    // make room data
     private void GenerateRoomData()
     {
         for (int i = 0; i < roomNo + 1; i++)
         {
             RoomData data = new RoomData(i);
-            data.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+            // data.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
             //add enemies
             //add obstacles
             roomInfo.Add(i, data);
         }
     }
 
+    //instantiate rooms in scene
     private void GenerateRooms()
     {
-        // int x = 0;
-        // int z = 0;
         for (int i = 0; i < roomGrid.GetLength(0); i++)
         {
             for (int j = 0; j < roomGrid.GetLength(1); j++)
