@@ -38,10 +38,21 @@ public class RoomManager : MonoBehaviour
     private int maxGridX = 6;
     private int maxGridY = 6;
 
+    //dictionary for all the room objects
+    private Dictionary<(int, int), Room> rooms;
+
     public GameObject roomPrefab;
+
+    public static RoomManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
+        rooms = new Dictionary<(int, int), Room>();
         currCoords = new Coords(0, 0);
         roomGrid = new int[maxGridX, maxGridY];
         GenerateRoomLayout();
@@ -50,6 +61,8 @@ public class RoomManager : MonoBehaviour
         GenerateRoomData();
 
         GenerateRooms();
+
+        GameManager.instance.CreatePlayer();
     }
 
     private void Update()
@@ -179,6 +192,11 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    public Room GetCurrentRoom()
+    {
+        return rooms[(currCoords.x, currCoords.y)];
+    }
+
     //instantiate rooms in scene
     private void GenerateRooms()
     {
@@ -186,11 +204,12 @@ public class RoomManager : MonoBehaviour
         {
             for (int j = 0; j < roomGrid.GetLength(1); j++)
             {
-                Debug.Log(roomGrid[i, j]);
+                // Debug.Log(roomGrid[i, j]);
                 if (roomGrid[i, j] == 1)
                 {
                     var room = Instantiate(roomPrefab, new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
-                    
+                    rooms.Add((i, j), room);
+
                     // Checks for adjacent rooms and generate walls accordingly.
                     bool north = false;
                     bool south = false;
@@ -212,7 +231,7 @@ public class RoomManager : MonoBehaviour
                     {
                         west = roomGrid[i - 1, j] == 1;
                     }
-                    
+
                     room.GenerateWalls(north, south, east, west);
                 }
             }

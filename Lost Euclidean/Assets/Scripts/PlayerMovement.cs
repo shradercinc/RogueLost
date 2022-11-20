@@ -13,17 +13,17 @@ public class PlayerMovement : MonoBehaviour
     private bool running = false;
     private float ZInput = 0;
     private float XInput = 0;
-    
+
 
     private Transform pos;
     private Rigidbody rb;
 
     private bool Rolling = false;
     public float DashA = 0.05f;
-    private Vector3 direct = new Vector3(0,0,0);
+    private Vector3 direct = new Vector3(0, 0, 0);
     public float length = 1;
     private float DTimer = 0;
-    private float topS = 0; 
+    // private float topS = 0; 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
             //print("Z =" + direct.z / Mathf.Abs(direct.z)); 
             //print("X =" + direct.x / Mathf.Abs(direct.x));
             //adds velocity in the direction the player was already moving when dashing. Queries if the velocity is 0 to prevent errors
-            rb.velocity += new Vector3( direct.x != 0 ? DashA * Mathf.Sign(direct.x): 0, 0, direct.z != 0 ? DashA * Mathf.Sign(direct.z): 0);
+            rb.velocity += new Vector3(direct.x != 0 ? DashA * Mathf.Sign(direct.x) : 0, 0, direct.z != 0 ? DashA * Mathf.Sign(direct.z) : 0);
         }
     }
     void Update()
@@ -74,7 +74,8 @@ public class PlayerMovement : MonoBehaviour
         {
             running = true;
             Stamina -= Time.deltaTime;
-        } else
+        }
+        else
         {
             running = false;
             Stamina += Time.deltaTime;

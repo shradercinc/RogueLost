@@ -26,6 +26,7 @@ public class Room : MonoBehaviour
     private Vector2Int _roomCenter = new Vector2Int(9, 5);
     // near corner is the origin at (0, 0)
 
+    // public Coords roomCoords;
 
     // Start is called before the first frame update
     void Start()
