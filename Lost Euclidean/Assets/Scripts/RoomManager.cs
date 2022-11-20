@@ -63,25 +63,39 @@ public class RoomManager : MonoBehaviour
         GenerateRooms();
 
         GameManager.instance.CreatePlayer();
+        // Debug.Log(currCoords.x + ", " + currCoords.y);
     }
 
     private void Update()
     {
+        //temp for camera testing
         // if (Input.GetKeyDown(KeyCode.W))
         // {
-        //     currRoomCoords.y++;
+        //     if (rooms.ContainsKey((currCoords.x, currCoords.y + 1)))
+        //         currCoords.y++;
+
+        //     Debug.Log(currCoords.x + ", " + currCoords.y);
         // }
         // else if (Input.GetKeyDown(KeyCode.A))
         // {
-        //     currRoomCoords.x--;
+        //     if (rooms.ContainsKey((currCoords.x - 1, currCoords.y)))
+        //         currCoords.x--;
+
+        //     Debug.Log(currCoords.x + ", " + currCoords.y);
         // }
         // else if (Input.GetKeyDown(KeyCode.S))
         // {
-        //     currRoomCoords.y--;
+        //     if (rooms.ContainsKey((currCoords.x, currCoords.y - 1)))
+        //         currCoords.y--;
+
+        //     Debug.Log(currCoords.x + ", " + currCoords.y);
         // }
         // else if (Input.GetKeyDown(KeyCode.D))
         // {
-        //     currRoomCoords.x++;
+        //     if (rooms.ContainsKey((currCoords.x + 1, currCoords.y)))
+        //         currCoords.x++;
+
+        //     Debug.Log(currCoords.x + ", " + currCoords.y);
         // }
     }
 
@@ -197,6 +211,16 @@ public class RoomManager : MonoBehaviour
         return rooms[(currCoords.x, currCoords.y)];
     }
 
+    public void SetCurrentRoom(Coords coords)
+    {
+        currCoords = coords;
+    }
+
+    // public Coords GetCurrentCoords()
+    // {
+    //     return currCoords;
+    // }
+
     //instantiate rooms in scene
     private void GenerateRooms()
     {
@@ -209,6 +233,7 @@ public class RoomManager : MonoBehaviour
                 {
                     var room = Instantiate(roomPrefab, new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
                     rooms.Add((i, j), room);
+                    room.roomCoords = new Coords(i, j);
 
                     // Checks for adjacent rooms and generate walls accordingly.
                     bool north = false;

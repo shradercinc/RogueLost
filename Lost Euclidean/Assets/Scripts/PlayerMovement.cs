@@ -98,7 +98,5 @@ public class PlayerMovement : MonoBehaviour
                 exhausted = false;
             }
         }
-        print("Exhausted?" + exhausted);
-        print("Stamina =" + Stamina);
     }
 }
