@@ -31,7 +31,7 @@ public class RoomManager : MonoBehaviour
     private int[,] roomGrid;
     private Dictionary<int, RoomData> roomInfo;
 
-    //current room coords that player is in (NOT IMPLEMENTED YET)
+    //current room coords that player is in
     private Coords currCoords;
 
     private int roomNo = 14;
@@ -40,6 +40,12 @@ public class RoomManager : MonoBehaviour
 
     //dictionary for all the room objects
     private Dictionary<(int, int), Room> rooms;
+
+    //list for which rooms have which exits
+    private List<Room> northDoorRooms;
+    private List<Room> southDoorRooms;
+    private List<Room> eastDoorRooms;
+    private List<Room> westDoorRooms;
 
     public GameObject roomPrefab;
 
@@ -52,6 +58,11 @@ public class RoomManager : MonoBehaviour
 
     private void Start()
     {
+        northDoorRooms = new List<Room>();
+        southDoorRooms = new List<Room>();
+        eastDoorRooms = new List<Room>();
+        westDoorRooms = new List<Room>();
+
         rooms = new Dictionary<(int, int), Room>();
         currCoords = new Coords(0, 0);
         roomGrid = new int[maxGridX, maxGridY];
@@ -64,39 +75,6 @@ public class RoomManager : MonoBehaviour
 
         GameManager.instance.CreatePlayer();
         // Debug.Log(currCoords.x + ", " + currCoords.y);
-    }
-
-    private void Update()
-    {
-        //temp for camera testing
-        // if (Input.GetKeyDown(KeyCode.W))
-        // {
-        //     if (rooms.ContainsKey((currCoords.x, currCoords.y + 1)))
-        //         currCoords.y++;
-
-        //     Debug.Log(currCoords.x + ", " + currCoords.y);
-        // }
-        // else if (Input.GetKeyDown(KeyCode.A))
-        // {
-        //     if (rooms.ContainsKey((currCoords.x - 1, currCoords.y)))
-        //         currCoords.x--;
-
-        //     Debug.Log(currCoords.x + ", " + currCoords.y);
-        // }
-        // else if (Input.GetKeyDown(KeyCode.S))
-        // {
-        //     if (rooms.ContainsKey((currCoords.x, currCoords.y - 1)))
-        //         currCoords.y--;
-
-        //     Debug.Log(currCoords.x + ", " + currCoords.y);
-        // }
-        // else if (Input.GetKeyDown(KeyCode.D))
-        // {
-        //     if (rooms.ContainsKey((currCoords.x + 1, currCoords.y)))
-        //         currCoords.x++;
-
-        //     Debug.Log(currCoords.x + ", " + currCoords.y);
-        // }
     }
 
     //using Prim's Algorithm to fill roomGrid 2D array
@@ -232,6 +210,7 @@ public class RoomManager : MonoBehaviour
                 if (roomGrid[i, j] == 1)
                 {
                     var room = Instantiate(roomPrefab, new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
+                    room.gameObject.tag = "Room"; //TODO: idk why this isn't setting even tho it's in the prefab
                     rooms.Add((i, j), room);
                     room.roomCoords = new Coords(i, j);
 
@@ -257,9 +236,53 @@ public class RoomManager : MonoBehaviour
                         west = roomGrid[i - 1, j] == 1;
                     }
 
+                    //adds to door tracking lists
+                    if (north)
+                    {
+                        if (!northDoorRooms.Contains(room))
+                            northDoorRooms.Add(room);
+                    }
+                    if (south)
+                    {
+                        if (!southDoorRooms.Contains(room))
+                            southDoorRooms.Add(room);
+                    }
+                    if (east)
+                    {
+                        if (!eastDoorRooms.Contains(room))
+                            eastDoorRooms.Add(room);
+                    }
+                    if (west)
+                    {
+                        if (!westDoorRooms.Contains(room))
+                            westDoorRooms.Add(room);
+                    }
+
+
                     room.GenerateWalls(north, south, east, west);
                 }
             }
         }
+    }
+
+    //get random room from direction
+    public Room GetRandomNorthRoom()
+    {
+        return northDoorRooms[Random.Range(0, northDoorRooms.Count)];
+    }
+
+    public Room GetRandomSouthRoom()
+    {
+        return southDoorRooms[Random.Range(0, southDoorRooms.Count)];
+    }
+
+    public Room GetRandomEastRoom()
+    {
+        return eastDoorRooms[Random.Range(0, eastDoorRooms.Count)];
+    }
+
+    public Room GetRandomWestRoom()
+    {
+        return westDoorRooms[Random.Range(0, westDoorRooms.Count)];
     }
 }

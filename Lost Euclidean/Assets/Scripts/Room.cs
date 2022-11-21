@@ -42,10 +42,10 @@ public class Room : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger");
+        // Debug.Log("Trigger");
         if (other.tag == "Player")
         {
-            Debug.Log(roomCoords.x + ", " + roomCoords.y);
+            // Debug.Log(roomCoords.x + ", " + roomCoords.y);
             RoomManager.instance.SetCurrentRoom(roomCoords);
         }
     }
@@ -65,7 +65,7 @@ public class Room : MonoBehaviour
          * 180 is West
          * 270 is North
          */
-        
+
         // bottom row
         for (int i = 0; i <= _farCorner.x; i++)
         {
