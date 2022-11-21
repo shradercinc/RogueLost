@@ -59,12 +59,20 @@ public class Room : MonoBehaviour
     /// <param name="west">if a door should be placed west.</param>
     public void GenerateWalls(bool north = false, bool south = false, bool east = false, bool west = false)
     {
+        // East wall, facing left is the default rotation on the walls.
+        /*
+         * 90 is South
+         * 180 is West
+         * 270 is North
+         */
+        
         // bottom row
         for (int i = 0; i <= _farCorner.x; i++)
         {
             if (!south || (i != 8 && i != 9))
             {
                 var pillar = Instantiate(obstaclePrefabs[0], obstacleHolder);
+                pillar.transform.rotation = Quaternion.Euler(0, 90, 0);
                 pillar.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, 0, 0));
             }
         }
@@ -75,6 +83,7 @@ public class Room : MonoBehaviour
             if (!west || (i != 4 && i != 5))
             {
                 var pillar = Instantiate(obstaclePrefabs[0], obstacleHolder);
+                pillar.transform.rotation = Quaternion.Euler(0, 180, 0);
                 pillar.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(0, i, 0));
             }
         }
@@ -85,6 +94,7 @@ public class Room : MonoBehaviour
             if (!north || (i != 8 && i != 9))
             {
                 var pillar = Instantiate(obstaclePrefabs[0], obstacleHolder);
+                pillar.transform.rotation = Quaternion.Euler(0, 270, 0);
                 pillar.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, _farCorner.y, 0));
             }
         }

@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefabs:
-  - {fileID: 6271076168411312367, guid: 842c78696dc62c2438a9d3e16c1ca227, type: 3}
+  - {fileID: 1728043952121581196, guid: ba04b9468cb6d3848bb635149b2a2aff, type: 3}
   grid: {fileID: 8734781557769998060}
   obstacleHolder: {fileID: 3067755297529775086}
 --- !u!65 &3300598335798025293
