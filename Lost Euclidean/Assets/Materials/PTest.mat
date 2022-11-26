@@ -74,16 +74,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AmbientExposure: 5
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _Displacement: 0
     - _DstBlend: 0
-    - _FresnelPower: 5
+    - _FresnelPower: 0.7
     - _GlossMapScale: 1
     - _Glossiness: 0.108
     - _GlossyReflections: 1
-    - _Metallic: 0.445
+    - _Metallic: 0.43
     - _Mode: 0
     - _Normal: 0
     - _OcclusionStrength: 1

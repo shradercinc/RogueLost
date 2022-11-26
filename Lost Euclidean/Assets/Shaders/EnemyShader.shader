@@ -10,10 +10,10 @@ Shader "Custom/EnemyShader"
     {
         Tags
         {
-            "RenderType"="Opaque"
+            "RenderType"="Transparent" "Queue"="Transparent"
         }
         LOD 200
-        //Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -119,7 +119,7 @@ Shader "Custom/EnemyShader"
 
                 fixed shadow = SHADOW_ATTENUATION(i);
 
-                float attenuation = 1.0;
+                float attenuation = 0;
                 
                 #if defined (SPOT)
                     float4 lightCoord = mul(unity_WorldToLight, float4(i.worldPos, 1));
@@ -135,20 +135,19 @@ Shader "Custom/EnemyShader"
                 
                 float3 lightColor = _LightColor0; // includes intensity
 
-                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, surfaceColor.a * shadow);
+                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.01, 0.1, surfaceColor.a * attenuation * shadow));
 
-                return float4(attenuation.rrr, 1);
+                return float4(color);
             }
             ENDCG
         }
-        
+
         Pass
         {
             Tags
             {
                 "LightMode"="ForwardAdd"
             }
-            Blend One One
 
             CGPROGRAM
             #pragma vertex vert
@@ -220,7 +219,7 @@ Shader "Custom/EnemyShader"
 
             float4 frag(Interpolators i) : SV_Target
             {
-                float3 color = 0;
+                float4 color = 0;
                 float2 uv = i.uv;
                 
                 fixed shadow = UNITY_SHADOW_ATTENUATION(i, i.worldPos);
@@ -240,15 +239,15 @@ Shader "Custom/EnemyShader"
                     float3 lightCoord = mul(unity_WorldToLight, float4(i.worldPos, 1)).xyz;
                     attenuation = tex2D(_LightTexture0, dot(lightCoord, lightCoord).rr).UNITY_ATTEN_CHANNEL;
                 #endif
-                
-                color = surfaceColor * attenuation * shadow;
 
-                return float4(attenuation.rrr, 1.0);
+                float3 lightColor = _LightColor0; // includes intensity
+                
+                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.01, 0.1, surfaceColor.a * attenuation * shadow));
+
+                return color;
             }
             ENDCG
         }
-
-
     }
     FallBack "Diffuse"
 }

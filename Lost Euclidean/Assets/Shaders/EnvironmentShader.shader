@@ -13,8 +13,9 @@ Shader "Custom/EnvironmentShader"
         [NoScaleOffset]_RoughnessTex ("Roughness", 2D) = "white" {}
 
         _FresnelPower ("fresnel power", Range(0, 10)) = 5
-
+        _AmbientExposure ("ambient exposure", Range(0, 5)) = 0.5
     }
+    
     SubShader
     {
         Tags
@@ -56,6 +57,7 @@ Shader "Custom/EnvironmentShader"
             sampler2D _Roughness;
             fixed4 _Color;
             float _FresnelPower;
+            float _AmbientExposure;
 
             // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
             // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -192,7 +194,7 @@ Shader "Custom/EnvironmentShader"
                 float3 indirectDiffuse = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, normal, DIFFUSE_MIP_LEVEL);
                 float3 diffuse = surfaceColor * (directDiffuse * lightColor * shadow + indirectDiffuse);
 
-                color = 0;
+                color = (specular + diffuse);
 
                 return float4(color, 1.0);
             }
@@ -338,15 +340,7 @@ Shader "Custom/EnvironmentShader"
                 
                 float3 lightColor = _LightColor0; // includes intensity
 
-                // make view direction negative because reflect takes an incidence vector, meaning, it is point toward the surface
-                // viewDirection is pointing toward the camera
-                float3 viewReflection = reflect(-viewDirection, normal);
-
                 float roughness = tex2D(_Roughness, uv).r;
-
-                float mip = roughness * SPECULAR_MIP_STEPS;
-                float3 indirectSpecular = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, viewReflection, mip) *
-                    metallic;
 
                 float3 halfDirection = normalize(viewDirection + lightDirection);
 
@@ -357,10 +351,9 @@ Shader "Custom/EnvironmentShader"
                 float3 directSpecular = pow(specularFalloff, (1 - roughness) * MAX_SPECULAR_POWER + 0.0001) * lightColor
                     * (1 - roughness) * attenuation;
 
-                float3 specular = directSpecular + indirectSpecular * reflectivity;
-
-                float3 indirectDiffuse = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, normal, DIFFUSE_MIP_LEVEL);
-                float3 diffuse = surfaceColor * (directDiffuse * lightColor * shadow + indirectDiffuse);
+                float3 specular = directSpecular;
+                
+                float3 diffuse = surfaceColor * (directDiffuse * lightColor * shadow);
 
                 color = diffuse + specular;
 
