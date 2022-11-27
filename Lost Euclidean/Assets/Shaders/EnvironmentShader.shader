@@ -36,6 +36,8 @@ Shader "Custom/EnvironmentShader"
             #pragma fragment frag
             #include "UnityCG.cginc"
 
+            #define VERTEXLIGHT_ON
+
             // might be UnityLightingCommon.cginc for later versions of unity
             #include"UnityLightingCommon.cginc"
 
@@ -113,7 +115,7 @@ Shader "Custom/EnvironmentShader"
                      unity_4LightPosZ0[index], 1.0);
              
                     float3 vertexToLightSource = 
-                     lightPosition.xyz - o.posWorld.xyz;    
+                     lightPosition.xyz - o.worldPos.xyz;    
                     float3 lightDirection = normalize(vertexToLightSource);
                     float squaredDistance = 
                      dot(vertexToLightSource, vertexToLightSource);
