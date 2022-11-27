@@ -1724,6 +1724,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 8797678310372331424, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
+  bluePillar: 0
+  yellowPillar: 0
+  greenPillar: 0
+  purplePillar: 0
+  hasGun: 0
+  isTeleporting: 1
 --- !u!4 &441005960
 Transform:
   m_ObjectHideFlags: 0
@@ -5639,6 +5645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 8734781558015247215, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
+  pillarPrefab: {fileID: 6271076168411312367, guid: a5b9ab1b11f317049944d718291f1954, type: 3}
 --- !u!4 &1686645945
 Transform:
   m_ObjectHideFlags: 0
