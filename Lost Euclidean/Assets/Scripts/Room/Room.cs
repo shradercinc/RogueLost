@@ -87,6 +87,13 @@ public class Room : MonoBehaviour
                 pillar.transform.rotation = Quaternion.Euler(0, 90, 0);
                 pillar.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, 0, 0));
             }
+            else if (i == 8)
+            {
+                var gate = Instantiate(obstaclePrefabs[3], obstacleHolder);
+                gate.transform.rotation = Quaternion.Euler(0, 90, 0);
+                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, 0, 0)) 
+                                               + new Vector3(grid.cellSize.x * 0.5f, 0, 0);
+            }
         }
 
         // left column
@@ -97,6 +104,13 @@ public class Room : MonoBehaviour
                 var pillar = Instantiate(obstaclePrefabs[0], obstacleHolder);
                 pillar.transform.rotation = Quaternion.Euler(0, 180, 0);
                 pillar.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(0, i, 0));
+            }
+            else if (i == 4)
+            {
+                var gate = Instantiate(obstaclePrefabs[3], obstacleHolder);
+                gate.transform.rotation = Quaternion.Euler(0, 180, 0);
+                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(0, i, 0)) 
+                                               + new Vector3(0, 0, grid.cellSize.x * 0.5f);
             }
         }
 
@@ -109,6 +123,13 @@ public class Room : MonoBehaviour
                 pillar.transform.rotation = Quaternion.Euler(0, 270, 0);
                 pillar.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, _farCorner.y, 0));
             }
+            else if (i == 8)
+            {
+                var gate = Instantiate(obstaclePrefabs[3], obstacleHolder);
+                gate.transform.rotation = Quaternion.Euler(0, 270, 0);
+                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, _farCorner.y, 0)) 
+                                               + new Vector3(grid.cellSize.x * 0.5f, 0, 0);
+            }
         }
 
         // right row
@@ -118,6 +139,12 @@ public class Room : MonoBehaviour
             {
                 var pillar = Instantiate(obstaclePrefabs[0], obstacleHolder);
                 pillar.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(_farCorner.x, i, 0));
+            }
+            else if (i == 4)
+            {
+                var gate = Instantiate(obstaclePrefabs[3], obstacleHolder);
+                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(_farCorner.x, i, 0)) 
+                                               + new Vector3(0, 0, grid.cellSize.x * 0.5f);
             }
         }
 
