@@ -34,11 +34,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        mPos = Input.mousePosition;
         rb = GetComponent<Rigidbody>();
         pos = GetComponent<Transform>();
         Stamina = StaminaMax;
-        cam = Camera.main;
     }
 
     private void FixedUpdate()
@@ -60,14 +58,6 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        mPos = Input.mousePosition;
-        var pPos = cam.WorldToScreenPoint(pos.position);
-        Vector3 dir = (mPos - pPos);
-        dir.z = dir.y;
-        dir.y = 0f;
-        dir.Normalize();
-        transform.rotation = Quaternion.LookRotation(dir);
-
 
 
         if (Rolling == false)
