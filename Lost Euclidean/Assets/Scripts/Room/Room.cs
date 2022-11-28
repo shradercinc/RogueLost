@@ -55,11 +55,10 @@ public class Room : MonoBehaviour
             // Debug.Log(roomCoords.x + ", " + roomCoords.y);
             RoomManager.instance.SetCurrentRoom(roomCoords);
 
-            RoomManager.instance.GetPreviousRoom().GenerateExitLinks();
-            // RoomManager.instance.GetPreviousRoom().northLight.SetActive(false);
-            // RoomManager.instance.GetPreviousRoom().southLight.SetActive(false);
-            // RoomManager.instance.GetPreviousRoom().eastLight.SetActive(false);
-            // RoomManager.instance.GetPreviousRoom().westLight.SetActive(false);
+            if (GameManager.instance.isTeleporting)
+            {
+                RoomManager.instance.GetPreviousRoom().GenerateExitLinks();
+            }
         }
     }
 
@@ -133,28 +132,28 @@ public class Room : MonoBehaviour
         {
             case RoomManager.RoomState.blue:
                 var blue = Instantiate(obstaclePrefabs[1], gameObject.transform);
+                blue.GetComponent<Pillar>().state = RoomManager.RoomState.blue;
                 blue.transform.GetChild(1).GetComponent<Light>().color = Color.cyan;
-                // blue.transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
                 break;
             case RoomManager.RoomState.purple:
                 var purple = Instantiate(obstaclePrefabs[1], gameObject.transform);
+                purple.GetComponent<Pillar>().state = RoomManager.RoomState.purple;
                 purple.transform.GetChild(1).GetComponent<Light>().color = Color.magenta;
-                // purple.transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
-
                 break;
             case RoomManager.RoomState.yellow:
                 var yellow = Instantiate(obstaclePrefabs[1], gameObject.transform);
+                yellow.GetComponent<Pillar>().state = RoomManager.RoomState.yellow;
                 yellow.transform.GetChild(1).GetComponent<Light>().color = Color.yellow;
-                // yellow.transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
                 break;
             case RoomManager.RoomState.green:
                 var green = Instantiate(obstaclePrefabs[1], gameObject.transform);
+                green.GetComponent<Pillar>().state = RoomManager.RoomState.green;
                 green.transform.GetChild(1).GetComponent<Light>().color = Color.green;
-                // green.transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", Color.green);
                 break;
-            case RoomManager.RoomState.exit:
-                var exit = Instantiate(obstaclePrefabs[1], gameObject.transform); //TODO: Replace with model
-                exit.transform.GetChild(1).GetComponent<Light>().color = Color.white;
+            case RoomManager.RoomState.exit: //make exit stairs
+                var roomPos = gameObject.transform.position;
+                var exit = Instantiate(obstaclePrefabs[2], new Vector3(roomPos.x + Random.Range(-7f, 7f), roomPos.y, roomPos.z + Random.Range(-4f, 4f)), Quaternion.identity);
+                // exit.transform.GetChild(1).GetComponent<Light>().color = Color.white;
                 break;
             case RoomManager.RoomState.start:
                 break;
@@ -187,11 +186,11 @@ public class Room : MonoBehaviour
             light.GetComponent<Light>().color = Color.green;
             interestingRoom = true;
         }
-        if (state == RoomManager.RoomState.exit)
-        {
-            light.GetComponent<Light>().color = Color.white;
-            interestingRoom = true;
-        }
+        // if (state == RoomManager.RoomState.exit)
+        // {
+        //     light.GetComponent<Light>().color = Color.white;
+        //     interestingRoom = true;
+        // }
 
         if (interestingRoom)
         {
@@ -227,6 +226,14 @@ public class Room : MonoBehaviour
             nsewRooms.west = RoomManager.instance.GetRandomWestRoom();
             LightHelper(nsewRooms.west.state, eastLight);
         }
+    }
+
+    public void TurnOffAllLights()
+    {
+        southLight.SetActive(false);
+        northLight.SetActive(false);
+        eastLight.SetActive(false);
+        westLight.SetActive(false);
     }
 
 }

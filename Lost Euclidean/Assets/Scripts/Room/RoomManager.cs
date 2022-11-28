@@ -34,6 +34,7 @@ public class RoomManager : MonoBehaviour
     //current room coords that player is in
     private Coords currCoords;
     private Coords prevCoords;
+    private Coords startingCoords;
 
     private int roomNo = 14;
     private int maxGridX = 6;
@@ -91,6 +92,7 @@ public class RoomManager : MonoBehaviour
         int x = Random.Range(0, maxGridX);
         int y = Random.Range(0, maxGridY);
         currCoords.SetCoords(x, y);
+        startingCoords = new Coords(x, y);
         roomGrid[x, y] = (int)RoomState.start; //7
         activeCoords.Add(x + "," + y, new Coords(x, y));
 
@@ -205,6 +207,11 @@ public class RoomManager : MonoBehaviour
     //     }
     // }
 
+    public Room GetStartingRoom()
+    {
+        return rooms[(startingCoords.x, startingCoords.y)];
+    }
+
     public Room GetCurrentRoom()
     {
         return rooms[(currCoords.x, currCoords.y)];
@@ -243,19 +250,19 @@ public class RoomManager : MonoBehaviour
                     bool west = false;
                     if (j + 1 < roomGrid.GetLength(1))
                     {
-                        north = roomGrid[i, j + 1] == 1;
+                        north = roomGrid[i, j + 1] != 0;
                     }
                     if (j - 1 >= 0)
                     {
-                        south = roomGrid[i, j - 1] == 1;
+                        south = roomGrid[i, j - 1] != 0;
                     }
                     if (i + 1 < roomGrid.GetLength(0))
                     {
-                        east = roomGrid[i + 1, j] == 1;
+                        east = roomGrid[i + 1, j] != 0;
                     }
                     if (i - 1 >= 0)
                     {
-                        west = roomGrid[i - 1, j] == 1;
+                        west = roomGrid[i - 1, j] != 0;
                     }
 
                     //adds to door tracking lists
@@ -312,5 +319,13 @@ public class RoomManager : MonoBehaviour
     public Room GetRandomWestRoom()
     {
         return westDoorRooms[Random.Range(0, westDoorRooms.Count)];
+    }
+
+    public void TurnOffAllLights()
+    {
+        foreach (Room room in rooms.Values)
+        {
+            room.TurnOffAllLights();
+        }
     }
 }

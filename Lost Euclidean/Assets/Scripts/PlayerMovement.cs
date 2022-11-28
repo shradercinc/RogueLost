@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
     public float length = 1;
     private float DTimer = 0;
     // private float topS = 0; 
+
+    private bool exitStairs = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -100,16 +104,45 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Exit")
+        {
+            if (GameManager.instance.isTeleporting)
+            {
+                //go to starting room
+                TeleportToCenter(RoomManager.instance.GetStartingRoom());
+            }
+            else
+            {
+                //end game
+                SceneManager.LoadScene(1);//end scene
+            }
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         //teleport code
-        if (other.tag == "Room")
+        if (other.tag == "Room" && exitStairs == false)
         {
             if (GameManager.instance.isTeleporting)
             {
                 Teleport(other);
             }
         }
+    }
+    private void TeleportToCenter(Room room)
+    {
+        exitStairs = true; //TODO: might break
+        Vector3 newPos = room.gameObject.transform.position;
+        pos.position = newPos;
+        Invoke("ResetExit", 1);
+    }
+
+    private void ResetExit()
+    {
+        exitStairs = false;
     }
 
     private void Teleport(Collider roomCollider)

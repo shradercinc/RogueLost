@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//tracks items, activated pillars, etc
 public class GameManager : MonoBehaviour
 {
     public GameObject playerPrefab;
@@ -10,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     //activated pillars
     public bool bluePillar, yellowPillar, greenPillar, purplePillar;
-    public bool hasGun;
+    // public bool hasGun;
     public bool isTeleporting = true;
 
     private void Awake()
@@ -23,5 +22,13 @@ public class GameManager : MonoBehaviour
         Instantiate(playerPrefab, RoomManager.instance.GetCurrentRoom().transform);
     }
 
+    private void Update()
+    {
+        if (bluePillar && yellowPillar && greenPillar && purplePillar && isTeleporting)
+        {
+            isTeleporting = false;
+            RoomManager.instance.TurnOffAllLights();
+        }
+    }
 
 }
