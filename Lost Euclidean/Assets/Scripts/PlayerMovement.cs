@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Transform pos;
     private Rigidbody rb;
+    public Camera cam;
+    private Vector3 mPos;
 
     private bool Rolling = false;
     public float DashA = 0.05f;
@@ -28,11 +30,15 @@ public class PlayerMovement : MonoBehaviour
 
     private bool exitStairs = false;
 
+
+
     void Start()
     {
+        mPos = Input.mousePosition;
         rb = GetComponent<Rigidbody>();
         pos = GetComponent<Transform>();
         Stamina = StaminaMax;
+        cam = Camera.main;
     }
 
     private void FixedUpdate()
@@ -54,6 +60,16 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        mPos = Input.mousePosition;
+        var pPos = cam.WorldToScreenPoint(pos.position);
+        Vector3 dir = (mPos - pPos);
+        dir.z = dir.y;
+        dir.y = 0f;
+        dir.Normalize();
+        transform.rotation = Quaternion.LookRotation(dir);
+
+
+
         if (Rolling == false)
         {
             DTimer = 0;
