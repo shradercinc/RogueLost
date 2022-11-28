@@ -99,4 +99,78 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        //teleport code
+        if (other.tag == "Room")
+        {
+            if (GameManager.instance.isTeleporting)
+            {
+                Teleport(other);
+            }
+        }
+    }
+
+    private void Teleport(Collider roomCollider)
+    {
+        //get player exit direction
+        Vector3 newPos = pos.position - roomCollider.transform.position;
+        int direction = 0;
+        if (Mathf.Abs(newPos.x) > Mathf.Abs(newPos.z))
+        {
+            if (newPos.x < 0)
+            {
+                direction = 0;
+            }
+            else
+            {
+                direction = 1;
+            }
+        }
+        else if (Mathf.Abs(newPos.x) < Mathf.Abs(newPos.z))
+        {
+            if (newPos.z < 0)
+            {
+                direction = 2;
+            }
+            else
+            {
+                direction = 3;
+            }
+        }
+
+        //teleport player
+        if (direction == 0) //west exit
+        {
+            // Debug.Log("west: " + RoomManager.instance.GetCurrentRoom().roomCoords.x + "," + RoomManager.instance.GetCurrentRoom().roomCoords.y);
+            var room = RoomManager.instance.GetCurrentRoom().nsewRooms.east;
+            pos.position = new Vector3(room.transform.position.x + 7.5f, pos.position.y, room.transform.position.z);
+            // Debug.Log("go east: " + room.roomCoords.x + "," + room.roomCoords.y);
+        }
+        if (direction == 1) //east exit
+        {
+            // Debug.Log("east: " + RoomManager.instance.GetCurrentRoom().roomCoords.x + "," + RoomManager.instance.GetCurrentRoom().roomCoords.y);
+            // var room = RoomManager.instance.GetRandomWestRoom();
+            var room = RoomManager.instance.GetCurrentRoom().nsewRooms.west;
+            pos.position = new Vector3(room.transform.position.x - 7.5f, pos.position.y, room.transform.position.z);
+            // Debug.Log("go west: " + room.roomCoords.x + "," + room.roomCoords.y);
+        }
+        if (direction == 2) //south exit
+        {
+            // Debug.Log("south: " + RoomManager.instance.GetCurrentRoom().roomCoords.x + "," + RoomManager.instance.GetCurrentRoom().roomCoords.y);
+            // var room = RoomManager.instance.GetRandomNorthRoom();
+            var room = RoomManager.instance.GetCurrentRoom().nsewRooms.north;
+            pos.position = new Vector3(room.transform.position.x, pos.position.y, room.transform.position.z + 3.5f);
+            // Debug.Log("go north: " + room.roomCoords.x + "," + room.roomCoords.y);
+        }
+        if (direction == 3) //north exit
+        {
+            // Debug.Log("north: " + RoomManager.instance.GetCurrentRoom().roomCoords.x + "," + RoomManager.instance.GetCurrentRoom().roomCoords.y);
+            // var room = RoomManager.instance.GetRandomSouthRoom();
+            var room = RoomManager.instance.GetCurrentRoom().nsewRooms.south;
+            pos.position = new Vector3(room.transform.position.x, pos.position.y, room.transform.position.z - 3.5f);
+            // Debug.Log("go south: " + room.roomCoords.x + "," + room.roomCoords.y);
+        }
+    }
 }
