@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
     public Camera cam;
     public Rigidbody rb;
     private float deathT;
+    public float accuracy = 0.05f;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,16 +20,20 @@ public class Bullet : MonoBehaviour
         mPos = Input.mousePosition;   
         pos = GetComponent<Transform>();
         var pPos = cam.WorldToScreenPoint(pl.transform.position);
-        Debug.Log(mPos + "|" + pPos + "|" + Input.mousePosition);
+        //Debug.Log(mPos + "|" + pPos + "|" + Input.mousePosition);
         Vector3 dir = (mPos - pPos);
         dir.z = dir.y;
         dir.y = 0f;
         dir.Normalize();
+        //var acc = Random.Range(-accuracy, accuracy);
+        //dir.x += acc;
+        //dir.z -= acc;
         transform.rotation = Quaternion.LookRotation(dir);
         rb = GetComponent<Rigidbody>();
         rb.velocity = dir * speed;
+        Debug.Log("V=" + rb.velocity);
 
-        deathT = 5;
+        deathT = 3;
     }
 
     // Update is called once per frame
@@ -37,7 +42,7 @@ public class Bullet : MonoBehaviour
         deathT -= Time.deltaTime;
         if (deathT <= 0)
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
 }
