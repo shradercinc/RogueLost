@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -207,6 +207,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &376526006 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7565904248051719786, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
+  m_PrefabInstance: {fileID: 8797678311720577294}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &376526009
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376526006}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3c5df770c6bdff148aa643dfd09bdf41, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &625215357
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +431,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+<<<<<<< Updated upstream
+=======
+    - target: {fileID: 622378898937668304, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 622378898937668304, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 622378898937668304, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 622378898937668304, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2859601678264275953, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7829021500790447984, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
+      propertyPath: fireR
+      value: 0.5
+      objectReference: {fileID: 0}
+>>>>>>> Stashed changes
     - target: {fileID: 8797678310372331424, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
       propertyPath: m_Name
       value: Player
