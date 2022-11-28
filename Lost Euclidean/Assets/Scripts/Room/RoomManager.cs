@@ -29,10 +29,11 @@ public class RoomManager : MonoBehaviour
 {
     //2D array for room map, 1: has room, 0: no room
     private int[,] roomGrid;
-    private Dictionary<int, RoomData> roomInfo;
+    // private Dictionary<int, RoomData> roomInfo;
 
     //current room coords that player is in
     private Coords currCoords;
+    private Coords prevCoords;
 
     private int roomNo = 14;
     private int maxGridX = 6;
@@ -51,6 +52,8 @@ public class RoomManager : MonoBehaviour
 
     public static RoomManager instance;
 
+    public enum RoomState { none, normal, blue, yellow, green, purple, exit, start }
+
     private void Awake()
     {
         instance = this;
@@ -65,11 +68,12 @@ public class RoomManager : MonoBehaviour
 
         rooms = new Dictionary<(int, int), Room>();
         currCoords = new Coords(0, 0);
+        prevCoords = new Coords(0, 0);
         roomGrid = new int[maxGridX, maxGridY];
         GenerateRoomLayout();
 
-        roomInfo = new Dictionary<int, RoomData>();
-        GenerateRoomData();
+        // roomInfo = new Dictionary<int, RoomData>();
+        // GenerateRoomData();
 
         GenerateRooms();
 
@@ -87,7 +91,7 @@ public class RoomManager : MonoBehaviour
         int x = Random.Range(0, maxGridX);
         int y = Random.Range(0, maxGridY);
         currCoords.SetCoords(x, y);
-        roomGrid[x, y] = 1;
+        roomGrid[x, y] = (int)RoomState.start; //7
         activeCoords.Add(x + "," + y, new Coords(x, y));
 
         //make "roomNo" rooms 
@@ -162,27 +166,44 @@ public class RoomManager : MonoBehaviour
             adjCoords.Remove(adjCoords.ElementAt(index).Key);
         }
 
-        // for (int i = 0; i < roomGrid.GetLength(0); i++)
-        // {
-        //     for (int j = 0; j < roomGrid.GetLength(1); j++)
-        //     {
-        //         Debug.Log(roomGrid[i, j]);
-        //     }
-        // }
+        //pick random active rooms and put pillars + exit
+        var tempCoords = activeCoords.ToDictionary(entry => entry.Key, entry => entry.Value);
+        tempCoords.Remove(x + "," + y); //remove start room
+
+        //blue pillar
+        var blueCoords = tempCoords.ElementAt(Random.Range(0, tempCoords.Count)).Value;
+        roomGrid[blueCoords.x, blueCoords.y] = (int)RoomState.blue;
+        tempCoords.Remove(blueCoords.x + "," + blueCoords.y);
+        //yellow pillar
+        var yellowCords = tempCoords.ElementAt(Random.Range(0, tempCoords.Count)).Value;
+        roomGrid[yellowCords.x, yellowCords.y] = (int)RoomState.yellow;
+        tempCoords.Remove(yellowCords.x + "," + yellowCords.y);
+        //green pillar
+        var greenCoords = tempCoords.ElementAt(Random.Range(0, tempCoords.Count)).Value;
+        roomGrid[greenCoords.x, greenCoords.y] = (int)RoomState.green;
+        tempCoords.Remove(greenCoords.x + "," + greenCoords.y);
+        //purple pillar
+        var purpleCoords = tempCoords.ElementAt(Random.Range(0, tempCoords.Count)).Value;
+        roomGrid[purpleCoords.x, purpleCoords.y] = (int)RoomState.purple;
+        tempCoords.Remove(purpleCoords.x + "," + purpleCoords.y);
+        //exit
+        var exitCoords = tempCoords.ElementAt(Random.Range(0, tempCoords.Count)).Value;
+        roomGrid[exitCoords.x, exitCoords.y] = (int)RoomState.exit;
+        tempCoords.Remove(exitCoords.x + "," + exitCoords.y);
     }
 
     // make room data
-    private void GenerateRoomData()
-    {
-        for (int i = 0; i < roomNo + 1; i++)
-        {
-            RoomData data = new RoomData(i);
-            // data.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-            //add enemies
-            //add obstacles
-            roomInfo.Add(i, data);
-        }
-    }
+    // private void GenerateRoomData()
+    // {
+    //     for (int i = 0; i < roomNo + 1; i++)
+    //     {
+    //         RoomData data = new RoomData(i);
+    //         // data.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+    //         //add enemies
+    //         //add obstacles
+    //         roomInfo.Add(i, data);
+    //     }
+    // }
 
     public Room GetCurrentRoom()
     {
@@ -191,13 +212,14 @@ public class RoomManager : MonoBehaviour
 
     public void SetCurrentRoom(Coords coords)
     {
+        prevCoords = currCoords;
         currCoords = coords;
     }
 
-    // public Coords GetCurrentCoords()
-    // {
-    //     return currCoords;
-    // }
+    public Room GetPreviousRoom()
+    {
+        return rooms[(prevCoords.x, prevCoords.y)];
+    }
 
     //instantiate rooms in scene
     private void GenerateRooms()
@@ -207,7 +229,7 @@ public class RoomManager : MonoBehaviour
             for (int j = 0; j < roomGrid.GetLength(1); j++)
             {
                 // Debug.Log(roomGrid[i, j]);
-                if (roomGrid[i, j] == 1)
+                if (roomGrid[i, j] != 0)
                 {
                     var room = Instantiate(roomPrefab, new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
                     room.gameObject.tag = "Room"; //TODO: idk why this isn't setting even tho it's in the prefab
@@ -260,8 +282,14 @@ public class RoomManager : MonoBehaviour
 
 
                     room.GenerateWalls(north, south, east, west);
+                    room.GenerateObstacles((RoomState)roomGrid[i, j]);
                 }
             }
+        }
+
+        foreach (Room room in rooms.Values)
+        {
+            room.GenerateExitLinks();
         }
     }
 

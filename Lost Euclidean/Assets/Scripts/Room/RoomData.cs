@@ -8,9 +8,9 @@ Stores unique info for each room.
 public class RoomData
 {
     public int id;
+    public RoomManager.RoomState state;
     public Enemy[] enemies;
     public Obstacles[] obstacles;
-    public Color color;
 
     public RoomData(int id)
     {

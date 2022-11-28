@@ -27,6 +27,13 @@ public class Room : MonoBehaviour
     // near corner is the origin at (0, 0)
 
     public Coords roomCoords;
+    public RoomManager.RoomState state = RoomManager.RoomState.normal;
+
+    //track room exits
+    private (bool north, bool south, bool east, bool west) nsewExits;
+    public (Room north, Room south, Room east, Room west) nsewRooms;
+
+    public GameObject northLight, southLight, westLight, eastLight;
 
     // Start is called before the first frame update
     void Start()
@@ -35,10 +42,10 @@ public class Room : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
+    // void Update()
+    // {
+    //     if()
+    // }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -47,6 +54,12 @@ public class Room : MonoBehaviour
         {
             // Debug.Log(roomCoords.x + ", " + roomCoords.y);
             RoomManager.instance.SetCurrentRoom(roomCoords);
+
+            RoomManager.instance.GetPreviousRoom().GenerateExitLinks();
+            // RoomManager.instance.GetPreviousRoom().northLight.SetActive(false);
+            // RoomManager.instance.GetPreviousRoom().southLight.SetActive(false);
+            // RoomManager.instance.GetPreviousRoom().eastLight.SetActive(false);
+            // RoomManager.instance.GetPreviousRoom().westLight.SetActive(false);
         }
     }
 
@@ -108,5 +121,112 @@ public class Room : MonoBehaviour
                 pillar.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(_farCorner.x, i, 0));
             }
         }
+
+        nsewExits = (north, south, east, west);
     }
+
+    //make obstacles in rooms
+    public void GenerateObstacles(RoomManager.RoomState state)
+    {
+        this.state = state;
+        switch (state)
+        {
+            case RoomManager.RoomState.blue:
+                var blue = Instantiate(obstaclePrefabs[1], gameObject.transform);
+                blue.transform.GetChild(1).GetComponent<Light>().color = Color.cyan;
+                // blue.transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+                break;
+            case RoomManager.RoomState.purple:
+                var purple = Instantiate(obstaclePrefabs[1], gameObject.transform);
+                purple.transform.GetChild(1).GetComponent<Light>().color = Color.magenta;
+                // purple.transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
+
+                break;
+            case RoomManager.RoomState.yellow:
+                var yellow = Instantiate(obstaclePrefabs[1], gameObject.transform);
+                yellow.transform.GetChild(1).GetComponent<Light>().color = Color.yellow;
+                // yellow.transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
+                break;
+            case RoomManager.RoomState.green:
+                var green = Instantiate(obstaclePrefabs[1], gameObject.transform);
+                green.transform.GetChild(1).GetComponent<Light>().color = Color.green;
+                // green.transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+                break;
+            case RoomManager.RoomState.exit:
+                var exit = Instantiate(obstaclePrefabs[1], gameObject.transform); //TODO: Replace with model
+                exit.transform.GetChild(1).GetComponent<Light>().color = Color.white;
+                break;
+            case RoomManager.RoomState.start:
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    private void LightHelper(RoomManager.RoomState state, GameObject light)
+    {
+        bool interestingRoom = false;
+        if (state == RoomManager.RoomState.blue)
+        {
+            light.GetComponent<Light>().color = Color.cyan;
+            interestingRoom = true;
+        }
+        if (state == RoomManager.RoomState.yellow)
+        {
+            light.GetComponent<Light>().color = Color.yellow;
+            interestingRoom = true;
+        }
+        if (state == RoomManager.RoomState.purple)
+        {
+            light.GetComponent<Light>().color = Color.magenta;
+            interestingRoom = true;
+        }
+        if (state == RoomManager.RoomState.green)
+        {
+            light.GetComponent<Light>().color = Color.green;
+            interestingRoom = true;
+        }
+        if (state == RoomManager.RoomState.exit)
+        {
+            light.GetComponent<Light>().color = Color.white;
+            interestingRoom = true;
+        }
+
+        if (interestingRoom)
+        {
+            light.SetActive(true);
+        }
+        else
+        {
+            light.SetActive(false);
+        }
+    }
+
+    //decide room exit links + add light indicators
+    public void GenerateExitLinks()
+    {
+        if (nsewExits.south)
+        {
+            nsewRooms.north = RoomManager.instance.GetRandomNorthRoom();
+            LightHelper(nsewRooms.north.state, southLight);
+
+        }
+        if (nsewExits.north)
+        {
+            nsewRooms.south = RoomManager.instance.GetRandomSouthRoom();
+            LightHelper(nsewRooms.south.state, northLight);
+        }
+        if (nsewExits.west)
+        {
+            nsewRooms.east = RoomManager.instance.GetRandomEastRoom();
+            LightHelper(nsewRooms.east.state, westLight);
+        }
+        if (nsewExits.east)
+        {
+            nsewRooms.west = RoomManager.instance.GetRandomWestRoom();
+            LightHelper(nsewRooms.west.state, eastLight);
+        }
+    }
+
 }

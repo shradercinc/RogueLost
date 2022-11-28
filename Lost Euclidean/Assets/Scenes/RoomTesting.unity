@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0041793375, g: 0.0039453083, b: 0.0034127901, a: 1}
+  m_IndirectSpecularColor: {r: 0.0060717566, g: 0.0060717566, b: 0.0060717566, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1724,6 +1724,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 8797678310372331424, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
+  bluePillar: 0
+  yellowPillar: 0
+  greenPillar: 0
+  purplePillar: 0
+  hasGun: 0
+  isTeleporting: 1
 --- !u!4 &441005960
 Transform:
   m_ObjectHideFlags: 0
@@ -5156,8 +5162,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.15410177, g: 0.25374076, b: 0.41509432, a: 1}
+  m_Intensity: 0.2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5166,7 +5172,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.1
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -5191,7 +5197,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -5639,6 +5645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 8734781558015247215, guid: 1253b2abc73b12b458c8504851de7a81, type: 3}
+  pillarPrefab: {fileID: 6271076168411312367, guid: a5b9ab1b11f317049944d718291f1954, type: 3}
 --- !u!4 &1686645945
 Transform:
   m_ObjectHideFlags: 0
