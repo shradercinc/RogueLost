@@ -92,7 +92,7 @@ Shader "Custom/EnemyShader"
                      unity_4LightPosZ0[index], 1.0);
              
                     float3 vertexToLightSource = 
-                     lightPosition.xyz - o.posWorld.xyz;    
+                     lightPosition.xyz - o.worldPos.xyz;    
                     float3 lightDirection = normalize(vertexToLightSource);
                     float squaredDistance = 
                      dot(vertexToLightSource, vertexToLightSource);
@@ -133,11 +133,13 @@ Shader "Custom/EnemyShader"
                 
                 float4 surfaceColor = tex2D(_MainTex, uv) * _Color;
                 
-                float3 lightColor = _LightColor0; // includes intensity
+                float4 lightColor = _LightColor0; // includes intensity
 
-                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.01, 0.1, surfaceColor.a * attenuation * shadow));
+                float coloring = min();
 
-                return float4(color);
+                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.05, 0.1, surfaceColor.a * attenuation * shadow));
+
+                return 0;
             }
             ENDCG
         }
