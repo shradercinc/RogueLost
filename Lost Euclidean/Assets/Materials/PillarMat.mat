@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PillarMat
-  m_Shader: {fileID: 4800000, guid: 8357bbb806a64c94a9d7bd9b7b28b29d, type: 3}
+  m_Shader: {fileID: 4800000, guid: 1b548bf86b12af542b2dd7b223fd8df5, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4

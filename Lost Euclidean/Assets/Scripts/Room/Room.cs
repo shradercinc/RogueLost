@@ -91,7 +91,7 @@ public class Room : MonoBehaviour
             {
                 var gate = Instantiate(obstaclePrefabs[3], obstacleHolder);
                 gate.transform.rotation = Quaternion.Euler(0, 90, 0);
-                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, 0, 0)) 
+                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, 0, 0))
                                                + new Vector3(grid.cellSize.x * 0.5f, 0, 0);
             }
         }
@@ -109,7 +109,7 @@ public class Room : MonoBehaviour
             {
                 var gate = Instantiate(obstaclePrefabs[3], obstacleHolder);
                 gate.transform.rotation = Quaternion.Euler(0, 180, 0);
-                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(0, i, 0)) 
+                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(0, i, 0))
                                                + new Vector3(0, 0, grid.cellSize.x * 0.5f);
             }
         }
@@ -127,7 +127,7 @@ public class Room : MonoBehaviour
             {
                 var gate = Instantiate(obstaclePrefabs[3], obstacleHolder);
                 gate.transform.rotation = Quaternion.Euler(0, 270, 0);
-                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, _farCorner.y, 0)) 
+                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(i, _farCorner.y, 0))
                                                + new Vector3(grid.cellSize.x * 0.5f, 0, 0);
             }
         }
@@ -143,7 +143,7 @@ public class Room : MonoBehaviour
             else if (i == 4)
             {
                 var gate = Instantiate(obstaclePrefabs[3], obstacleHolder);
-                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(_farCorner.x, i, 0)) 
+                gate.transform.localPosition = grid.GetCellCenterLocal(new Vector3Int(_farCorner.x, i, 0))
                                                + new Vector3(0, 0, grid.cellSize.x * 0.5f);
             }
         }
@@ -178,13 +178,16 @@ public class Room : MonoBehaviour
                 green.transform.GetChild(1).GetComponent<Light>().color = Color.green;
                 break;
             case RoomManager.RoomState.exit: //make exit stairs
-                var roomPos = gameObject.transform.position;
+                Vector3 roomPos = gameObject.transform.position;
                 var exit = Instantiate(obstaclePrefabs[2], new Vector3(roomPos.x + Random.Range(-7f, 7f), roomPos.y, roomPos.z + Random.Range(-4f, 4f)), Quaternion.identity);
                 // exit.transform.GetChild(1).GetComponent<Light>().color = Color.white;
                 break;
             case RoomManager.RoomState.start:
                 break;
             default:
+                Vector3 roomPos1 = gameObject.transform.position;
+                var enemy = Instantiate(obstaclePrefabs[4], new Vector3(roomPos1.x + Random.Range(-7f, 7f), roomPos1.y, roomPos1.z + Random.Range(-4f, 4f)), Quaternion.identity);
+                // exit.transform.GetChild(1).GetComponent<Light>().color = Color.white;
                 break;
 
         }
