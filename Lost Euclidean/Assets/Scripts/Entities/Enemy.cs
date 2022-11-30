@@ -11,12 +11,20 @@ public class Enemy : MonoBehaviour
     public Transform pos;
     private GameObject pl;
     public Coords location; 
+    public float hx = 0;
+    public float hz = 0;
+    public float react = 1;
+    public float reactm = 1;
+    public bool canHit = true;
+    public float hitSpeed = 0.5f;
+    public float reload = 0;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         pos = GetComponent<Transform>();
         pl = GameObject.FindGameObjectWithTag("Player");
+        reactm = react;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,15 +39,40 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(RoomManager.instance.GetCurrentRoom().roomCoords == location)
+        reload -= Time.deltaTime;
+        if (reload <= 0)
         {
-            Vector3 dir = (pl.GetComponent<Transform>().position - pos.position);
+            canHit = true;
+        }
+        else canHit = false;
+
+        if (RoomManager.instance.GetCurrentRoom().roomCoords == location)
+        {
+            react -= Time.deltaTime;
+            rb.velocity = new Vector3(0, 0, 0);
+            if (react <= 0)
+            {
+                Vector3 dir = (pl.GetComponent<Transform>().position - pos.position);
+                dir.y = 0;
+                dir.Normalize();
+                transform.rotation = Quaternion.LookRotation(dir);
+                rb.velocity += transform.forward * speed;
+            }
+        }
+        else
+        {
+            react = reactm;
+            Vector3 dir = (new Vector3(hx,pos.position.y,hz) - pos.position);
             dir.y = 0;
             dir.Normalize();
-            transform.rotation = Quaternion.LookRotation(dir);
             rb.velocity = new Vector3(0, 0, 0);
-            rb.velocity += transform.forward * speed;
+            if (Mathf.Sqrt(Mathf.Pow(dir.x, 2) + Mathf.Pow(dir.z, 2)) > 2f)
+            {
+                transform.rotation = Quaternion.LookRotation(dir);
+                rb.velocity += transform.forward * speed;
+            }
         }
+
 
 
         if (health <= 0)

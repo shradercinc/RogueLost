@@ -186,7 +186,11 @@ public class Room : MonoBehaviour
                 break;
             default:
                 Vector3 roomPos1 = gameObject.transform.position;
-                var enemy = Instantiate(obstaclePrefabs[4], new Vector3(roomPos1.x + Random.Range(-7f, 7f), roomPos1.y, roomPos1.z + Random.Range(-4f, 4f)), Quaternion.identity);
+                var ex = Random.Range(-4f, 4f);
+                var ez = Random.Range(-7f, 7f);
+                var enemy = Instantiate(obstaclePrefabs[4], new Vector3(roomPos1.x + ex, roomPos1.y, roomPos1.z + ez), Quaternion.identity);
+                enemy.GetComponent<Enemy>().hx = ex;
+                enemy.GetComponent<Enemy>().hz = ez;
                 enemy.GetComponent<Enemy>().location = roomCoords;
                 // exit.transform.GetChild(1).GetComponent<Light>().color = Color.white;
                 break;

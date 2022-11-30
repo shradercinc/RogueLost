@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float StaminaMax = 3;
     private float Stamina;
+    public float Health = 5;
     private bool exhausted;
     private float exhaustedT = 0;
     public float WalkSpeed;
@@ -39,8 +40,26 @@ public class PlayerMovement : MonoBehaviour
         Stamina = StaminaMax;
     }
 
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            var enemy = other.gameObject.GetComponent<Enemy>();
+            if (enemy.canHit == true)
+            {
+                Health--;
+                enemy.canHit = false;
+                enemy.reload = enemy.hitSpeed;
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
+        if (Health <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
         if (Rolling == false)
         {
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
@@ -52,8 +71,11 @@ public class PlayerMovement : MonoBehaviour
         {
             //print("Z =" + direct.z / Mathf.Abs(direct.z)); 
             //print("X =" + direct.x / Mathf.Abs(direct.x));
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            rb.velocity += transform.forward * XInput * (running == false ? WalkSpeed : RunSpeed);
+            rb.velocity += transform.right * ZInput * (running == false ? WalkSpeed : RunSpeed);
             //adds velocity in the direction the player was already moving when dashing. Queries if the velocity is 0 to prevent errors
-            rb.velocity += new Vector3(direct.x != 0 ? DashA * Mathf.Sign(direct.x) : 0, 0, direct.z != 0 ? DashA * Mathf.Sign(direct.z) : 0);
+            //rb.velocity += new Vector3(direct.x != 0 ? DashA * Mathf.Sign(direct.x) : 0, 0, direct.z != 0 ? DashA * Mathf.Sign(direct.z) : 0);
         }
     }
     void Update()
