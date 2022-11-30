@@ -27,7 +27,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _Intensity: 0.5
-    - _Resolution: 16
+    - _Resolution: 80
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 1, b: 1, a: 1}
+    - _Target: {r: -0.5, g: 0, b: 0.2, a: 0.4}
   m_BuildTextureStacks: []

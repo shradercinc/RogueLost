@@ -23,11 +23,18 @@ Shader "Unlit/RoomDistortShader"
 
             #define MAX_OFFSET 0.15
 
-            sampler2D _MainTex;
+            sampler2D _MainTex; float4 _MainTex_TexelSize;
             float _Intensity;
             float4 _Color;
             float _Resolution;
             float4 _Target;
+
+            float rectangle (float2 uv, float2 scale) {
+                float2 s = scale * 0.5;
+                float2 shaper = float2(step(-s.x, uv.x), step(-s.y, uv.y));
+                shaper *= float2(1-step(s.x, uv.x), 1-step(s.y, uv.y));
+                return shaper.x * shaper.y;
+            }
 
             float rand (float2 uv) {
                 return frac(sin(dot(uv.xy, float2(12.9898, 78.233))) * 43758.5453123);
@@ -61,17 +68,18 @@ Shader "Unlit/RoomDistortShader"
 
                 float wn = 0;
 
-                float offset = floor(_Time.y * 4 + rand(uv * _Resolution));
-
                 float2 uvRange = frac(uv * _Resolution)/_Resolution;
-
-                uv = floor((uv + offset) * _Resolution)/_Resolution; // Changes noise resolution.
-                wn = rand(uv);
+                
+                wn = frac(rand(floor(uv * _Resolution)) + _Time.y / 2);
                 float a = step(0.8f, wn);
                 wn = smoothstep(0.8f, 1, wn);
                 
+                float3 distort = tex2D(_MainTex, wn + uvRange);
+
+                float frame = rectangle(uv + _Target.xy, _Target.zw);
                 
-                color = lerp(color, _Color, a);
+                color = lerp(color, lerp(color, lerp(distort, _Color, step(wn, 0.5f)), a), frame);
+                
 
                 return float4(color, 1.0);
             }
