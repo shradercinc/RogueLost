@@ -135,9 +135,9 @@ Shader "Custom/EnemyShader"
                 
                 float4 lightColor = _LightColor0; // includes intensity
 
-                float coloring = min();
+                float coloring = min(lightColor.r, min(lightColor.g, lightColor.b));
 
-                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.05, 0.1, surfaceColor.a * attenuation * shadow));
+                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.05, 0.1, surfaceColor.a * attenuation * shadow * coloring));
 
                 return 0;
             }
@@ -243,8 +243,10 @@ Shader "Custom/EnemyShader"
                 #endif
 
                 float3 lightColor = _LightColor0; // includes intensity
+
+                float coloring = min(lightColor.r, min(lightColor.g, lightColor.b));
                 
-                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.01, 0.1, surfaceColor.a * attenuation * shadow));
+                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.01, 0.1, surfaceColor.a * attenuation * shadow * coloring));
 
                 return color;
             }
