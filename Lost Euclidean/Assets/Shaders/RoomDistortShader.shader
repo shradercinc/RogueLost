@@ -66,11 +66,9 @@ Shader "Unlit/RoomDistortShader"
 
                 float3 color = tex2D(_MainTex, uv);
 
-                float wn = 0;
-
                 float2 uvRange = frac(uv * _Resolution)/_Resolution;
                 
-                wn = frac(rand(floor(uv * _Resolution)) + _Time.y / 2);
+                float2 wn = frac(rand(floor(uv * _Resolution)) + rand(uv * 80)/_Resolution + _Time.y / 2);
                 float a = step(0.8f, wn);
                 wn = smoothstep(0.8f, 1, wn);
                 
@@ -78,7 +76,7 @@ Shader "Unlit/RoomDistortShader"
 
                 float frame = rectangle(uv + _Target.xy, _Target.zw);
                 
-                color = lerp(color, lerp(color, lerp(distort, _Color, step(wn, 0.5f)), a), frame);
+                color = lerp(color, lerp(color, lerp(distort, _Color, step(wn.x, 0.5f)), a), frame);
                 
 
                 return float4(color, 1.0);
