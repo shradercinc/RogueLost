@@ -6,10 +6,15 @@ Shader "Unlit/RoomDistortShader"
         _Intensity("intensity", Range(0, 1)) = 0.5
         _Color ("color", Color) = (1, 1, 1, 1)
         _Resolution ("Resolution", Float) = 16
-        _Target ("Coords", Vector) = (0, 0, 1, 1)
     }
     SubShader
     {
+        Tags {"Queue"="Transparent" "IgnoreProjector"="True"}
+        
+        GrabPass {
+            "_BackgroundTex"
+        }
+
         Cull Off
         ZWrite Off
         ZTest Always
@@ -22,19 +27,12 @@ Shader "Unlit/RoomDistortShader"
             #include "UnityCG.cginc"
 
             #define MAX_OFFSET 0.15
-
-            sampler2D _MainTex; float4 _MainTex_TexelSize;
+            
             float _Intensity;
             float4 _Color;
             float _Resolution;
-            float4 _Target;
 
-            float rectangle (float2 uv, float2 scale) {
-                float2 s = scale * 0.5;
-                float2 shaper = float2(step(-s.x, uv.x), step(-s.y, uv.y));
-                shaper *= float2(1-step(s.x, uv.x), 1-step(s.y, uv.y));
-                return shaper.x * shaper.y;
-            }
+            sampler2D _BackgroundTex;
 
             float rand (float2 uv) {
                 return frac(sin(dot(uv.xy, float2(12.9898, 78.233))) * 43758.5453123);
@@ -64,7 +62,7 @@ Shader "Unlit/RoomDistortShader"
             {
                 float2 uv = i.uv;
 
-                float3 color = tex2D(_MainTex, uv);
+                float3 color = tex2D(_BackgroundTex, uv);
 
                 float2 uvRange = frac(uv * _Resolution)/_Resolution;
                 
@@ -72,11 +70,9 @@ Shader "Unlit/RoomDistortShader"
                 float a = step(0.8f, wn);
                 wn = smoothstep(0.8f, 1, wn);
                 
-                float3 distort = tex2D(_MainTex, wn + uvRange);
-
-                float frame = rectangle(uv + _Target.xy, _Target.zw);
+                float3 distort = tex2D(_BackgroundTex, wn + uvRange);
                 
-                color = lerp(color, lerp(color, lerp(distort, _Color, step(wn.x, 0.5f)), a), frame);
+                color = lerp(color, lerp(distort, _Color, step(wn.x, 0.5f)), a);
                 
 
                 return float4(color, 1.0);

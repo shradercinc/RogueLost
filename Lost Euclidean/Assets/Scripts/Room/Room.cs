@@ -34,6 +34,8 @@ public class Room : MonoBehaviour
     public (Room north, Room south, Room east, Room west) nsewRooms;
 
     public GameObject northLight, southLight, westLight, eastLight;
+    private static readonly int Target = Shader.PropertyToID("_Target");
+    private static readonly int Color1 = Shader.PropertyToID("_Color");
 
     // Start is called before the first frame update
     void Start()

@@ -11,11 +11,4 @@ public class CameraController : MonoBehaviour
         roomTransform = RoomManager.instance.GetCurrentRoom().transform;
         transform.position = new Vector3(roomTransform.position.x, 10, roomTransform.position.z);
     }
-    
-    public Material effectMat;
-
-    private void OnRenderImage(RenderTexture src, RenderTexture dest)
-    {
-        Graphics.Blit(src, dest, effectMat);
-    }
 }
