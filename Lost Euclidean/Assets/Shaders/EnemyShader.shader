@@ -13,7 +13,7 @@ Shader "Custom/EnemyShader"
             "RenderType"="Transparent" "Queue"="Transparent"
         }
         LOD 200
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcColor OneMinusSrcColor, SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
