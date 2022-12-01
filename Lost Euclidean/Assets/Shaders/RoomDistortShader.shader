@@ -9,7 +9,7 @@ Shader "Unlit/RoomDistortShader"
     }
     SubShader
     {
-        Tags {"Queue"="Transparent" "IgnoreProjector"="True"}
+        Tags {"RenderType"="Transparent" "Queue"="Transparent"}
         
         GrabPass {
             "_BackgroundTex"
@@ -18,6 +18,7 @@ Shader "Unlit/RoomDistortShader"
         Cull Off
         ZWrite Off
         ZTest Always
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -62,7 +63,7 @@ Shader "Unlit/RoomDistortShader"
             {
                 float2 uv = i.uv;
 
-                float3 color = tex2D(_BackgroundTex, uv);
+                float3 color = 0; //tex2D(_BackgroundTex, uv);
 
                 float2 uvRange = frac(uv * _Resolution)/_Resolution;
                 
@@ -75,7 +76,7 @@ Shader "Unlit/RoomDistortShader"
                 color = lerp(color, lerp(distort, _Color, step(wn.x, 0.5f)), a);
                 
 
-                return float4(color, 1.0);
+                return float4(color, a);
             }
             ENDCG
         }

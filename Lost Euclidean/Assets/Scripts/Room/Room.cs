@@ -35,7 +35,7 @@ public class Room : MonoBehaviour
 
     public GameObject northLight, southLight, westLight, eastLight;
     private static readonly int Target = Shader.PropertyToID("_Target");
-    private static readonly int Color1 = Shader.PropertyToID("_Color");
+    private static readonly int colorProperty = Shader.PropertyToID("_Color");
 
     // Start is called before the first frame update
     void Start()
@@ -163,21 +163,25 @@ public class Room : MonoBehaviour
                 var blue = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 blue.GetComponent<Pillar>().state = RoomManager.RoomState.blue;
                 blue.transform.GetChild(1).GetComponent<Light>().color = Color.cyan;
+                blue.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, Color.cyan);
                 break;
             case RoomManager.RoomState.purple:
                 var purple = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 purple.GetComponent<Pillar>().state = RoomManager.RoomState.purple;
                 purple.transform.GetChild(1).GetComponent<Light>().color = Color.magenta;
+                purple.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, Color.magenta);
                 break;
             case RoomManager.RoomState.yellow:
                 var yellow = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 yellow.GetComponent<Pillar>().state = RoomManager.RoomState.yellow;
                 yellow.transform.GetChild(1).GetComponent<Light>().color = Color.yellow;
+                yellow.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, Color.yellow);
                 break;
             case RoomManager.RoomState.green:
                 var green = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 green.GetComponent<Pillar>().state = RoomManager.RoomState.green;
                 green.transform.GetChild(1).GetComponent<Light>().color = Color.green;
+                green.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, Color.green);
                 break;
             case RoomManager.RoomState.exit: //make exit stairs
                 Vector3 roomPos = gameObject.transform.position;
@@ -203,24 +207,32 @@ public class Room : MonoBehaviour
     private void LightHelper(RoomManager.RoomState state, GameObject light)
     {
         bool interestingRoom = false;
-        if (state == RoomManager.RoomState.blue)
+        if (state == RoomManager.RoomState.blue && !GameManager.instance.bluePillar)
         {
+            Debug.Log(state);
             light.GetComponent<Light>().color = Color.cyan;
+            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, Color.cyan);
             interestingRoom = true;
         }
-        if (state == RoomManager.RoomState.yellow)
+        if (state == RoomManager.RoomState.yellow && !GameManager.instance.yellowPillar)
         {
+            Debug.Log(state);
             light.GetComponent<Light>().color = Color.yellow;
+            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, Color.yellow);
             interestingRoom = true;
         }
-        if (state == RoomManager.RoomState.purple)
+        if (state == RoomManager.RoomState.purple && !GameManager.instance.purplePillar)
         {
+            Debug.Log(state);
             light.GetComponent<Light>().color = Color.magenta;
+            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, Color.magenta);
             interestingRoom = true;
         }
-        if (state == RoomManager.RoomState.green)
+        if (state == RoomManager.RoomState.green && !GameManager.instance.greenPillar)
         {
+            Debug.Log(state);
             light.GetComponent<Light>().color = Color.green;
+            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, Color.green);
             interestingRoom = true;
         }
         // if (state == RoomManager.RoomState.exit)

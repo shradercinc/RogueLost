@@ -86,7 +86,7 @@ public class UIManager : MonoBehaviour
     //call to change player location on minimap
     public void UpdateMinimap(Coords coords)
     {
-        playerIcon.GetComponent<RectTransform>().position = new Vector3(startLoc.x + (48 * coords.x), startLoc.y + (48 * coords.x), 0f);
+        playerIcon.GetComponent<RectTransform>().position = new Vector3(startLoc.x + (48 * coords.x), startLoc.y + (48 * coords.y), 0f);
         //playerIcon.GetComponent<RectTransform>().position = new Vector3(startLoc.x + (66 * coords.x), startLoc.y + (66 * coords.y), 0f);
     }
 

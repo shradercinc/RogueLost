@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     public int bulletAmount = 25;
     public int totalHealth = 5;
     public float totalStamina = 3;
+
+    public SpriteRenderer distort;
+    
     private void Awake()
     {
         instance = this;
@@ -21,13 +24,15 @@ public class GameManager : MonoBehaviour
 
     public void CreatePlayer()
     {
-        Instantiate(playerPrefab, RoomManager.instance.GetCurrentRoom().transform);
+        Transform player = Instantiate(playerPrefab, RoomManager.instance.GetCurrentRoom().transform).transform;
+        distort = player.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
         if (bluePillar && yellowPillar && greenPillar && purplePillar && isTeleporting)
         {
+            distort.gameObject.SetActive(false);
             isTeleporting = false;
             RoomManager.instance.TurnOffAllLights();
         }

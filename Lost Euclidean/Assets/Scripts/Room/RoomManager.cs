@@ -330,4 +330,12 @@ public class RoomManager : MonoBehaviour
             room.TurnOffAllLights();
         }
     }
+
+    public void RegenerateLinks()
+    {
+        foreach (var room in rooms.Values)
+        {
+            room.GenerateExitLinks();
+        }
+    }
 }
