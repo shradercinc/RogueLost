@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         if (Health <= 0)
         {
             this.gameObject.SetActive(false);
+            SceneManager.LoadScene(2);
         }
         if (Rolling == false)
         {
