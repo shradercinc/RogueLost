@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Firing : MonoBehaviour
 {
-    public int ammo = 10;
+    private int ammo = 10;
     public float inaccuracy = 15;
     public float fireR = 0.5f;
     public float fireT = 0.5f;
@@ -17,6 +17,7 @@ public class Firing : MonoBehaviour
     {
         fireT = fireR;
         pos = GetComponent<Transform>();
+        GameManager.instance.bulletAmount = ammo;
     }
 
     // Update is called once per frame
@@ -27,9 +28,10 @@ public class Firing : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) && fireT > fireR)
         {
             fireT = 0;
-            Object.Instantiate(Bullet,pos.position,pos.rotation); 
+            Object.Instantiate(Bullet, pos.position, pos.rotation);
             //to be entered when ammo is functional or nessecary
-            //ammo--;
+            // ammo--;
+            UIManager.instance.UpdateAmmo();
         }
     }
 }

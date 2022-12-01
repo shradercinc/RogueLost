@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public bool bluePillar, yellowPillar, greenPillar, purplePillar;
     // public bool hasGun;
     public bool isTeleporting = true;
+    public int bulletAmount = 30;
 
     private void Awake()
     {
