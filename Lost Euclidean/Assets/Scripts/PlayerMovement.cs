@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float StaminaMax = 3;
+    private float StaminaMax = 3;
     private float Stamina;
-    public float Health = 5;
+    private int Health = 5; //set in game manager
     private bool exhausted;
     private float exhaustedT = 0;
     public float WalkSpeed;
@@ -37,7 +37,9 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         pos = GetComponent<Transform>();
+        StaminaMax = GameManager.instance.totalStamina;
         Stamina = StaminaMax;
+        Health = GameManager.instance.totalHealth;
     }
 
     private void OnCollisionStay(Collision other)
@@ -48,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
             if (enemy.canHit == true)
             {
                 Health--;
+                UIManager.instance.UpdateHealthBar(Health);
                 enemy.canHit = false;
                 enemy.reload = enemy.hitSpeed;
             }
@@ -104,11 +107,13 @@ public class PlayerMovement : MonoBehaviour
         {
             running = true;
             Stamina -= Time.deltaTime;
+            UIManager.instance.UpdateStaminaBar(Stamina);
         }
         else
         {
             running = false;
             Stamina += Time.deltaTime;
+            UIManager.instance.UpdateStaminaBar(Stamina);
         }
 
         if (Stamina <= 0)
@@ -119,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
         if (Stamina >= StaminaMax)
         {
             Stamina = StaminaMax;
+            UIManager.instance.UpdateStaminaBar(Stamina);
         }
         if (exhausted == true)
         {

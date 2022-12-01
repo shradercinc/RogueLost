@@ -25,13 +25,9 @@ public class UIManager : MonoBehaviour
     //health bar
     [SerializeField]
     private GameObject healthBar;
-    private Vector3 healthLocalScale;
-    public int healthScale;
-
     //stamina bar
     [SerializeField]
     private GameObject staminaBar;
-    private Vector3 staminaLocalScale;
 
     public static UIManager instance;
 
@@ -49,11 +45,6 @@ public class UIManager : MonoBehaviour
         //ammo
         ammoStack = new Stack<GameObject>();
         GenerateAmmo();
-
-        //resource bars
-        healthLocalScale = healthBar.transform.localScale;
-        staminaLocalScale = staminaBar.transform.localScale;
-
         HideInstructionText();
     }
 
@@ -80,7 +71,7 @@ public class UIManager : MonoBehaviour
 
             GameObject ammo = Instantiate(ammoPrefab, ammoUI.transform);
             Vector3 pain = new Vector3(ammoUI.GetComponent<RectTransform>().transform.position.x, ammoUI.GetComponent<RectTransform>().transform.position.y - (15f * i) - offset, ammoUI.GetComponent<RectTransform>().transform.position.z);
-            Debug.Log(pain);
+//            Debug.Log(pain);
             ammo.GetComponent<RectTransform>().position = pain;
             ammoStack.Push(ammo);
         }
@@ -95,24 +86,37 @@ public class UIManager : MonoBehaviour
     //call to change player location on minimap
     public void UpdateMinimap(Coords coords)
     {
-        playerIcon.GetComponent<RectTransform>().position = new Vector3(startLoc.x + (68 * coords.x), startLoc.y - (68 * coords.y), 0f);
+        playerIcon.GetComponent<RectTransform>().position = new Vector3(startLoc.x + (48 * coords.x), startLoc.y + (48 * coords.x), 0f);
+        //playerIcon.GetComponent<RectTransform>().position = new Vector3(startLoc.x + (66 * coords.x), startLoc.y + (66 * coords.y), 0f);
     }
 
-    public void LowerHealth(int damage)
+    public void UpdateHealthBar(int newHealth)
     {
+       // Debug.Log(newHealth);
         //lower healthbar
-        // float percentage = (float)currHealth / totalHealth;
-        // if (percentage <= 0)
-        // {
-        //     gameObject.SetActive(false);
-        // }
-        // else
-        // {
-        //     healthBar.transform.localScale = new Vector3(percentage * healthScale, 1f, localScale.z);
-        // }
+        float percentage = (float)newHealth / GameManager.instance.totalHealth;
+        Debug.Log("p: "+percentage);
+        if (percentage <= 0)
+        {
+            healthBar.SetActive(false);
+        }
+        else
+        {
+            healthBar.transform.localScale = new Vector3(percentage * 1f, 1f, 1f);
+        }
     }
 
-    public void LowerStamina(int damage)
+    public void UpdateStaminaBar(float newStamina)
     {
+        float percentage = (float)newStamina / GameManager.instance.totalStamina;
+        //Debug.Log("p: "+percentage);
+        if (percentage <= 0)
+        {
+            staminaBar.SetActive(false);
+        }
+        else
+        {
+            staminaBar.transform.localScale = new Vector3(percentage * 1f, 1f, 1f);
+        }
     }
 }
