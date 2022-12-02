@@ -12,6 +12,9 @@ public class Firing : MonoBehaviour
     public GameObject Bullet;
     private Vector3 mPos;
     private Quaternion target;
+    [SerializeField] private Animator roguebanim;
+    [SerializeField] private Animator rogueanim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +35,12 @@ public class Firing : MonoBehaviour
             //to be entered when ammo is functional or nessecary
             // ammo--;
             UIManager.instance.UpdateAmmo();
+            roguebanim.SetBool("Shoot", true);
+        }
+        else
+        {
+            
+            roguebanim.SetBool("Shoot", false);
         }
     }
 }
