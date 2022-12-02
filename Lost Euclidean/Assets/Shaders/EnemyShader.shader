@@ -13,7 +13,8 @@ Shader "Custom/EnemyShader"
             "RenderType"="Transparent" "Queue"="Transparent"
         }
         LOD 200
-        Blend SrcColor OneMinusSrcColor, SrcAlpha OneMinusSrcAlpha
+        Blend SrcAlpha OneMinusSrcAlpha
+        ZWrite Off
 
         Pass
         {
@@ -137,9 +138,9 @@ Shader "Custom/EnemyShader"
 
                 float coloring = min(lightColor.r, min(lightColor.g, lightColor.b));
 
-                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.05, 0.1, surfaceColor.a * attenuation * shadow * coloring));
+                color = float4(surfaceColor.rgb * lightColor * shadow, smoothstep(0.05, 0.2, surfaceColor.a * attenuation * shadow * coloring));
 
-                return 0;
+                return color;
             }
             ENDCG
         }
@@ -246,7 +247,7 @@ Shader "Custom/EnemyShader"
 
                 float coloring = min(lightColor.r, min(lightColor.g, lightColor.b));
                 
-                color = float4(surfaceColor.rgb * lightColor * attenuation * shadow, smoothstep(0.01, 0.1, surfaceColor.a * attenuation * shadow * coloring));
+                color = float4(surfaceColor.rgb * lightColor * shadow, smoothstep(0.01, 0.3, surfaceColor.a * attenuation * shadow * coloring));
 
                 return color;
             }
