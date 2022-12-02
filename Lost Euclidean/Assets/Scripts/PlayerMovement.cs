@@ -16,6 +16,10 @@ public class PlayerMovement : MonoBehaviour
     private float ZInput = 0;
     private float XInput = 0;
 
+    //animator
+    
+    [SerializeField] private Animator roguebanim;
+    [SerializeField] private Animator rogueanim;
 
     private Transform pos;
     private Rigidbody rb;
@@ -81,6 +85,14 @@ public class PlayerMovement : MonoBehaviour
             //adds velocity in the direction the player was already moving when dashing. Queries if the velocity is 0 to prevent errors
             //rb.velocity += new Vector3(direct.x != 0 ? DashA * Mathf.Sign(direct.x) : 0, 0, direct.z != 0 ? DashA * Mathf.Sign(direct.z) : 0);
         }
+        if (rb.velocity != new Vector3(0,0,0))
+        {
+            roguebanim.SetBool("Move", true);
+        }
+        else
+        {
+            roguebanim.SetBool("Move", false);
+        }
     }
     void Update()
     {
@@ -134,6 +146,27 @@ public class PlayerMovement : MonoBehaviour
             {
                 exhausted = false;
             }
+        }
+        rogueanim.SetFloat ("xInput",XInput);
+        rogueanim.SetFloat ("zInput",ZInput);
+        rogueanim.SetBool ("run", running);
+            //Debug.Log(XInput);
+        if (Input.GetKey(KeyCode.A))
+        {
+            rogueanim.SetBool("Lstrafe", true);
+        }
+        else
+        {
+            rogueanim.SetBool("Lstrafe", false);
+        }
+        
+        if (Input.GetKey(KeyCode.D))
+        {
+            rogueanim.SetBool("Rstrafe", true);
+        }
+        else
+        {
+            rogueanim.SetBool("Rstrafe", false);
         }
     }
 
