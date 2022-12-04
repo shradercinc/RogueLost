@@ -10,7 +10,7 @@ Shader "Custom/EnemyShader"
     {
         Tags
         {
-            "RenderType"="Transparent" "Queue"="Transparent"
+            "RenderType"="Transparent" "Queue"="Transparent" "CanUseSpriteAtlas"="True"
         }
         LOD 200
         Blend SrcAlpha OneMinusSrcAlpha
@@ -53,7 +53,7 @@ Shader "Custom/EnemyShader"
             {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
-
+                float4 color    : COLOR;
                 // xyz is the tangent direction, w is the tangent sign
                 float4 tangent : TANGENT;
                 float2 uv : TEXCOORD0;
@@ -62,6 +62,7 @@ Shader "Custom/EnemyShader"
             struct Interpolators
             {
                 float4 pos : SV_POSITION;
+                fixed4 color : COLOR;
                 float2 uv : TEXCOORD0;
                 float3 normal : TEXCOORD1;
                 float3 tangent : TEXCOORD2;
@@ -82,6 +83,8 @@ Shader "Custom/EnemyShader"
 
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+
+                o.color = v.color * _Color; 
 
                 // Diffuse reflection by four "vertex lights"      
                 o.vertexLighting = float3(0.0, 0.0, 0.0);
@@ -132,7 +135,7 @@ Shader "Custom/EnemyShader"
                     attenuation = tex2D(_LightTexture0, dot(lightCoord, lightCoord).rr).UNITY_ATTEN_CHANNEL;
                 #endif
                 
-                float4 surfaceColor = tex2D(_MainTex, uv) * _Color;
+                float4 surfaceColor = tex2D(_MainTex, uv) * i.color;
                 
                 float4 lightColor = _LightColor0; // includes intensity
 
@@ -186,7 +189,7 @@ Shader "Custom/EnemyShader"
             {
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
-
+                float4 color    : COLOR;
                 // xyz is the tangent direction, w is the tangent sign
                 float4 tangent : TANGENT;
                 float2 uv : TEXCOORD0;
@@ -195,6 +198,7 @@ Shader "Custom/EnemyShader"
             struct Interpolators
             {
                 float4 pos : SV_POSITION;
+                fixed4 color : COLOR;
                 float2 uv : TEXCOORD0;
                 float3 normal : TEXCOORD1;
                 float3 tangent : TEXCOORD2;
@@ -215,6 +219,8 @@ Shader "Custom/EnemyShader"
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
 
+                o.color = v.color * _Color;
+
                 UNITY_TRANSFER_SHADOW(o, i.worldPos)
 
                 return o;
@@ -229,7 +235,7 @@ Shader "Custom/EnemyShader"
 
                 // since the diffuse and reflective properties of an object are inversely related, we want to set up our surface color to lerp between black and the albedo based on the inverse of reflectivity
                 // if 0% reflective -> all diffuse
-                float4 surfaceColor = tex2D(_MainTex, uv) * _Color;
+                float4 surfaceColor = tex2D(_MainTex, uv) * i.color;
                 
                 float attenuation = 1.0;
                 

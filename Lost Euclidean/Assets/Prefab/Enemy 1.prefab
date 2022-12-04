@@ -209,6 +209,7 @@ MonoBehaviour:
   canHit: 1
   hitSpeed: 0.1
   reload: 0
+  splatter: {fileID: 7032488507569391031, guid: aca9b5e38ce9f8448aac66d90d59d114, type: 3}
 --- !u!54 &-2264325717319897002
 Rigidbody:
   m_ObjectHideFlags: 0

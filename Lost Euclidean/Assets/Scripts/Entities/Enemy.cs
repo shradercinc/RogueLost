@@ -18,6 +18,9 @@ public class Enemy : MonoBehaviour
     public bool canHit = true;
     public float hitSpeed = 0.5f;
     public float reload = 0;
+
+    [SerializeField] private GameObject splatter;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -82,8 +85,16 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(this.gameObject);
+            Die();
         }
+    }
+
+    // Script for when an enemy dies.
+    private void Die()
+    {
+        var temp = Instantiate(splatter, new Vector3(transform.position.x, 0.001f, transform.position.z), transform.rotation);
+        temp.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Random.ColorHSV();
+        Destroy(this.gameObject);
     }
 }
 
