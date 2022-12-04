@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9452f321658ee0d499fb992a7b6fd0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 3.5
   health: 3
   damage: 1
   rb: {fileID: 0}
@@ -207,7 +207,7 @@ MonoBehaviour:
   react: 1
   reactm: 1
   canHit: 1
-  hitSpeed: 0.5
+  hitSpeed: 0.1
   reload: 0
 --- !u!54 &-2264325717319897002
 Rigidbody:

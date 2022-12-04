@@ -7,6 +7,7 @@ public class PlayerRotate : MonoBehaviour
     private Transform pos;
     public Camera cam;
     private Vector3 mPos;
+    [SerializeField] float turnSpeed = 0.1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class PlayerRotate : MonoBehaviour
         dir.z = dir.y;
         dir.y = 0f;
         dir.Normalize();
-        transform.rotation = Quaternion.LookRotation(dir);
+        var look = Quaternion.LookRotation(dir);
+        transform.rotation = Quaternion.Lerp(pos.rotation, look, turnSpeed);
     }
 }

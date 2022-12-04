@@ -532,6 +532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
+  turnSpeed: 0.06
 --- !u!1 &8797678310372331424
 GameObject:
   m_ObjectHideFlags: 0
