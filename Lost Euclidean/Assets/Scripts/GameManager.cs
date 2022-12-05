@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
     public float totalStamina = 3;
 
     public SpriteRenderer distort;
-    
+    public SpriteRenderer portalDistort;
+
     private void Awake()
     {
         instance = this;
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     {
         Transform player = Instantiate(playerPrefab, RoomManager.instance.GetCurrentRoom().transform).transform;
         distort = player.GetChild(1).GetComponent<SpriteRenderer>();
+        portalDistort = GameObject.FindGameObjectWithTag("distort").GetComponent<SpriteRenderer>();
     }
 
     private void Update()

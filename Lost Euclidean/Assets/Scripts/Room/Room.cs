@@ -183,10 +183,7 @@ public class Room : MonoBehaviour
                 green.transform.GetChild(1).GetComponent<Light>().color = Color.green;
                 green.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, Color.green);
                 break;
-            case RoomManager.RoomState.exit: //make exit stairs
-                Vector3 roomPos = gameObject.transform.position;
-                var exit = Instantiate(obstaclePrefabs[2], new Vector3(roomPos.x + Random.Range(-7f, 7f), roomPos.y, roomPos.z + Random.Range(-4f, 4f)), Quaternion.identity);
-                // exit.transform.GetChild(1).GetComponent<Light>().color = Color.white;
+            case RoomManager.RoomState.exit:
                 break;
             case RoomManager.RoomState.start:
                 break;
@@ -235,11 +232,6 @@ public class Room : MonoBehaviour
             light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, Color.green);
             interestingRoom = true;
         }
-        // if (state == RoomManager.RoomState.exit)
-        // {
-        //     light.GetComponent<Light>().color = Color.white;
-        //     interestingRoom = true;
-        // }
 
         if (interestingRoom)
         {

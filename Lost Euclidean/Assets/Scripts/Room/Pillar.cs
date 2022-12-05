@@ -16,27 +16,34 @@ public class Pillar : MonoBehaviour
             activated = true;
             distortion.SetActive(false);
             UIManager.instance.SetInstructionText("Pillar Activated.");
-            
+
             switch (state)
             {
                 case RoomManager.RoomState.blue:
                     GameManager.instance.bluePillar = true;
                     GameManager.instance.distort.material.SetColor("_PillarColor3", Color.clear);
+                    GameManager.instance.portalDistort.material.SetColor("_PillarColor3", Color.clear);
                     RoomManager.instance.RegenerateLinks();
                     break;
                 case RoomManager.RoomState.green:
                     GameManager.instance.greenPillar = true;
                     GameManager.instance.distort.material.SetColor("_PillarColor0", Color.clear);
+                    GameManager.instance.portalDistort.material.SetColor("_PillarColor0", Color.clear);
+
                     RoomManager.instance.RegenerateLinks();
                     break;
                 case RoomManager.RoomState.purple:
                     GameManager.instance.purplePillar = true;
                     GameManager.instance.distort.material.SetColor("_PillarColor1", Color.clear);
-                    RoomManager.instance.RegenerateLinks();;
+                    GameManager.instance.portalDistort.material.SetColor("_PillarColor1", Color.clear);
+
+                    RoomManager.instance.RegenerateLinks(); ;
                     break;
                 case RoomManager.RoomState.yellow:
                     GameManager.instance.yellowPillar = true;
                     GameManager.instance.distort.material.SetColor("_PillarColor2", Color.clear);
+                    GameManager.instance.portalDistort.material.SetColor("_PillarColor2", Color.clear);
+
                     RoomManager.instance.RegenerateLinks();
                     break;
             }

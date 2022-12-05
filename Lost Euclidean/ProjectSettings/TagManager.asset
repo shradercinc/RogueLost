@@ -8,6 +8,7 @@ TagManager:
   - Exit
   - PistolB
   - Enemy
+  - distort
   layers:
   - Default
   - TransparentFX

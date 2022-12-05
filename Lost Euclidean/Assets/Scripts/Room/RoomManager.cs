@@ -49,7 +49,8 @@ public class RoomManager : MonoBehaviour
     private List<Room> eastDoorRooms;
     private List<Room> westDoorRooms;
 
-    public GameObject roomPrefab;
+    [Header("0:start, 1:blank, 2:exit (do not change this order)")]
+    public GameObject[] roomPrefabs;
 
     public static RoomManager instance;
 
@@ -240,7 +241,25 @@ public class RoomManager : MonoBehaviour
                 // Debug.Log(roomGrid[i, j]);
                 if (roomGrid[i, j] != 0)
                 {
-                    var room = Instantiate(roomPrefab, new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
+                    Room room;
+
+                    if (roomGrid[i, j] == (int)RoomState.start) //make starting room
+                    {
+                        room = Instantiate(roomPrefabs[0], new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
+                    }
+                    else if (roomGrid[i, j] >= (int)RoomState.blue && roomGrid[i, j] <= (int)RoomState.purple)
+                    {
+                        room = Instantiate(roomPrefabs[1], new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
+                    }
+                    else if (roomGrid[i, j] == (int)RoomState.exit)
+                    {
+                        room = Instantiate(roomPrefabs[2], new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
+                    }
+                    else
+                    {
+                        room = Instantiate(roomPrefabs[Random.Range(3, roomPrefabs.Length)], new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
+                    }
+
                     room.gameObject.tag = "Room"; //TODO: idk why this isn't setting even tho it's in the prefab
                     rooms.Add((i, j), room);
                     room.roomCoords = new Coords(i, j);
