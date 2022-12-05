@@ -1987,7 +1987,7 @@ GameObject:
   - component: {fileID: 441005959}
   m_Layer: 0
   m_Name: Game Manager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2014,6 +2014,7 @@ MonoBehaviour:
   totalHealth: 5
   totalStamina: 3
   distort: {fileID: 0}
+  portalDistort: {fileID: 0}
 --- !u!4 &441005960
 Transform:
   m_ObjectHideFlags: 0
