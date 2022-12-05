@@ -10,10 +10,15 @@ public class Firing : MonoBehaviour
     public float fireT = 0.5f;
     private Transform pos;
     public GameObject Bullet;
+    public float clipSize = 6;
+    public float reloadSpeed = 2;
+    private float clip = 6;
+    public float reload = 0;
     private Vector3 mPos;
     private Quaternion target;
     [SerializeField] private Animator roguebanim;
     [SerializeField] private Animator rogueanim;
+    private bool reloading = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +26,8 @@ public class Firing : MonoBehaviour
         fireT = fireR;
         pos = GetComponent<Transform>();
         GameManager.instance.bulletAmount = ammo;
+        reload = 0;
+        clip = clipSize;
     }
 
     // Update is called once per frame
@@ -28,19 +35,36 @@ public class Firing : MonoBehaviour
     {
         mPos = Input.mousePosition;
         fireT += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Mouse0) && fireT > fireR)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && fireT > fireR && ammo > 0 && clip > 0)
         {
             fireT = 0;
             Object.Instantiate(Bullet, pos.position, pos.rotation);
             //to be entered when ammo is functional or nessecary
-            // ammo--;
+            ammo--;
+            clip--;
             UIManager.instance.UpdateAmmo();
             roguebanim.SetBool("Shoot", true);
+            print(clip + "/" + clipSize);
+            print("Ammo = " + ammo);
         }
         else
         {
             
             roguebanim.SetBool("Shoot", false);
+        }
+
+        reload -= Time.deltaTime;
+        if ((clip <= 0 || (Input.GetKeyDown(KeyCode.R)) && clip < clipSize) && reloading == false)
+        {
+            reloading = true;
+            reload = reloadSpeed;
+            print("Reloading!");
+        }
+        if (reloading == true && reload < 0)
+        {
+            reloading = false;
+            clip = clipSize;
+            print("Ready to go!");
         }
     }
 }

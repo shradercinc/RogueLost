@@ -46,7 +46,27 @@ public class PlayerMovement : MonoBehaviour
         Health = GameManager.instance.totalHealth;
     }
 
+    /*
     private void OnCollisionStay(Collision other)
+    {
+        //checks if the object collided was an enemy
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            //creates enemy var
+            var enemy = other.gameObject.GetComponent<Enemy>();
+            //checks if the enemy has already been hit
+            if (enemy.canHit == true)
+            {
+                //decreases health, updates healthbar, sets canHit to false redundantly, resets the enemy reload    
+                Health--;
+                UIManager.instance.UpdateHealthBar(Health);
+                enemy.canHit = false;
+                enemy.reload = enemy.hitSpeed;
+            }
+        }
+    }
+    */
+    private void OnTriggerStay(Collider other)
     {
         //checks if the object collided was an enemy
         if (other.gameObject.CompareTag("Enemy"))

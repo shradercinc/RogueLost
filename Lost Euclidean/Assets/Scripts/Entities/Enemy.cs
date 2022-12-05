@@ -51,21 +51,24 @@ public class Enemy : MonoBehaviour
         else canHit = false;
 
         //movement towards the player, checks if the reload is done and if the player is in the same room
-        if (RoomManager.instance.GetCurrentRoom().roomCoords == location && canHit == true)
+        if (RoomManager.instance.GetCurrentRoom().roomCoords == location)
         {
-            //reaction timer for when the player first enters the roomX
-            react -= Time.deltaTime;
             rb.velocity = new Vector3(0, 0, 0);
-            //functional movement code
-            if (react <= 0)
+            if (canHit == true)
             {
-                Vector3 dir = (pl.GetComponent<Transform>().position - pos.position);
-                dir.y = 0;
-                dir.Normalize();
-                transform.rotation = Quaternion.LookRotation(dir);
-                rb.velocity += transform.forward * speed;
-                print("is Moving");
-            }
+                react -= Time.deltaTime;
+                //functional movement code
+                if (react <= 0)
+                {
+                    Vector3 dir = (pl.GetComponent<Transform>().position - pos.position);
+                    dir.y = 0;
+                    dir.Normalize();
+                    transform.rotation = Quaternion.LookRotation(dir);
+                    rb.velocity += transform.forward * speed;
+                    print("is Moving");
+                }
+            } 
+            //reaction timer for when the player first enters the roomX
         }
         else
         {

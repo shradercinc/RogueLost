@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d05a1f6b27b97f940a58960efc24762a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 50
   pl: {fileID: 8797678310372331424, guid: 8281abf2e09114a4aabdb5dc4c3804a0, type: 3}
   cam: {fileID: 0}
   rb: {fileID: 0}
