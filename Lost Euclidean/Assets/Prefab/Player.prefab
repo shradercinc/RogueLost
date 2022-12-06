@@ -619,6 +619,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   DashA: 0.9
   length: 0.25
+  drip: {fileID: 7032488507569391031, guid: f9736bad4e91cc446a9f820084c1c052, type: 3}
 --- !u!114 &7829021500790447984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,6 +636,9 @@ MonoBehaviour:
   fireR: 0.5
   fireT: 0.5
   Bullet: {fileID: 5246451087586749754, guid: 6e57ce47587706b4c9862a77b71aa058, type: 3}
+  clipSize: 6
+  reloadSpeed: 2
+  reload: 0
   roguebanim: {fileID: 6405708735679648389}
   rogueanim: {fileID: 4236206648676814201}
 --- !u!1 &8983125069168559069

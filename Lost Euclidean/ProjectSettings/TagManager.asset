@@ -9,6 +9,7 @@ TagManager:
   - PistolB
   - Enemy
   - distort
+  - drip
   layers:
   - Default
   - TransparentFX

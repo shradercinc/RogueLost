@@ -35,6 +35,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool exitStairs = false;
 
+    private float _dripTimer;
+    private int _bleeds;
+    [SerializeField] private GameObject drip;
+
 
 
     void Start()
@@ -78,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //decreases health, updates healthbar, sets canHit to false redundantly, resets the enemy reload    
                 Health--;
+                _bleeds = (GameManager.instance.totalHealth - Health) * 10;
                 UIManager.instance.UpdateHealthBar(Health);
                 enemy.canHit = false;
                 enemy.reload = enemy.hitSpeed;
@@ -116,6 +121,17 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             roguebanim.SetBool("Move", false);
+        }
+        
+        if (Health == 1 || _bleeds > 0)
+        {
+            _dripTimer -= Time.deltaTime;
+            if (_dripTimer <= 0)
+            {
+                _dripTimer = 0.5f;
+                _bleeds--;
+                var temp = Instantiate(drip, new Vector3(transform.position.x, 0.001f, transform.position.z), transform.rotation);
+            }
         }
     }
     void Update()
