@@ -10,7 +10,7 @@ Shader "Custom/EnemyShader"
     {
         Tags
         {
-            "RenderType"="Transparent" "Queue"="Transparent" "CanUseSpriteAtlas"="True"
+            "RenderType"="Transparent" "CanUseSpriteAtlas"="True"
         }
         LOD 200
         Blend SrcAlpha OneMinusSrcAlpha
@@ -27,6 +27,8 @@ Shader "Custom/EnemyShader"
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
+
+            #define VERTEXLIGHT_ON
 
             // might be UnityLightingCommon.cginc for later versions of unity
             #include"UnityLightingCommon.cginc"
@@ -68,7 +70,7 @@ Shader "Custom/EnemyShader"
                 float3 tangent : TEXCOORD2;
                 float3 bitangent : TEXCOORD3;
                 float3 worldPos : TEXCOORD4;
-                SHADOW_COORDS(5)
+                UNITY_SHADOW_COORDS(5)
                 float3 vertexLighting : TEXCOORD6;
             };
 
@@ -111,7 +113,7 @@ Shader "Custom/EnemyShader"
                   }
                 #endif
 
-                TRANSFER_SHADOW(o)
+                UNITY_TRANSFER_SHADOW(o, i.worldPos)
 
                 return o;
             }
@@ -121,7 +123,7 @@ Shader "Custom/EnemyShader"
                 float4 color = 0;
                 float2 uv = i.uv;
 
-                fixed shadow = SHADOW_ATTENUATION(i);
+                fixed shadow = UNITY_SHADOW_ATTENUATION(i, i.worldPos);
 
                 float attenuation = 0;
                 
@@ -141,8 +143,8 @@ Shader "Custom/EnemyShader"
 
                 float coloring = min(lightColor.r, min(lightColor.g, lightColor.b));
 
-                color = float4(surfaceColor.rgb * lightColor * shadow, smoothstep(0.05, 0.2, surfaceColor.a * attenuation * shadow * coloring));
-
+                color = float4(surfaceColor.rgb * lightColor * shadow * attenuation, smoothstep(0.05, 0.2, surfaceColor.a * attenuation * shadow * coloring));
+                
                 return color;
             }
             ENDCG
@@ -253,8 +255,8 @@ Shader "Custom/EnemyShader"
 
                 float coloring = min(lightColor.r, min(lightColor.g, lightColor.b));
                 
-                color = float4(surfaceColor.rgb * lightColor * shadow, smoothstep(0.01, 0.3, surfaceColor.a * attenuation * shadow * coloring));
-
+                color = float4(surfaceColor.rgb * lightColor, smoothstep(0.01, 0.3, surfaceColor.a * attenuation * coloring * shadow));
+                //color = shadow;
                 return color;
             }
             ENDCG

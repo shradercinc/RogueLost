@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         var temp = Instantiate(splatter, new Vector3(transform.position.x, 0.001f, transform.position.z), transform.rotation);
-        temp.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Random.ColorHSV();
+        //temp.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Random.ColorHSV();
         Destroy(this.gameObject);
     }
 }

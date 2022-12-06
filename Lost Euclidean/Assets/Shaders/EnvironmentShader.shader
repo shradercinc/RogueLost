@@ -86,7 +86,7 @@ Shader "Custom/EnvironmentShader"
                 float3 tangent : TEXCOORD2;
                 float3 bitangent : TEXCOORD3;
                 float3 worldPos : TEXCOORD4;
-                SHADOW_COORDS(5)
+                UNITY_SHADOW_COORDS(5)
                 float3 vertexLighting : TEXCOORD6;
             };
 
@@ -130,7 +130,7 @@ Shader "Custom/EnvironmentShader"
                   }
                 #endif
 
-                TRANSFER_SHADOW(o)
+                UNITY_TRANSFER_SHADOW(o, i.worldPos)
 
                 return o;
             }
@@ -152,7 +152,7 @@ Shader "Custom/EnvironmentShader"
 
                 float3 normal = mul(tangentToWorld, tangentSpaceNormal);
 
-                fixed shadow = SHADOW_ATTENUATION(i);
+                fixed shadow = UNITY_SHADOW_ATTENUATION(i, i.worldPos);
 
 
                 float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
