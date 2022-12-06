@@ -20,6 +20,11 @@ public class Enemy : MonoBehaviour
     public float reload = 0;
 
     [SerializeField] private GameObject splatter;
+    [SerializeField] private GameObject gunSplatter;
+    [SerializeField] private GameObject drip;
+
+    private bool _isHurt;
+    private float _dripTimer = 0.5f;
     
     // Start is called before the first frame update
     void Start()
@@ -34,8 +39,10 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("PistolB"))
         {
+            var temp = Instantiate(gunSplatter, new Vector3(transform.position.x, 0.001f, transform.position.z), other.transform.rotation);
             Destroy(other.transform.parent.gameObject);
             health--;
+            _isHurt = true;
         }
     }
 
@@ -67,10 +74,20 @@ public class Enemy : MonoBehaviour
                     rb.velocity += transform.forward * speed;
                     print("is Moving");
                 }
-            } 
+            }
             //reaction timer for when the player first enters the roomX
+
+            if (_isHurt)
+            {
+                _dripTimer -= Time.deltaTime;
+                if (_dripTimer <= 0)
+                {
+                    _dripTimer = 0.5f;
+                    var temp = Instantiate(drip, new Vector3(transform.position.x, 0.001f, transform.position.z), transform.rotation);
+                }
+            }
         }
-        else
+        else 
         {
             react = reactm;
             Vector3 dir = (new Vector3(hx,pos.position.y,hz) - pos.position);
