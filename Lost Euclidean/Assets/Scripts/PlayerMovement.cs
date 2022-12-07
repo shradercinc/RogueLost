@@ -167,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
                 Rolling = false;
             }
         }
+        /*
         if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && exhausted == false)
         {
             running = true;
@@ -179,6 +180,7 @@ public class PlayerMovement : MonoBehaviour
             Stamina += Time.deltaTime;
             // UIManager.instance.UpdateStaminaBar(Stamina);
         }
+        */
 
         if (Stamina <= 0)
         {

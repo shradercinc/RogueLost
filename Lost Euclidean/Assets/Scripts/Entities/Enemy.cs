@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed = 3;
+    private float maxSpeed = 3;
     public float health = 10;
     public int damage = 1;
     public Rigidbody rb;
@@ -19,6 +20,10 @@ public class Enemy : MonoBehaviour
     public float hitSpeed = 0.5f;
     public float reload = 0;
 
+    //Variables that control enemy slowdown
+    [SerializeField] private float accelerate = 0.04f;
+    [SerializeField] private float speedDecrease = 2;
+
     [SerializeField] private GameObject splatter;
     [SerializeField] private GameObject gunSplatter;
     [SerializeField] private GameObject drip;
@@ -29,6 +34,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        maxSpeed = speed;
         rb = GetComponent<Rigidbody>();
         pos = GetComponent<Transform>();
         pl = GameObject.FindGameObjectWithTag("Player");
@@ -42,6 +48,7 @@ public class Enemy : MonoBehaviour
             var temp = Instantiate(gunSplatter, new Vector3(transform.position.x, 0.001f, transform.position.z), other.transform.rotation);
             Destroy(other.transform.parent.gameObject);
             health--;
+            speed /= speedDecrease;
             _isHurt = true;
         }
     }
@@ -49,6 +56,15 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (speed < maxSpeed)
+        {
+            speed += accelerate;
+        }
+        else
+        {
+            speed = maxSpeed;
+        }
+
         //timer when the enemy hits the player
         reload -= Time.deltaTime;
         if (reload <= 0)

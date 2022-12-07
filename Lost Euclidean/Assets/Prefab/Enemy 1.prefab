@@ -308,6 +308,8 @@ MonoBehaviour:
   canHit: 1
   hitSpeed: 1
   reload: 0
+  accelerate: 0.02
+  speedDecrease: 9
   splatter: {fileID: 7032488507569391031, guid: aca9b5e38ce9f8448aac66d90d59d114, type: 3}
   gunSplatter: {fileID: 7032488507569391031, guid: 8a0361b5abce44d41a6e011f03ea8e23, type: 3}
   drip: {fileID: 7032488507569391031, guid: fc18cdd632d9281478e8eb0331ff2009, type: 3}
