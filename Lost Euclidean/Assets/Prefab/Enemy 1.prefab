@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3.5
-  health: 3
+  health: 2
   damage: 1
   rb: {fileID: 0}
   pos: {fileID: 0}
