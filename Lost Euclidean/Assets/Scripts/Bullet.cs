@@ -24,10 +24,12 @@ public class Bullet : MonoBehaviour
         Vector3 dir = (mPos - pPos);
         dir.z = dir.y;
         dir.y = 0f;
+        var xacc = Random.Range(-accuracy, accuracy);
+        var zacc = Random.Range(-accuracy, accuracy);
+        dir.x += xacc;
+        dir.z += zacc;
         dir.Normalize();
-        //var acc = Random.Range(-accuracy, accuracy);
-        //dir.x += acc;
-        //dir.z -= acc;
+
         transform.rotation = Quaternion.LookRotation(dir);
         rb = GetComponent<Rigidbody>();
         rb.velocity = dir * speed;

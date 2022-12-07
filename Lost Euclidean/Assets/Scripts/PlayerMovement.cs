@@ -31,6 +31,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 direct = new Vector3(0, 0, 0);
     public float length = 1;
     private float DTimer = 0;
+    //actual cooldown time
+    public float coolDownTimer = 0;
+    //sets cooldown time at the beginning of the game
+    public float coolDown = 1;
+
     // private float topS = 0; 
 
     private bool exitStairs = false;
@@ -43,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        coolDownTimer = coolDown;
         rb = GetComponent<Rigidbody>();
         pos = GetComponent<Transform>();
         StaminaMax = GameManager.instance.totalStamina;
@@ -101,19 +107,21 @@ public class PlayerMovement : MonoBehaviour
         if (Rolling == false)
         {
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
-            rb.velocity += transform.forward * XInput * (running == false ? WalkSpeed : RunSpeed);
-            rb.velocity += transform.right * ZInput * (running == false ? WalkSpeed : RunSpeed);
+            //rb.velocity += transform.forward * XInput * (running == false ? WalkSpeed : RunSpeed);
+            //rb.velocity += transform.right * ZInput * (running == false ? WalkSpeed : RunSpeed);
+            rb.velocity += transform.right * ZInput * WalkSpeed;
+            rb.velocity += transform.forward * XInput * WalkSpeed;
         }
 
         if (Rolling == true)
         {
-            //print("Z =" + direct.z / Mathf.Abs(direct.z)); 
-            //print("X =" + direct.x / Mathf.Abs(direct.x));
+            print("Z =" + direct.z / Mathf.Abs(direct.z)); 
+            print("X =" + direct.x / Mathf.Abs(direct.x));
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
             rb.velocity += transform.forward * XInput * (running == false ? WalkSpeed : RunSpeed);
             rb.velocity += transform.right * ZInput * (running == false ? WalkSpeed : RunSpeed);
             //adds velocity in the direction the player was already moving when dashing. Queries if the velocity is 0 to prevent errors
-            //rb.velocity += new Vector3(direct.x != 0 ? DashA * Mathf.Sign(direct.x) : 0, 0, direct.z != 0 ? DashA * Mathf.Sign(direct.z) : 0);
+            rb.velocity += new Vector3(direct.x != 0 ? DashA * Mathf.Sign(direct.x) : 0, 0, direct.z != 0 ? DashA * Mathf.Sign(direct.z) : 0);
         }
         if (rb.velocity != new Vector3(0, 0, 0))
         {
@@ -139,15 +147,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Rolling == false)
         {
+            coolDownTimer -= Time.deltaTime;
             DTimer = 0;
             ZInput = Input.GetAxis("Horizontal");
             XInput = Input.GetAxis("Vertical");
         }
         //start dash
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && coolDownTimer <= 0)
         {
             Rolling = true;
             direct = rb.velocity;
+            coolDownTimer = coolDown;
         }
         if (Rolling == true)
         {
