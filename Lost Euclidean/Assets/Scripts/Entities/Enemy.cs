@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public Rigidbody rb;
     public Transform pos;
     private GameObject pl;
-    public Coords location; 
+    public Coords location;
     public float hx = 0;
     public float hz = 0;
     public float react = 1;
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
 
     private bool _isHurt;
     private float _dripTimer = 0.5f;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
                     dir.Normalize();
                     transform.rotation = Quaternion.LookRotation(dir);
                     rb.velocity += transform.forward * speed;
-                    print("is Moving");
+                    // print("is Moving");
                 }
             }
             //reaction timer for when the player first enters the roomX
@@ -87,10 +87,10 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-        else 
+        else
         {
             react = reactm;
-            Vector3 dir = (new Vector3(hx,pos.position.y,hz) - pos.position);
+            Vector3 dir = (new Vector3(hx, pos.position.y, hz) - pos.position);
             dir.y = 0;
             dir.Normalize();
             rb.velocity = new Vector3(0, 0, 0);

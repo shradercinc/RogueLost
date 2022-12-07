@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,4 +41,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int TotalFoundPillars()
+    {
+        return CountTrue(bluePillar, yellowPillar, greenPillar, purplePillar);
+    }
+
+    private static int CountTrue(params bool[] args)
+    {
+        return args.Count(t => t);
+    }
 }

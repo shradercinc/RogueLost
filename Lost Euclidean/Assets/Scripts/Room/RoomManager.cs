@@ -80,7 +80,7 @@ public class RoomManager : MonoBehaviour
         GenerateRooms();
 
         GameManager.instance.CreatePlayer();
-        UIManager.instance.UpdateMinimap(currCoords);
+        // UIManager.instance.UpdateMinimap(currCoords);
         // Debug.Log(currCoords.x + ", " + currCoords.y);
     }
 
@@ -223,7 +223,7 @@ public class RoomManager : MonoBehaviour
     {
         prevCoords = currCoords;
         currCoords = coords;
-        UIManager.instance.UpdateMinimap(coords);
+        // UIManager.instance.UpdateMinimap(coords);
     }
 
     public Room GetPreviousRoom()

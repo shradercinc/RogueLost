@@ -42,14 +42,14 @@ public class Firing : MonoBehaviour
             //to be entered when ammo is functional or nessecary
             ammo--;
             clip--;
-            UIManager.instance.UpdateAmmo();
+            // UIManager.instance.UpdateAmmo();
             roguebanim.SetBool("Shoot", true);
             print(clip + "/" + clipSize);
             print("Ammo = " + ammo);
         }
         else
         {
-            
+
             roguebanim.SetBool("Shoot", false);
         }
 

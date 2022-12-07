@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6953036960090197957}
   - component: {fileID: 1151496029099427997}
   - component: {fileID: 6405708735679648389}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RogueBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2902209165256860169}
   - component: {fileID: 5369376176817281634}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spot Light (SS)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7549949677012927218}
   - component: {fileID: 1310583029550889322}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spot Light (HS)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6303062825563540112}
   - component: {fileID: 5430432178671053874}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Distort
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -389,7 +389,7 @@ GameObject:
   - component: {fileID: 1475834606168640631}
   - component: {fileID: 7751719435321994581}
   - component: {fileID: 4236206648676814201}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RogueLegs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,7 +493,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3050289678921461469}
   - component: {fileID: 4098019237958965091}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rotater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 8797678310372331454}
   - component: {fileID: 8797678310372331425}
   - component: {fileID: 7829021500790447984}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -583,7 +583,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &8797678310372331454
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -651,7 +651,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2045071946527945171}
   - component: {fileID: 1092697032846511162}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Point Light (HS)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

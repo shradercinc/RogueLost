@@ -15,7 +15,7 @@ public class Pillar : MonoBehaviour
         {
             activated = true;
             distortion.SetActive(false);
-            UIManager.instance.SetInstructionText("Pillar Activated.");
+            // UIManager.instance.SetInstructionText("Pillar Activated.");
 
             switch (state)
             {
@@ -24,6 +24,7 @@ public class Pillar : MonoBehaviour
                     GameManager.instance.distort.material.SetColor("_PillarColor3", Color.clear);
                     GameManager.instance.portalDistort.material.SetColor("_PillarColor3", Color.clear);
                     RoomManager.instance.RegenerateLinks();
+                    UIManager.instance.UIFoundGeneratorsMessage();
                     break;
                 case RoomManager.RoomState.green:
                     GameManager.instance.greenPillar = true;
@@ -31,13 +32,15 @@ public class Pillar : MonoBehaviour
                     GameManager.instance.portalDistort.material.SetColor("_PillarColor0", Color.clear);
 
                     RoomManager.instance.RegenerateLinks();
+                    UIManager.instance.UIFoundGeneratorsMessage();
                     break;
                 case RoomManager.RoomState.purple:
                     GameManager.instance.purplePillar = true;
                     GameManager.instance.distort.material.SetColor("_PillarColor1", Color.clear);
                     GameManager.instance.portalDistort.material.SetColor("_PillarColor1", Color.clear);
 
-                    RoomManager.instance.RegenerateLinks(); ;
+                    RoomManager.instance.RegenerateLinks();
+                    UIManager.instance.UIFoundGeneratorsMessage();
                     break;
                 case RoomManager.RoomState.yellow:
                     GameManager.instance.yellowPillar = true;
@@ -45,6 +48,7 @@ public class Pillar : MonoBehaviour
                     GameManager.instance.portalDistort.material.SetColor("_PillarColor2", Color.clear);
 
                     RoomManager.instance.RegenerateLinks();
+                    UIManager.instance.UIFoundGeneratorsMessage();
                     break;
             }
         }
@@ -52,17 +56,17 @@ public class Pillar : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("HERE");
+        // Debug.Log("HERE");
         if (other.CompareTag("Player"))
         {
             canActivate = true;
             if (!activated)
             {
-                UIManager.instance.SetInstructionText("E to Activate Pillar.");
+                // UIManager.instance.SetInstructionText("E to Activate Pillar.");
             }
             else
             {
-                UIManager.instance.SetInstructionText("Pillar Activated.");
+                // UIManager.instance.SetInstructionText("Pillar Activated.");
             }
         }
     }
@@ -72,7 +76,7 @@ public class Pillar : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             canActivate = false;
-            UIManager.instance.HideInstructionText();
+            // UIManager.instance.HideInstructionText();
         }
     }
 }

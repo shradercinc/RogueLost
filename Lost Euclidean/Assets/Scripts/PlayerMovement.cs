@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private float XInput = 0;
 
     //animator
-    
+
     [SerializeField] private Animator roguebanim;
     [SerializeField] private Animator rogueanim;
 
@@ -80,10 +80,11 @@ public class PlayerMovement : MonoBehaviour
             //checks if the enemy has already been hit
             if (enemy.canHit == true)
             {
-                //decreases health, updates healthbar, sets canHit to false redundantly, resets the enemy reload    
+                //decreases health, flash blood effect, sets canHit to false redundantly, resets the enemy reload    
                 Health--;
                 _bleeds = (GameManager.instance.totalHealth - Health) * 10;
-                UIManager.instance.UpdateHealthBar(Health);
+                UIManager.instance.FlashBlood();
+                UIManager.instance.UIDamageMessage(Health);
                 enemy.canHit = false;
                 enemy.reload = enemy.hitSpeed;
             }
@@ -114,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
             //adds velocity in the direction the player was already moving when dashing. Queries if the velocity is 0 to prevent errors
             //rb.velocity += new Vector3(direct.x != 0 ? DashA * Mathf.Sign(direct.x) : 0, 0, direct.z != 0 ? DashA * Mathf.Sign(direct.z) : 0);
         }
-        if (rb.velocity != new Vector3(0,0,0))
+        if (rb.velocity != new Vector3(0, 0, 0))
         {
             roguebanim.SetBool("Move", true);
         }
@@ -122,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         {
             roguebanim.SetBool("Move", false);
         }
-        
+
         if (Health == 1 || _bleeds > 0)
         {
             _dripTimer -= Time.deltaTime;
@@ -160,13 +161,13 @@ public class PlayerMovement : MonoBehaviour
         {
             running = true;
             Stamina -= Time.deltaTime;
-            UIManager.instance.UpdateStaminaBar(Stamina);
+            // UIManager.instance.UpdateStaminaBar(Stamina);
         }
         else
         {
             running = false;
             Stamina += Time.deltaTime;
-            UIManager.instance.UpdateStaminaBar(Stamina);
+            // UIManager.instance.UpdateStaminaBar(Stamina);
         }
 
         if (Stamina <= 0)
@@ -177,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
         if (Stamina >= StaminaMax)
         {
             Stamina = StaminaMax;
-            UIManager.instance.UpdateStaminaBar(Stamina);
+            // UIManager.instance.UpdateStaminaBar(Stamina);
         }
         if (exhausted == true)
         {
@@ -187,10 +188,10 @@ public class PlayerMovement : MonoBehaviour
                 exhausted = false;
             }
         }
-        rogueanim.SetFloat ("xInput",XInput);
-        rogueanim.SetFloat ("zInput",ZInput);
-        rogueanim.SetBool ("run", running);
-            //Debug.Log(XInput);
+        rogueanim.SetFloat("xInput", XInput);
+        rogueanim.SetFloat("zInput", ZInput);
+        rogueanim.SetBool("run", running);
+        //Debug.Log(XInput);
         if (Input.GetKey(KeyCode.A))
         {
             rogueanim.SetBool("Lstrafe", true);
@@ -199,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rogueanim.SetBool("Lstrafe", false);
         }
-        
+
         if (Input.GetKey(KeyCode.D))
         {
             rogueanim.SetBool("Rstrafe", true);
