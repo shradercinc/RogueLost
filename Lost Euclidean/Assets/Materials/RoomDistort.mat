@@ -27,7 +27,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Intensity: 0.5
-    - _Resolution: 7
+    - _Resolution: 24
     m_Colors:
     - _Color: {r: 0, g: 1, b: 1, a: 1}
     - _PillarColor0: {r: 1, g: 1, b: 1, a: 1}
