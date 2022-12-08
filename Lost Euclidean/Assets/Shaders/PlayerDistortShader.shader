@@ -47,6 +47,7 @@ Shader "Unlit/PlayerDistortShader"
             Interpolators vert (MeshData v)
             {
                 Interpolators o;
+                v.vertex += float4(0.15 * (pow(rand(floor(_Time.y * _Resolution * v.vertex.x)) * 2 - 1, 3)), 0.15 * (pow(rand(floor(_Time.y * _Resolution * v.vertex.y)) * 2 - 1, 3)), 0, 0);
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
                 return o;
@@ -58,9 +59,8 @@ Shader "Unlit/PlayerDistortShader"
                 float wn = 0;
 
                 float offset = floor(_Time.y * 4 + rand(uv * _Resolution));
-
-                uv = floor((uv + offset) * _Resolution); // Changes noise resolution.
-                wn = rand(uv);
+                
+                wn = frac(rand(floor(uv * _Resolution)) +  _Time.y / 2);;
                 float a = step(0.8f, wn);
                 wn = smoothstep(0.8f, 1, wn);
                 

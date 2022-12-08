@@ -30,7 +30,7 @@ public class Room : MonoBehaviour
     public RoomManager.RoomState state = RoomManager.RoomState.normal;
 
     //track room exits
-    private (bool north, bool south, bool east, bool west) nsewExits;
+    public (bool north, bool south, bool east, bool west) nsewExits;
     public (Room north, Room south, Room east, Room west) nsewRooms;
 
     public GameObject northLight, southLight, westLight, eastLight;
