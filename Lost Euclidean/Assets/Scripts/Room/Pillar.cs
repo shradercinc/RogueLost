@@ -14,6 +14,9 @@ public class Pillar : MonoBehaviour
     [SerializeField]
     private GameObject distortion;
 
+    [SerializeField] private SpriteRenderer chargeRing;
+    private static readonly int Fill = Shader.PropertyToID("_Fill");
+
     private void Update()
     {
         if (charging && !disabled)
@@ -24,9 +27,10 @@ public class Pillar : MonoBehaviour
             {
                 timer = 0;
                 chargeTimer++;
+                
                 UIManager.instance.UIDisablingGeneratorMessage();
             }
-
+            chargeRing.material.SetFloat(Fill, ((float)(chargeTimer) + (timer))/disableTime);
             if (chargeTimer == disableTime)
             {
                 UIManager.instance.UIDisablingGeneratorMessage();

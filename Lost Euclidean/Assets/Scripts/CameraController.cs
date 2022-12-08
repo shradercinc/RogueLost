@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private Material postProcessing;
+    
     private Transform roomTransform;
     private void Update()
     {

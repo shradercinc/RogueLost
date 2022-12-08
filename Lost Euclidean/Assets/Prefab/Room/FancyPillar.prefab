@@ -28,7 +28,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.54, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 0.8}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 4734290888826726390}
   m_Father: {fileID: 6271076168411312366}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -202,13 +203,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5273479834325717314}
-  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.66, y: 0.66, z: 0.66}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.6750001}
+  m_LocalScale: {x: 0.32999992, y: 0.32999998, z: 0.8249999}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6271076168411312366}
-  m_RootOrder: 4
+  m_Father: {fileID: 6458745703609241773}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!212 &5994909695566944318
 SpriteRenderer:
@@ -230,7 +231,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6bced60d4e74dd5458867192bad77a24, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -351,7 +352,6 @@ Transform:
   - {fileID: 1122379483670244899}
   - {fileID: 6458745703609241773}
   - {fileID: 8111065860748428384}
-  - {fileID: 4734290888826726390}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -372,6 +372,7 @@ MonoBehaviour:
   chargeTimer: 0
   state: 0
   distortion: {fileID: 1692872657163034526}
+  chargeRing: {fileID: 5994909695566944318}
 --- !u!136 &496969600141730849
 CapsuleCollider:
   m_ObjectHideFlags: 0
