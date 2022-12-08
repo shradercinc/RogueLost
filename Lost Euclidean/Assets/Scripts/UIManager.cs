@@ -39,9 +39,9 @@ public class UIManager : MonoBehaviour
         "Disabling generator: {1}%.",
         "{0}/4 generators found.",
         "Mission: Disable all generators.", //mission message
-        "STOP THE ANOMOLY.", //mission message
-        "Minor injury recieved.", //4 health
-        "Significant injury recieved.", //3 health
+        "STOP THE ANOMALY.", //mission message
+        "Minor injury received.", //4 health
+        "Significant injury received.", //3 health
         "Rapidly losing blood.", //2 health
         "Vitals critical, SEEK AID.", //1 health
         "Mission failed.", //death
