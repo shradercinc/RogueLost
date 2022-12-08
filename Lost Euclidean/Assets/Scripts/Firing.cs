@@ -18,12 +18,17 @@ public class Firing : MonoBehaviour
     private Quaternion target;
     [SerializeField] private Animator roguebanim;
     [SerializeField] private Animator rogueanim;
+    [SerializeField] private AudioSource ReloadPlayer;
+    [SerializeField] private AudioClip reloadSound;
+    [SerializeField] private AudioClip fireSound;
+    private AudioSource aud;
     private bool reloading = false;
     private int leftoverAmmo;
 
     // Start is called before the first frame update
     void Start()
     {
+        aud = GetComponent<AudioSource>();
         fireT = fireR;
         pos = GetComponent<Transform>();
         GameManager.instance.bulletAmount = ammo;
@@ -40,6 +45,7 @@ public class Firing : MonoBehaviour
         fireT += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Mouse0) && fireT > fireR && ammo > 0 && clip > 0)
         {
+            aud.PlayOneShot(fireSound);
             fireT = 0;
             Object.Instantiate(Bullet, pos.position, pos.rotation);
             //to be entered when ammo is functional or nessecary
@@ -60,6 +66,7 @@ public class Firing : MonoBehaviour
         reload -= Time.deltaTime;
         if (((Input.GetKeyDown(KeyCode.R)) && clip < clipSize) && reloading == false)
         {
+            ReloadPlayer.PlayOneShot(reloadSound);
             reloading = true;
             reload = reloadSpeed;
             // UIManager.instance.UpdateAmmo();

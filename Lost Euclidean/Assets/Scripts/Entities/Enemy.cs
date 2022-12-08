@@ -11,6 +11,13 @@ public class Enemy : MonoBehaviour
     public Rigidbody rb;
     public Transform pos;
     private GameObject pl;
+    
+    private AudioSource aud;
+    [SerializeField] private AudioClip[] stepSounds;
+    [SerializeField] private float stepRate = 0.35f;
+    private float stepTimer = 0.35f;
+    private float distVMod = 0.1f;
+
     public Coords location;
     public float hx = 0;
     public float hz = 0;
@@ -36,9 +43,11 @@ public class Enemy : MonoBehaviour
     {
         maxSpeed = speed;
         rb = GetComponent<Rigidbody>();
+        aud = GetComponent<AudioSource>();
         pos = GetComponent<Transform>();
         pl = GameObject.FindGameObjectWithTag("Player");
         reactm = react;
+        stepTimer = 0.1f;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -56,6 +65,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 dirP = (new Vector3(pl.transform.position.x, pos.position.y, pl.transform.position.z) - pos.position);
+        dirP.y = 0;
+        var distance = Mathf.Sqrt(Mathf.Pow(dirP.x, 2) + Mathf.Pow(dirP.z, 2));
+        aud.volume = 0.6f - (distance * distVMod);
+
         if (speed < maxSpeed)
         {
             speed += accelerate;
@@ -76,6 +90,7 @@ public class Enemy : MonoBehaviour
         //movement towards the player, checks if the reload is done and if the player is in the same room
         if (RoomManager.instance.GetCurrentRoom().roomCoords == location)
         {
+
             rb.velocity = new Vector3(0, 0, 0);
             if (canHit == true)
             {
@@ -83,10 +98,24 @@ public class Enemy : MonoBehaviour
                 //functional movement code
                 if (react <= 0)
                 {
-                    Vector3 dir = (pl.GetComponent<Transform>().position - pos.position);
-                    dir.y = 0;
-                    dir.Normalize();
-                    transform.rotation = Quaternion.LookRotation(dir);
+                    print("Distance to player" + distance);
+                    print("volume = " + aud.volume);
+
+                    stepTimer -= Time.deltaTime;
+                    if (stepTimer <= 0)
+                    {
+                        if (speed < maxSpeed)
+                        {
+                            stepTimer = stepRate * 1.5f;
+                        }
+                        else stepTimer = stepRate;
+
+                        aud.PlayOneShot(stepSounds[Random.Range(0, stepSounds.Length)]);
+                    }
+                    Vector3 direction = (pl.GetComponent<Transform>().position - pos.position);
+                    direction.y = 0;
+                    direction.Normalize();
+                    transform.rotation = Quaternion.LookRotation(direction);
                     rb.velocity += transform.forward * speed;
                     // print("is Moving");
                 }
@@ -105,10 +134,11 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            react = reactm;
             Vector3 dir = (new Vector3(hx, pos.position.y, hz) - pos.position);
             dir.y = 0;
             dir.Normalize();
+            stepTimer = 0.1f;
+            react = reactm;
             rb.velocity = new Vector3(0, 0, 0);
             if (Mathf.Sqrt(Mathf.Pow(dir.x, 2) + Mathf.Pow(dir.z, 2)) > 2f)
             {
