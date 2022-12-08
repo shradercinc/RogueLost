@@ -30,6 +30,8 @@ public class UIManager : MonoBehaviour
     public GameObject playerGO;
     [HideInInspector]
     public PlayerMovement playerScript;
+    [HideInInspector]
+    public Pillar currentPillar; //set when charging generator
 
 
     //all possible messages, do not modify order, only add messages
@@ -43,7 +45,8 @@ public class UIManager : MonoBehaviour
         "Rapidly losing blood.", //2 health
         "Vitals critical, SEEK AID.", //1 health
         "Mission failed.", //death
-        "Generator disabled."
+        "Generator disabled.",
+        "Stopped disabling generator."
         };
     private string[] chat;
 
@@ -60,7 +63,7 @@ public class UIManager : MonoBehaviour
         chat = new string[3];
         chat[0] = messages[2];
         chat[1] = messages[3];
-        chat[2] = string.Format(messages[1], GameManager.instance.TotalFoundPillars(), "_N/A_");
+        chat[2] = string.Format(messages[1], GameManager.instance.TotalFoundPillars(), "");
         SetChat();
 
         blood_UI.GetComponent<Image>().color = new Color(1, 1, 1, 0);
@@ -83,7 +86,11 @@ public class UIManager : MonoBehaviour
     //messageIndex: index of new mesesage in 'messages' array
     private void UpdateChatMessage(int messageIndex)
     {
-        string str = string.Format(messages[messageIndex], GameManager.instance.TotalFoundPillars(), "_N/A_"); //TODO: get number of generators, percentage complete
+        string str;
+        if (currentPillar != null)
+            str = string.Format(messages[messageIndex], GameManager.instance.TotalFoundPillars(), currentPillar.GetCurrentChargePercentage());
+        else
+            str = string.Format(messages[messageIndex], GameManager.instance.TotalFoundPillars(), "0");
         chat[0] = chat[1];
         chat[1] = chat[2];
         chat[2] = str;
@@ -115,6 +122,11 @@ public class UIManager : MonoBehaviour
     public void UIDisablingGeneratorMessage()
     {
         UpdateChatMessage(0);
+    }
+
+    public void UIStopDisablingMessage()
+    {
+        UpdateChatMessage(10);
     }
 
     public void UIFoundGeneratorsMessage()
