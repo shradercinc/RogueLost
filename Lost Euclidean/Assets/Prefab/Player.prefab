@@ -702,8 +702,10 @@ MonoBehaviour:
   roguebanim: {fileID: 6405708735679648389}
   rogueanim: {fileID: 4236206648676814201}
   cam: {fileID: 0}
-  DashA: 0.9
+  DashA: 2
   length: 0.25
+  coolDownTimer: 0
+  coolDown: 1
   drip: {fileID: 7032488507569391031, guid: f9736bad4e91cc446a9f820084c1c052, type: 3}
 --- !u!114 &7829021500790447984
 MonoBehaviour:

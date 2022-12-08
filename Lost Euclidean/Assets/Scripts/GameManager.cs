@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     public SpriteRenderer distort;
     public SpriteRenderer portalDistort;
 
+    //player reference
+    public GameObject playerGO;
+
     private void Awake()
     {
         instance = this;
@@ -29,6 +32,10 @@ public class GameManager : MonoBehaviour
         Transform player = Instantiate(playerPrefab, RoomManager.instance.GetCurrentRoom().transform).transform;
         distort = player.GetChild(1).GetComponent<SpriteRenderer>();
         portalDistort = GameObject.FindGameObjectWithTag("distort").GetComponent<SpriteRenderer>();
+        playerGO = player.gameObject;
+
+        UIManager.instance.playerGO = playerGO;
+        UIManager.instance.playerScript = playerGO.GetComponent<PlayerMovement>();
     }
 
     private void Update()

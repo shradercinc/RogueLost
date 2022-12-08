@@ -17,9 +17,20 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject stamina_UI;
     [SerializeField]
-    private GameObject minimap_UI;
+    private GameObject minimap_room_UI;
     [SerializeField]
-    private GameObject ammo_UI;
+    private TextMeshProUGUI ammo_UI;
+
+    [SerializeField]
+    private GameObject room_UI_Prefab;
+    private ArrayList minimapRooms;
+
+
+    [HideInInspector]
+    public GameObject playerGO;
+    [HideInInspector]
+    public PlayerMovement playerScript;
+
 
     //all possible messages, do not modify order, only add messages
     private string[] messages = {
@@ -45,23 +56,22 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        //minimap
-        // startLoc.x = playerIcon.GetComponent<RectTransform>().position.x;
-        // startLoc.y = playerIcon.GetComponent<RectTransform>().position.y;
-
-        // //ammo
-        // ammoStack = new Stack<GameObject>();
-        // GenerateAmmo();
-        // HideInstructionText();
-
         //chat
         chat = new string[3];
         chat[0] = messages[2];
         chat[1] = messages[3];
-        chat[2] = messages[1];
+        chat[2] = string.Format(messages[1], GameManager.instance.TotalFoundPillars(), "_N/A_");
         SetChat();
 
         blood_UI.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        ammo_UI.text = "6 • 12";
+
+        minimapRooms = new ArrayList();
+    }
+
+    private void Update()
+    {
+        UpdateStaminaBar();
     }
 
     //update chat ui
@@ -146,27 +156,56 @@ public class UIManager : MonoBehaviour
 
     public void UpdateStaminaBar()
     {
-        //go to 0
-        //lower opacity as it increases
-        //when refilled, full opacity
+        float percentage = (float)1f - playerScript.coolDownTimer / 1;
+        // Debug.Log("p: " + percentage);
+        if (percentage < 1)
+        {
+            var color = stamina_UI.GetComponent<Image>().color;
+            color.a = 0.3f;
+            stamina_UI.GetComponent<Image>().color = color;
+            stamina_UI.transform.localScale = new Vector3(1f, percentage * 1f, 1f);
+        }
+        else if (percentage >= 1)
+        {
+            var color = stamina_UI.GetComponent<Image>().color;
+            color.a = 1f;
+            stamina_UI.GetComponent<Image>().color = color;
+            stamina_UI.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 
     public void UpdateMinimap()
     {
+        //clear old rooms
+        foreach (GameObject room in minimapRooms)
+        {
+            Destroy(room);
+        }
+
+        //offset (x: 87, y: 42) lol wtf why doesn't it match help me
+        Coords currentCoords = RoomManager.instance.GetCurrentRoom().roomCoords;
+        foreach ((int, int) coord in RoomManager.instance.foundRooms.Keys)
+        {
+            // Debug.Log(coord);
+            var roomMapIcon = Instantiate(room_UI_Prefab, minimap_room_UI.transform);
+            // roomMapIcon.transform.position = new Vector3(0f + currentCoords.x * 64f, 0f + currentCoords.y * 30f, 0f);
+            // roomMapIcon.transform.position = new Vector3(0f + coord.Item1 * 64f, 0f + coord.Item2 * 30f, 0f);
+            roomMapIcon.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0f + coord.Item1 * 87f, 0f + coord.Item2 * 42f, 0f);
+            minimapRooms.Add(roomMapIcon);
+        }
+
+        minimap_room_UI.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0f - currentCoords.x * 87f, 0f - currentCoords.y * 42f, 0f);
+
         //change position of map
         //load in room if new and not currently loaded
         //draw in blocked exits
         //draw relavent information
     }
 
-    public void GenerateAmmo()
-    {
-
-    }
-
     public void UpdateAmmo()
     {
-
+        var str = playerGO.GetComponent<Firing>().GetClip() + " • " + playerGO.GetComponent<Firing>().GetLeftoverAmmo();
+        ammo_UI.text = str;
     }
 
 

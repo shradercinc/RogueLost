@@ -43,6 +43,9 @@ public class RoomManager : MonoBehaviour
     //dictionary for all the room objects
     private Dictionary<(int, int), Room> rooms;
 
+    //for minimap
+    public Dictionary<(int, int), Room> foundRooms;
+
     //list for which rooms have which exits
     private List<Room> northDoorRooms;
     private List<Room> southDoorRooms;
@@ -69,6 +72,7 @@ public class RoomManager : MonoBehaviour
         westDoorRooms = new List<Room>();
 
         rooms = new Dictionary<(int, int), Room>();
+        foundRooms = new Dictionary<(int, int), Room>();
         currCoords = new Coords(0, 0);
         prevCoords = new Coords(0, 0);
         roomGrid = new int[maxGridX, maxGridY];
@@ -80,7 +84,6 @@ public class RoomManager : MonoBehaviour
         GenerateRooms();
 
         GameManager.instance.CreatePlayer();
-        // UIManager.instance.UpdateMinimap(currCoords);
         // Debug.Log(currCoords.x + ", " + currCoords.y);
     }
 
@@ -196,19 +199,6 @@ public class RoomManager : MonoBehaviour
         tempCoords.Remove(exitCoords.x + "," + exitCoords.y);
     }
 
-    // make room data
-    // private void GenerateRoomData()
-    // {
-    //     for (int i = 0; i < roomNo + 1; i++)
-    //     {
-    //         RoomData data = new RoomData(i);
-    //         // data.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-    //         //add enemies
-    //         //add obstacles
-    //         roomInfo.Add(i, data);
-    //     }
-    // }
-
     public Room GetStartingRoom()
     {
         return rooms[(startingCoords.x, startingCoords.y)];
@@ -223,7 +213,11 @@ public class RoomManager : MonoBehaviour
     {
         prevCoords = currCoords;
         currCoords = coords;
-        // UIManager.instance.UpdateMinimap(coords);
+
+        //for minimap
+        if (!foundRooms.ContainsKey((currCoords.x, currCoords.y)))
+            foundRooms.Add((currCoords.x, currCoords.y), GetCurrentRoom());
+        UIManager.instance.UpdateMinimap();
     }
 
     public Room GetPreviousRoom()
@@ -246,6 +240,8 @@ public class RoomManager : MonoBehaviour
                     if (roomGrid[i, j] == (int)RoomState.start) //make starting room
                     {
                         room = Instantiate(roomPrefabs[0], new Vector3(i * 18, 0, j * 11), Quaternion.identity).GetComponent<Room>();
+                        foundRooms.Add((i, j), room); //set starting room on minimap
+                        // UIManager.instance.UpdateMinimap();
                     }
                     else if (roomGrid[i, j] >= (int)RoomState.blue && roomGrid[i, j] <= (int)RoomState.purple)
                     {

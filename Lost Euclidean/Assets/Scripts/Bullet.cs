@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
     {
         pl = GameObject.FindGameObjectWithTag("Player");
         cam = Camera.main;
-        mPos = Input.mousePosition;   
+        mPos = Input.mousePosition;
         pos = GetComponent<Transform>();
         var pPos = cam.WorldToScreenPoint(pl.transform.position);
         //Debug.Log(mPos + "|" + pPos + "|" + Input.mousePosition);
@@ -33,7 +33,7 @@ public class Bullet : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(dir);
         rb = GetComponent<Rigidbody>();
         rb.velocity = dir * speed;
-        Debug.Log("V=" + rb.velocity);
+        // Debug.Log("V=" + rb.velocity);
 
         deathT = 3;
     }

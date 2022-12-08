@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class Firing : MonoBehaviour
 {
-    private int ammo = 10;
+    private int ammo = 12;
     public float inaccuracy = 15;
     public float fireR = 0.5f;
     public float fireT = 0.5f;
     private Transform pos;
     public GameObject Bullet;
-    public float clipSize = 6;
+    public int clipSize = 6;
     public float reloadSpeed = 2;
-    private float clip = 6;
+    private int clip = 6;
     public float reload = 0;
     private Vector3 mPos;
     private Quaternion target;
     [SerializeField] private Animator roguebanim;
     [SerializeField] private Animator rogueanim;
     private bool reloading = false;
+    private int leftoverAmmo;
 
     // Start is called before the first frame update
     void Start()
@@ -28,11 +29,13 @@ public class Firing : MonoBehaviour
         GameManager.instance.bulletAmount = ammo;
         reload = 0;
         clip = clipSize;
+        leftoverAmmo = ammo - clip;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Debug.Log(clip + ", " + leftoverAmmo);
         mPos = Input.mousePosition;
         fireT += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Mouse0) && fireT > fireR && ammo > 0 && clip > 0)
@@ -44,8 +47,9 @@ public class Firing : MonoBehaviour
             clip--;
             // UIManager.instance.UpdateAmmo();
             roguebanim.SetBool("Shoot", true);
-            print(clip + "/" + clipSize);
-            print("Ammo = " + ammo);
+            UIManager.instance.UpdateAmmo();
+            // print(clip + "/" + clipSize);
+            // print("Ammo = " + ammo);
         }
         else
         {
@@ -54,17 +58,43 @@ public class Firing : MonoBehaviour
         }
 
         reload -= Time.deltaTime;
-        if ((clip <= 0 || (Input.GetKeyDown(KeyCode.R)) && clip < clipSize) && reloading == false)
+        if (((Input.GetKeyDown(KeyCode.R)) && clip < clipSize) && reloading == false)
         {
             reloading = true;
             reload = reloadSpeed;
-            print("Reloading!");
+            // UIManager.instance.UpdateAmmo();
+            // print("Reloading!");
         }
         if (reloading == true && reload < 0)
         {
             reloading = false;
-            clip = clipSize;
-            print("Ready to go!");
+            if (ammo > clipSize)
+                clip = clipSize;
+            else
+                clip = ammo;
+
+            leftoverAmmo = ammo - clip;
+            UIManager.instance.UpdateAmmo();
+            // print("Ready to go!");
         }
     }
+
+    //get total ammo left
+    public int GetAmmo()
+    {
+        return ammo;
+    }
+
+    //get amount of bullets in clip
+    public int GetClip()
+    {
+        return clip;
+    }
+
+    //get leftover ammo 
+    public int GetLeftoverAmmo()
+    {
+        return leftoverAmmo;
+    }
+
 }

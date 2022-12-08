@@ -115,8 +115,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Rolling == true)
         {
-            print("Z =" + direct.z / Mathf.Abs(direct.z)); 
-            print("X =" + direct.x / Mathf.Abs(direct.x));
+            // print("Z =" + direct.z / Mathf.Abs(direct.z));
+            // print("X =" + direct.x / Mathf.Abs(direct.x));
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
             rb.velocity += transform.forward * XInput * (running == false ? WalkSpeed : RunSpeed);
             rb.velocity += transform.right * ZInput * (running == false ? WalkSpeed : RunSpeed);
