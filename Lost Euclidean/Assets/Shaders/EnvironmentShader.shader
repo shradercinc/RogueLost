@@ -41,7 +41,7 @@ Shader "Custom/EnvironmentShader"
             // might be UnityLightingCommon.cginc for later versions of unity
             #include"UnityLightingCommon.cginc"
 
-            #pragma multi_compile_fwdbase
+            #pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
             #include "AutoLight.cginc"
 
             #define DIFFUSE_MIP_LEVEL 5
@@ -214,7 +214,6 @@ Shader "Custom/EnvironmentShader"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile POINT SPOT
             #pragma multi_compile_fwdadd_fullshadows
             
             #include "UnityCG.cginc"

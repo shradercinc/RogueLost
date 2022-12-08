@@ -9,7 +9,7 @@ Shader "Unlit/RoomDistortShader"
     }
     SubShader
     {
-        Tags {"RenderType"="Transparent" "Queue"="Transparent"}
+        Tags {"LightMode"="ForwardBase" "RenderType"="Transparent" "Queue"="Transparent"}
         
         GrabPass {
             "_BackgroundTex"
@@ -49,12 +49,14 @@ Shader "Unlit/RoomDistortShader"
             {
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
+                float4 screenPos : TEXCOORD1;
             };
 
             Interpolators vert (MeshData v)
             {
                 Interpolators o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
+                o.screenPos = ComputeScreenPos(o.vertex);
                 o.uv = v.uv;
                 return o;
             }
@@ -65,15 +67,20 @@ Shader "Unlit/RoomDistortShader"
 
                 float3 color = 0; //tex2D(_BackgroundTex, uv);
 
+                float2 screenUV = i.screenPos.xy / i.screenPos.w;
+
                 float2 uvRange = frac(uv * _Resolution)/_Resolution;
                 
-                float2 wn = frac(rand(floor(uv * _Resolution)) + rand(uv * 80)/_Resolution + _Time.y / 2);
+                float2 wn = frac(rand(floor(uv * _Resolution)) +  _Time.y / 2); // rand(uv * 80)/_Resolution +
                 float a = step(0.8f, wn);
                 wn = smoothstep(0.8f, 1, wn);
                 
-                float3 distort = tex2D(_BackgroundTex, wn + uvRange);
+                float3 distort = tex2D(_BackgroundTex, screenUV + (1-wn));
+                //float3 distort = tex2D(_BackgroundTex, screenUV);
+
+                //use a render texture so that we have interesting things to look at.
                 
-                color = lerp(color, lerp(distort, _Color, step(wn.x, 0.5f)), a);
+                color = lerp(0, lerp(distort, _Color, step(wn.x, 0.5f)), a);
                 
 
                 return float4(color, a);
