@@ -182,24 +182,39 @@ public class UIManager : MonoBehaviour
             Destroy(room);
         }
 
-        //offset (x: 87, y: 42) lol wtf why doesn't it match help me
+        //offset (x: 87, y: 42)
         Coords currentCoords = RoomManager.instance.GetCurrentRoom().roomCoords;
         foreach ((int, int) coord in RoomManager.instance.foundRooms.Keys)
         {
-            // Debug.Log(coord);
             var roomMapIcon = Instantiate(room_UI_Prefab, minimap_room_UI.transform);
-            // roomMapIcon.transform.position = new Vector3(0f + currentCoords.x * 64f, 0f + currentCoords.y * 30f, 0f);
-            // roomMapIcon.transform.position = new Vector3(0f + coord.Item1 * 64f, 0f + coord.Item2 * 30f, 0f);
             roomMapIcon.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0f + coord.Item1 * 87f, 0f + coord.Item2 * 42f, 0f);
             minimapRooms.Add(roomMapIcon);
+            UI_MinimapRoom roomDetail = roomMapIcon.GetComponent<UI_MinimapRoom>();
+            if (RoomManager.instance.foundRooms[coord].nsewExits.north)
+            {
+                roomDetail.topWall.SetActive(false);
+            }
+
+            if (RoomManager.instance.foundRooms[coord].nsewExits.south)
+            {
+                roomDetail.botWall.SetActive(false);
+            }
+
+            if (RoomManager.instance.foundRooms[coord].nsewExits.east)
+            {
+                roomDetail.rightWall.SetActive(false);
+            }
+
+            if (RoomManager.instance.foundRooms[coord].nsewExits.west)
+            {
+                roomDetail.leftWall.SetActive(false);
+            }
+            if (RoomManager.instance.CheckIfHasPillar(coord.Item1, coord.Item2))
+            {
+                roomDetail.generator.SetActive(true);
+            }
         }
-
         minimap_room_UI.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0f - currentCoords.x * 87f, 0f - currentCoords.y * 42f, 0f);
-
-        //change position of map
-        //load in room if new and not currently loaded
-        //draw in blocked exits
-        //draw relavent information
     }
 
     public void UpdateAmmo()
@@ -207,77 +222,4 @@ public class UIManager : MonoBehaviour
         var str = playerGO.GetComponent<Firing>().GetClip() + " • " + playerGO.GetComponent<Firing>().GetLeftoverAmmo();
         ammo_UI.text = str;
     }
-
-
-    // public void SetInstructionText(string str)
-    // {
-    //     instructionText.GetComponent<TextMeshProUGUI>().text = str;
-    //     instructionText.SetActive(true);
-    // }
-
-    // public void HideInstructionText()
-    // {
-    //     instructionText.SetActive(false);
-    // }
-
-    // public void GenerateAmmo()
-    // {
-    //     for (int i = 0; i < GameManager.instance.bulletAmount; i++)
-    //     {
-    //         float offset = 0f;
-    //         if (i / 5 > 0)
-    //         {
-    //             offset = (i / 5) * 5f;
-    //         }
-
-    //         GameObject ammo = Instantiate(ammoPrefab, ammoUI.transform);
-    //         Vector3 pain = new Vector3(ammoUI.GetComponent<RectTransform>().transform.position.x, ammoUI.GetComponent<RectTransform>().transform.position.y - (15f * i) - offset, ammoUI.GetComponent<RectTransform>().transform.position.z);
-    //         //            Debug.Log(pain);
-    //         ammo.GetComponent<RectTransform>().position = pain;
-    //         ammoStack.Push(ammo);
-    //     }
-    // }
-
-    // public void UpdateAmmo()
-    // {
-    //     GameObject ammo = ammoStack.Pop();
-    //     Destroy(ammo);
-    // }
-
-    // //call to change player location on minimap
-    // public void UpdateMinimap(Coords coords)
-    // {
-    //     playerIcon.GetComponent<RectTransform>().position = new Vector3(startLoc.x + (48 * coords.x), startLoc.y + (48 * coords.y), 0f);
-    //     //playerIcon.GetComponent<RectTransform>().position = new Vector3(startLoc.x + (66 * coords.x), startLoc.y + (66 * coords.y), 0f);
-    // }
-
-    // public void UpdateHealthBar(int newHealth)
-    // {
-    //    // Debug.Log(newHealth);
-    //     //lower healthbar
-    //     float percentage = (float)newHealth / GameManager.instance.totalHealth;
-    //     Debug.Log("p: "+percentage);
-    //     if (percentage <= 0)
-    //     {
-    //         healthBar.SetActive(false);
-    //     }
-    //     else
-    //     {
-    //         healthBar.transform.localScale = new Vector3(percentage * 1f, 1f, 1f);
-    //     }
-    // }
-
-    // public void UpdateStaminaBar(float newStamina)
-    // {
-    //     float percentage = (float)newStamina / GameManager.instance.totalStamina;
-    //     //Debug.Log("p: "+percentage);
-    //     if (percentage <= 0)
-    //     {
-    //         staminaBar.SetActive(false);
-    //     }
-    //     else
-    //     {
-    //         staminaBar.transform.localScale = new Vector3(percentage * 1f, 1f, 1f);
-    //     }
-    // }
 }
