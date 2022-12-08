@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode, ImageEffectAllowedInSceneView]
+[ImageEffectAllowedInSceneView]
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private Material postProcessing;
