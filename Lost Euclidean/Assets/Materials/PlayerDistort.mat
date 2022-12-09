@@ -28,8 +28,8 @@ Material:
     m_Floats:
     - _Resolution: 5.76
     m_Colors:
-    - _PillarColor0: {r: 0.3679245, g: 0.123523764, b: 0.04634458, a: 1}
-    - _PillarColor1: {r: 0.3301887, g: 0.10077606, b: 0.19048226, a: 1}
-    - _PillarColor2: {r: 0.16906223, g: 0.47704858, b: 0.6320754, a: 1}
-    - _PillarColor3: {r: 0.2020313, g: 0.3490566, b: 0.23374265, a: 1}
+    - _PillarColor0: {r: 0.5660378, g: 0.10672001, b: 0.092659265, a: 1}
+    - _PillarColor1: {r: 0.28235295, g: 0.074239954, b: 0, a: 1}
+    - _PillarColor2: {r: 0.16462865, g: 0.5566038, b: 0.5136476, a: 1}
+    - _PillarColor3: {r: 0.0815094, g: 0.4245283, b: 0.1556756, a: 1}
   m_BuildTextureStacks: []
