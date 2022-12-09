@@ -189,9 +189,9 @@ public class Room : MonoBehaviour
                 break;
             default:
                 Vector3 roomPos1 = gameObject.transform.position;
-                var ex = Random.Range(-4f, 4f);
-                var ez = Random.Range(-7f, 7f);
-                var enemy = Instantiate(obstaclePrefabs[4], new Vector3(roomPos1.x + ex, roomPos1.y, roomPos1.z + ez), Quaternion.identity);
+                var ez = Random.Range(-3, 4);
+                var ex = Random.Range(-6, 7);
+                var enemy = Instantiate(obstaclePrefabs[4], roomPos1 + grid.GetCellCenterLocal(new Vector3Int(ex, ez, 0)), Quaternion.identity);
                 enemy.GetComponent<Enemy>().hx = ex;
                 enemy.GetComponent<Enemy>().hz = ez;
                 enemy.GetComponent<Enemy>().location = roomCoords;
