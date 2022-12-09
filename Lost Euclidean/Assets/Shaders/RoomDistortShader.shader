@@ -78,7 +78,6 @@ Shader "Unlit/RoomDistortShader"
                 wn = smoothstep(0.75f, 1, wn);
                 
                 float3 distort = tex2D(_BackgroundTex, frac(screenUV + (1-wn)));
-                //float3 distort = tex2D(_BackgroundTex, screenUV);
 
                 //use a render texture so that we have interesting things to look at.
                 
