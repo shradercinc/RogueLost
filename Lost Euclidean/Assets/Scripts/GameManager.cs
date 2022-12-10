@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
     // public bool hasGun;
     public bool isTeleporting = true;
     public int bulletAmount = 25;
-    public int totalHealth = 5;
+    [HideInInspector]
+    public int totalHealth = 3;
     public float totalStamina = 3;
 
     public SpriteRenderer distort;
@@ -42,6 +43,8 @@ public class GameManager : MonoBehaviour
 
         UIManager.instance.playerGO = playerGO;
         UIManager.instance.playerScript = playerGO.GetComponent<PlayerMovement>();
+        UIManager.instance.stamina_bar_UI = playerGO.GetComponent<PlayerMovement>().staminaBar;
+        UIManager.instance.stamina_charge_UI = playerGO.GetComponent<PlayerMovement>().staminaCharge;
     }
 
     private void Update()

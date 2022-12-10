@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private float StaminaMax = 3;
     private float Stamina;
-    private int Health = 5; //set in game manager
+    private int Health = 3; //set in game manager
     private bool exhausted;
     private float exhaustedT = 0;
     public float WalkSpeed;
@@ -43,8 +43,10 @@ public class PlayerMovement : MonoBehaviour
     private float _dripTimer;
     private int _bleeds;
     [SerializeField] private GameObject drip;
+    public GameObject staminaBar;
+    public GameObject staminaCharge;
 
-
+    public float healTimer = 0f;
 
     void Start()
     {
@@ -89,7 +91,6 @@ public class PlayerMovement : MonoBehaviour
                 //decreases health, flash blood effect, sets canHit to false redundantly, resets the enemy reload    
                 Health--;
                 _bleeds = (GameManager.instance.totalHealth - Health) * 10;
-                UIManager.instance.FlashBlood();
                 UIManager.instance.UIDamageMessage(Health);
                 enemy.canHit = false;
                 enemy.reload = enemy.hitSpeed;
@@ -99,6 +100,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Health < GameManager.instance.totalHealth)
+        {
+            healTimer += Time.deltaTime;
+            // Debug.Log(Health + ", " + healTimer);
+            if (healTimer >= 20) //20 seconds to heal 1 health back
+            {
+                // Debug.Log("HEALED");
+                Health++;
+                healTimer = 0f;
+                if (Health == GameManager.instance.totalHealth)
+                {
+                    UIManager.instance.UIDamageMessage(Health);
+                }
+            }
+        }
+
         if (Health <= 0)
         {
             this.gameObject.SetActive(false);
@@ -158,6 +175,7 @@ public class PlayerMovement : MonoBehaviour
             Rolling = true;
             direct = rb.velocity;
             coolDownTimer = coolDown;
+            UIManager.instance.SetStaminaBarActive();
         }
         if (Rolling == true)
         {
