@@ -164,24 +164,28 @@ public class Room : MonoBehaviour
                 blue.GetComponent<Pillar>().state = RoomManager.RoomState.blue;
                 blue.transform.GetChild(1).GetComponent<Light>().color = GameManager.instance.colorsPillar[0];
                 blue.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[0]);
+                blue.transform.GetChild(3).GetComponent<MeshRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[0]);
                 break;
             case RoomManager.RoomState.purple:
                 var purple = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 purple.GetComponent<Pillar>().state = RoomManager.RoomState.purple;
                 purple.transform.GetChild(1).GetComponent<Light>().color = GameManager.instance.colorsPillar[2];
                 purple.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[2]);
+                purple.transform.GetChild(3).GetComponent<MeshRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[2]);
                 break;
             case RoomManager.RoomState.yellow:
                 var yellow = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 yellow.GetComponent<Pillar>().state = RoomManager.RoomState.yellow;
                 yellow.transform.GetChild(1).GetComponent<Light>().color = GameManager.instance.colorsPillar[1];
                 yellow.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[1]);
+                yellow.transform.GetChild(3).GetComponent<MeshRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[1]);
                 break;
             case RoomManager.RoomState.green:
                 var green = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 green.GetComponent<Pillar>().state = RoomManager.RoomState.green;
                 green.transform.GetChild(1).GetComponent<Light>().color = GameManager.instance.colorsPillar[3];
                 green.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[3]);
+                green.transform.GetChild(3).GetComponent<MeshRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[3]);
                 break;
             case RoomManager.RoomState.exit:
                 break;

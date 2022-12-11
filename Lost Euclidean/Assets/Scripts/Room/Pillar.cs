@@ -27,10 +27,10 @@ public class Pillar : MonoBehaviour
             {
                 timer = 0;
                 chargeTimer++;
-                
+
                 UIManager.instance.UIDisablingGeneratorMessage();
             }
-            chargeRing.material.SetFloat(Fill, ((float)(chargeTimer) + (timer))/disableTime);
+            chargeRing.material.SetFloat(Fill, ((float)(chargeTimer) + (timer)) / disableTime);
             if (chargeTimer == disableTime)
             {
                 UIManager.instance.UIDisablingGeneratorMessage();
@@ -85,9 +85,12 @@ public class Pillar : MonoBehaviour
         // Debug.Log("HERE");
         if (other.CompareTag("Player"))
         {
-            charging = true;
-            UIManager.instance.UIDisablingGeneratorMessage();
-            UIManager.instance.currentPillar = this;
+            if (!disabled)
+            {
+                charging = true;
+                UIManager.instance.UIDisablingGeneratorMessage();
+                UIManager.instance.currentPillar = this;
+            }
         }
     }
 
@@ -95,10 +98,13 @@ public class Pillar : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            charging = false;
-            chargeTimer = 0;
-            timer = 0;
-            UIManager.instance.UIStopDisablingMessage();
+            if (!disabled)
+            {
+                charging = false;
+                chargeTimer = 0;
+                timer = 0;
+                UIManager.instance.UIStopDisablingMessage();
+            }
         }
     }
 

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Text;
 using System.Text.RegularExpressions;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,12 +15,15 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI chatbox_UI;
     [SerializeField]
     private GameObject blood_UI;
-    [SerializeField]
-    private GameObject stamina_UI;
+
+    public GameObject stamina_bar_UI; //for game manager to set
+    public GameObject stamina_charge_UI; //for game manager to set
     [SerializeField]
     private GameObject minimap_room_UI;
     [SerializeField]
     private TextMeshProUGUI ammo_UI;
+    [SerializeField]
+    private TextMeshProUGUI bigText_UI;
 
     [SerializeField]
     private GameObject room_UI_Prefab;
@@ -33,21 +37,46 @@ public class UIManager : MonoBehaviour
     [HideInInspector]
     public Pillar currentPillar; //set when charging generator
 
+    private bool chargingStamina = false;
+    public bool start = true;
+    private int textIndex = 0;
+    public bool escape = false;
+    public bool die = false;
+
 
     //all possible messages, do not modify order, only add messages
     private string[] messages = {
-        "Disabling generator: {1}%.",
-        "{0}/4 generators found.",
-        "Mission: Disable all generators.", //mission message
-        "STOP THE ANOMALY.", //mission message
-        "Minor injury received.", //4 health
-        "Significant injury received.", //3 health
-        "Rapidly losing blood.", //2 health
-        "Vitals critical, SEEK AID.", //1 health
-        "Mission failed.", //death
-        "Generator disabled.",
-        "Stopped disabling generator."
+        "System: Disabling generator: {1}%.",
+        "System: {0}/4 generators found.",
+        "System: Mission - Disable all generators.", //mission message
+        "System: STOP THE ANOMALY.", //mission message
+        "System: Major injury received.", //2 health
+        "System: Rapidly losing blood.", //1 health
+        "System: Vitals stable.", //full health
+        "System: Mission failed.", //death
+        "System: Generator disabled.",
+        "System: Stopped disabling generator."
         };
+
+    private string[] startText = {
+        "This is the Euclidean Wormhole Research lab.",
+        "Something has gone awry and it is you must fix the anomaly to escape.",
+        "Your communicator on the bottom left will give you vital information about the mission status as well as your own, use it well.",
+        "Turn off the generators that power the anomaly.",
+        "Escape through the portal in this room. Good luck.",
+        };
+
+    private string[] escapeText = {
+        "Congradulations on stopping the anomaly.",
+        "(Press space to try again.)"
+    };
+
+    private string[] dieText = {
+        "Mission failed...",
+        "(Press space to try again.)"
+    };
+
+
     private string[] chat;
 
     private Coroutine flashBlood;
@@ -74,7 +103,62 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateStaminaBar();
+        if (start)
+        {
+            bigText_UI.text = startText[textIndex];
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (textIndex + 1 < startText.Length)
+                {
+                    textIndex++;
+                }
+                else
+                {
+                    start = false;
+                    bigText_UI.gameObject.SetActive(false);
+                    textIndex = 0;
+                }
+            }
+        }
+
+        if (escape)
+        {
+            bigText_UI.gameObject.SetActive(true);
+            bigText_UI.text = escapeText[textIndex];
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (textIndex + 1 < escapeText.Length)
+                {
+                    textIndex++;
+                }
+                else
+                {
+                    escape = false;
+                    SceneManager.LoadScene(0);
+                }
+            }
+        }
+
+        if (die)
+        {
+            bigText_UI.gameObject.SetActive(true);
+            bigText_UI.text = dieText[textIndex];
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (textIndex + 1 < dieText.Length)
+                {
+                    textIndex++;
+                }
+                else
+                {
+                    die = false;
+                    SceneManager.LoadScene(0);
+                }
+            }
+        }
+
+        if (chargingStamina)
+            UpdateStaminaBar();
     }
 
     //update chat ui
@@ -97,24 +181,25 @@ public class UIManager : MonoBehaviour
         SetChat();
     }
 
-    public void UIDamageMessage(int Health)
+    public void UIDamageMessage(int health)
     {
-        switch (Health)
+        // Debug.Log(health);
+        switch (health)
         {
-            case 4:
-                UpdateChatMessage(4);
-                break;
             case 3:
-                UpdateChatMessage(5);
-                break;
-            case 2:
                 UpdateChatMessage(6);
                 break;
+            case 2:
+                UpdateChatMessage(4);
+                UIManager.instance.FlashBlood(health);
+                break;
             case 1:
-                UpdateChatMessage(7);
+                UpdateChatMessage(5);
+                UIManager.instance.FlashBlood(health);
                 break;
             case 0:
-                UpdateChatMessage(8);
+                UpdateChatMessage(7);
+                UIManager.instance.FlashBlood(health);
                 break;
         }
     }
@@ -126,12 +211,12 @@ public class UIManager : MonoBehaviour
 
     public void UIStopDisablingMessage()
     {
-        UpdateChatMessage(10);
+        UpdateChatMessage(9);
     }
 
     public void UIFoundGeneratorsMessage()
     {
-        UpdateChatMessage(9);
+        UpdateChatMessage(8);
         UpdateChatMessage(1);
     }
 
@@ -142,14 +227,17 @@ public class UIManager : MonoBehaviour
     }
 
     //flash UI blood effect
-    public void FlashBlood()
+    private void FlashBlood(int health)
     {
         if (flashBlood != null)
         {
             StopCoroutine(flashBlood);
         }
-        blood_UI.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        flashBlood = StartCoroutine(FadeImage(blood_UI.GetComponent<Image>()));
+        if (health != 1) //flash doen't happen if 1 hp
+        {
+            blood_UI.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            flashBlood = StartCoroutine(FadeImage(blood_UI.GetComponent<Image>()));
+        }
     }
 
     //blood fade
@@ -159,11 +247,16 @@ public class UIManager : MonoBehaviour
         // loop over 1 second backwards
         for (float i = 1; i >= 0; i -= Time.deltaTime / 4)
         {
-            // Debug.Log(i);
             // set color with i as alpha
             img.color = new Color(1, 1, 1, i);
             yield return null;
         }
+    }
+
+    public void SetStaminaBarActive()
+    {
+        stamina_bar_UI.SetActive(true);
+        chargingStamina = true;
     }
 
     public void UpdateStaminaBar()
@@ -172,17 +265,15 @@ public class UIManager : MonoBehaviour
         // Debug.Log("p: " + percentage);
         if (percentage < 1)
         {
-            var color = stamina_UI.GetComponent<Image>().color;
+            var color = stamina_charge_UI.GetComponent<SpriteRenderer>().color;
             color.a = 0.3f;
-            stamina_UI.GetComponent<Image>().color = color;
-            stamina_UI.transform.localScale = new Vector3(1f, percentage * 1f, 1f);
+            stamina_charge_UI.GetComponent<SpriteRenderer>().color = color;
+            stamina_charge_UI.transform.localScale = new Vector3(0.8f, percentage * 0.7f, 1f);
         }
         else if (percentage >= 1)
         {
-            var color = stamina_UI.GetComponent<Image>().color;
-            color.a = 1f;
-            stamina_UI.GetComponent<Image>().color = color;
-            stamina_UI.transform.localScale = new Vector3(1f, 1f, 1f);
+            chargingStamina = false;
+            stamina_bar_UI.SetActive(false);
         }
     }
 

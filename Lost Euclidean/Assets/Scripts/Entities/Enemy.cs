@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public Rigidbody rb;
     public Transform pos;
     private GameObject pl;
-    
+
     private AudioSource aud;
     [SerializeField] private AudioClip[] stepSounds;
     [SerializeField] private float stepRate = 0.35f;
@@ -98,8 +98,8 @@ public class Enemy : MonoBehaviour
                 //functional movement code
                 if (react <= 0)
                 {
-                    print("Distance to player" + distance);
-                    print("volume = " + aud.volume);
+                    // print("Distance to player" + distance);
+                    // print("volume = " + aud.volume);
 
                     stepTimer -= Time.deltaTime;
                     if (stepTimer <= 0)
