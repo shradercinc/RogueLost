@@ -2292,6 +2292,7 @@ MonoBehaviour:
   ammo_UI: {fileID: 998868594}
   bigText_UI: {fileID: 30515630}
   room_UI_Prefab: {fileID: 7787444432656779617, guid: 4328e8f760d8e4d43b1cb6f054aa8e92, type: 3}
+  glitchEffect: {fileID: 1417205732}
   playerGO: {fileID: 0}
   playerScript: {fileID: 0}
   currentPillar: {fileID: 0}
