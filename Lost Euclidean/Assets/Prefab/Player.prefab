@@ -563,7 +563,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7012652862185953311
 Transform:
   m_ObjectHideFlags: 0
@@ -1257,6 +1257,7 @@ MonoBehaviour:
   reload: 0
   roguebanim: {fileID: 6405708735679648389}
   rogueanim: {fileID: 4236206648676814201}
+  muzzleFlash: {fileID: 5408512743556992430}
   ReloadPlayer: {fileID: 7186972560313860778}
   reloadSound: {fileID: 8300000, guid: 582112647fb61e54ebb4d65759bd76ef, type: 3}
   fireSound: {fileID: 8300000, guid: 263f5e59320abb947b8d09a38a614b49, type: 3}
@@ -1466,7 +1467,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2378786334815136506
 Transform:
   m_ObjectHideFlags: 0

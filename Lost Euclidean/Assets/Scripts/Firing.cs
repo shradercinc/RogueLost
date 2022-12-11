@@ -18,12 +18,15 @@ public class Firing : MonoBehaviour
     private Quaternion target;
     [SerializeField] private Animator roguebanim;
     [SerializeField] private Animator rogueanim;
+    [SerializeField] private GameObject muzzleFlash;
     [SerializeField] private AudioSource ReloadPlayer;
     [SerializeField] private AudioClip reloadSound;
     [SerializeField] private AudioClip fireSound;
     private AudioSource aud;
     private bool reloading = false;
     private int leftoverAmmo;
+
+    private int muzzleFlashFrames = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +56,8 @@ public class Firing : MonoBehaviour
             clip--;
             // UIManager.instance.UpdateAmmo();
             roguebanim.SetBool("Shoot", true);
+            muzzleFlash.SetActive(true);
+            muzzleFlashFrames = 3;
             UIManager.instance.UpdateAmmo();
             // print(clip + "/" + clipSize);
             // print("Ammo = " + ammo);
@@ -61,6 +66,12 @@ public class Firing : MonoBehaviour
         {
 
             roguebanim.SetBool("Shoot", false);
+            muzzleFlashFrames--;
+            if (muzzleFlashFrames <= 0)
+            {
+                muzzleFlash.SetActive(false);
+            }
+            
         }
 
         reload -= Time.deltaTime;
