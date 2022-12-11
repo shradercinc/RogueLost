@@ -122,15 +122,18 @@ Shader "Unlit/UIGlitch"
                 float2 screenUV = i.screenPos.xy / i.screenPos.w;
                 screenUV *= _ScreenParams.x / _ScreenParams.y;
 
-                float xShift = 0.15f * fractal_noise(float2 (floor(screenUV.y * _Resolution * 20),  _Time.y * 3));
+                float xShift = 0.15f * fractal_noise(float2 (floor(screenUV.y * _Resolution * 20),  floor(_Time.y * 3)));
                 
                 float strength = step(fractal_noise(sin(_Time.y * 2) * 0.5f + 0.5f), 0.2);
 
                 xShift *= strength;
+
+                float2 noiseUV = screenUV;
+                noiseUV.x += xShift;
                 
-                float2 wn = frac(rand(floor(screenUV * _Resolution)) +  rand(floor(_Time.y))); // rand(uv * 80)/_Resolution +
+                float2 wn = frac(rand(floor(noiseUV * _Resolution)) +  rand(floor(_Time.y))); // rand(uv * 80)/_Resolution +
                 wn *= strength;
-                float a = step(0.75f, wn + xShift);
+                float a = step(0.75f, wn);
                 float scale0 = rand(sin(wn)) + 2;
                 float scale1 = rand(sin(wn)) + 2;
                 wn = smoothstep(0.75f, 1, wn);
