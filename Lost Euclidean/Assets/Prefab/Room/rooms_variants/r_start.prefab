@@ -2724,6 +2724,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: gate
       objectReference: {fileID: 0}
+    - target: {fileID: 4029442565026399516, guid: 8181cf9a0980cee4f976661456b45485, type: 3}
+      propertyPath: m_TagString
+      value: Exit
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8181cf9a0980cee4f976661456b45485, type: 3}
 --- !u!4 &1062092115932728273 stripped
@@ -2731,6 +2735,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2331730317568933496, guid: 8181cf9a0980cee4f976661456b45485, type: 3}
   m_PrefabInstance: {fileID: 3379590297793967529}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1805314330902753461 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4029442565026399516, guid: 8181cf9a0980cee4f976661456b45485, type: 3}
+  m_PrefabInstance: {fileID: 3379590297793967529}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1040250661455960165
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805314330902753461}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 200.00008, y: 73.782814, z: 200.00005}
+  m_Center: {x: -0.00001525879, y: 11.891394, z: 0.000003814698}
 --- !u!1001 &3529923436497852455
 PrefabInstance:
   m_ObjectHideFlags: 0

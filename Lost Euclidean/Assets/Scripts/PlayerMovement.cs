@@ -119,7 +119,9 @@ public class PlayerMovement : MonoBehaviour
         if (Health <= 0)
         {
             this.gameObject.SetActive(false);
-            SceneManager.LoadScene(2);
+            UIManager.instance.die = true;
+            rb.velocity = Vector3.zero;
+            // SceneManager.LoadScene(2);
         }
         if (Rolling == false)
         {
@@ -162,82 +164,85 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        if (Rolling == false)
+        if (!UIManager.instance.start && !UIManager.instance.escape && !UIManager.instance.die)
         {
-            coolDownTimer -= Time.deltaTime;
-            DTimer = 0;
-            ZInput = Input.GetAxis("Horizontal");
-            XInput = Input.GetAxis("Vertical");
-        }
-        //start dash
-        if (Input.GetKeyDown(KeyCode.Space) && coolDownTimer <= 0)
-        {
-            Rolling = true;
-            direct = rb.velocity;
-            coolDownTimer = coolDown;
-            UIManager.instance.SetStaminaBarActive();
-        }
-        if (Rolling == true)
-        {
-            DTimer += Time.deltaTime;
-            if (DTimer >= length)
+            if (Rolling == false)
             {
-                Rolling = false;
+                coolDownTimer -= Time.deltaTime;
+                DTimer = 0;
+                ZInput = Input.GetAxis("Horizontal");
+                XInput = Input.GetAxis("Vertical");
             }
-        }
-        /*
-        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && exhausted == false)
-        {
-            running = true;
-            Stamina -= Time.deltaTime;
-            // UIManager.instance.UpdateStaminaBar(Stamina);
-        }
-        else
-        {
-            running = false;
-            Stamina += Time.deltaTime;
-            // UIManager.instance.UpdateStaminaBar(Stamina);
-        }
-        */
-
-        if (Stamina <= 0)
-        {
-            exhausted = true;
-            exhaustedT = StaminaMax;
-        }
-        if (Stamina >= StaminaMax)
-        {
-            Stamina = StaminaMax;
-            // UIManager.instance.UpdateStaminaBar(Stamina);
-        }
-        if (exhausted == true)
-        {
-            exhaustedT -= Time.deltaTime;
-            if (exhaustedT <= 0)
+            //start dash
+            if (Input.GetKeyDown(KeyCode.Space) && coolDownTimer <= 0)
             {
-                exhausted = false;
+                Rolling = true;
+                direct = rb.velocity;
+                coolDownTimer = coolDown;
+                UIManager.instance.SetStaminaBarActive();
             }
-        }
-        rogueanim.SetFloat("xInput", XInput);
-        rogueanim.SetFloat("zInput", ZInput);
-        rogueanim.SetBool("run", running);
-        //Debug.Log(XInput);
-        if (Input.GetKey(KeyCode.A))
-        {
-            rogueanim.SetBool("Lstrafe", true);
-        }
-        else
-        {
-            rogueanim.SetBool("Lstrafe", false);
-        }
+            if (Rolling == true)
+            {
+                DTimer += Time.deltaTime;
+                if (DTimer >= length)
+                {
+                    Rolling = false;
+                }
+            }
+            /*
+            if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && exhausted == false)
+            {
+                running = true;
+                Stamina -= Time.deltaTime;
+                // UIManager.instance.UpdateStaminaBar(Stamina);
+            }
+            else
+            {
+                running = false;
+                Stamina += Time.deltaTime;
+                // UIManager.instance.UpdateStaminaBar(Stamina);
+            }
+            */
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            rogueanim.SetBool("Rstrafe", true);
-        }
-        else
-        {
-            rogueanim.SetBool("Rstrafe", false);
+            if (Stamina <= 0)
+            {
+                exhausted = true;
+                exhaustedT = StaminaMax;
+            }
+            if (Stamina >= StaminaMax)
+            {
+                Stamina = StaminaMax;
+                // UIManager.instance.UpdateStaminaBar(Stamina);
+            }
+            if (exhausted == true)
+            {
+                exhaustedT -= Time.deltaTime;
+                if (exhaustedT <= 0)
+                {
+                    exhausted = false;
+                }
+            }
+            rogueanim.SetFloat("xInput", XInput);
+            rogueanim.SetFloat("zInput", ZInput);
+            rogueanim.SetBool("run", running);
+            //Debug.Log(XInput);
+            if (Input.GetKey(KeyCode.A))
+            {
+                rogueanim.SetBool("Lstrafe", true);
+            }
+            else
+            {
+                rogueanim.SetBool("Lstrafe", false);
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                rogueanim.SetBool("Rstrafe", true);
+            }
+            else
+            {
+                rogueanim.SetBool("Rstrafe", false);
+            }
         }
     }
 
@@ -248,12 +253,15 @@ public class PlayerMovement : MonoBehaviour
             if (GameManager.instance.isTeleporting)
             {
                 //go to starting room
-                TeleportToCenter(RoomManager.instance.GetStartingRoom());
+                // TeleportToCenter(RoomManager.instance.GetStartingRoom());
             }
             else
             {
                 //end game
-                SceneManager.LoadScene(1);//end scene
+                // SceneManager.LoadScene(1);//end scene
+                UIManager.instance.escape = true;
+                this.gameObject.SetActive(false);
+                rb.velocity = Vector3.zero;
             }
         }
     }

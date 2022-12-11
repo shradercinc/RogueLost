@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Text;
 using System.Text.RegularExpressions;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class UIManager : MonoBehaviour
     private GameObject minimap_room_UI;
     [SerializeField]
     private TextMeshProUGUI ammo_UI;
+    [SerializeField]
+    private TextMeshProUGUI bigText_UI;
 
     [SerializeField]
     private GameObject room_UI_Prefab;
@@ -35,6 +38,11 @@ public class UIManager : MonoBehaviour
     public Pillar currentPillar; //set when charging generator
 
     private bool chargingStamina = false;
+    public bool start = true;
+    private int textIndex = 0;
+    public bool escape = false;
+    public bool die = false;
+
 
     //all possible messages, do not modify order, only add messages
     private string[] messages = {
@@ -49,6 +57,26 @@ public class UIManager : MonoBehaviour
         "System: Generator disabled.",
         "System: Stopped disabling generator."
         };
+
+    private string[] startText = {
+        "This is the Euclidean Wormhole Research lab.",
+        "Something has gone awry and it is you must fix the anomaly to escape.",
+        "Your communicator on the bottom left will give you vital information about the mission status as well as your own, use it well.",
+        "Turn off the generators that power the anomaly.",
+        "Escape through the portal in this room. Good luck.",
+        };
+
+    private string[] escapeText = {
+        "Congradulations on stopping the anomaly.",
+        "(Press space to try again.)"
+    };
+
+    private string[] dieText = {
+        "Mission failed...",
+        "(Press space to try again.)"
+    };
+
+
     private string[] chat;
 
     private Coroutine flashBlood;
@@ -75,6 +103,60 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        if (start)
+        {
+            bigText_UI.text = startText[textIndex];
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (textIndex + 1 < startText.Length)
+                {
+                    textIndex++;
+                }
+                else
+                {
+                    start = false;
+                    bigText_UI.gameObject.SetActive(false);
+                    textIndex = 0;
+                }
+            }
+        }
+
+        if (escape)
+        {
+            bigText_UI.gameObject.SetActive(true);
+            bigText_UI.text = escapeText[textIndex];
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (textIndex + 1 < escapeText.Length)
+                {
+                    textIndex++;
+                }
+                else
+                {
+                    escape = false;
+                    SceneManager.LoadScene(0);
+                }
+            }
+        }
+
+        if (die)
+        {
+            bigText_UI.gameObject.SetActive(true);
+            bigText_UI.text = dieText[textIndex];
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (textIndex + 1 < dieText.Length)
+                {
+                    textIndex++;
+                }
+                else
+                {
+                    die = false;
+                    SceneManager.LoadScene(0);
+                }
+            }
+        }
+
         if (chargingStamina)
             UpdateStaminaBar();
     }
@@ -109,15 +191,17 @@ public class UIManager : MonoBehaviour
                 break;
             case 2:
                 UpdateChatMessage(4);
+                UIManager.instance.FlashBlood(health);
                 break;
             case 1:
                 UpdateChatMessage(5);
+                UIManager.instance.FlashBlood(health);
                 break;
             case 0:
                 UpdateChatMessage(7);
+                UIManager.instance.FlashBlood(health);
                 break;
         }
-        UIManager.instance.FlashBlood(health);
     }
 
     public void UIDisablingGeneratorMessage()
