@@ -66,7 +66,6 @@ public class Firing : MonoBehaviour
         reload -= Time.deltaTime;
         if (((Input.GetKeyDown(KeyCode.R)) && clip < clipSize) && reloading == false)
         {
-            roguebanim.SetTrigger("Reload");
             ReloadPlayer.PlayOneShot(reloadSound);
             reloading = true;
             reload = reloadSpeed;
