@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
         if (bluePillar && yellowPillar && greenPillar && purplePillar && isTeleporting)
         {
             distort.gameObject.SetActive(false);
+            UIManager.instance.ToggleGlitch(false);
             isTeleporting = false;
             RoomManager.instance.TurnOffAllLights();
         }

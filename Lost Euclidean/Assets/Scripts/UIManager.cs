@@ -11,31 +11,24 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    [SerializeField]
-    private TextMeshProUGUI chatbox_UI;
-    [SerializeField]
-    private GameObject blood_UI;
+    [SerializeField] private TextMeshProUGUI chatbox_UI;
+    [SerializeField] private GameObject blood_UI;
 
     public GameObject stamina_bar_UI; //for game manager to set
     public GameObject stamina_charge_UI; //for game manager to set
-    [SerializeField]
-    private GameObject minimap_room_UI;
-    [SerializeField]
-    private TextMeshProUGUI ammo_UI;
-    [SerializeField]
-    private TextMeshProUGUI bigText_UI;
+    [SerializeField] private GameObject minimap_room_UI;
+    [SerializeField] private TextMeshProUGUI ammo_UI;
+    [SerializeField] private TextMeshProUGUI bigText_UI;
 
-    [SerializeField]
-    private GameObject room_UI_Prefab;
+    [SerializeField] private GameObject room_UI_Prefab;
     private ArrayList minimapRooms;
 
+    [SerializeField] private Image glitchEffect;
 
-    [HideInInspector]
-    public GameObject playerGO;
-    [HideInInspector]
-    public PlayerMovement playerScript;
-    [HideInInspector]
-    public Pillar currentPillar; //set when charging generator
+
+    [HideInInspector] public GameObject playerGO;
+    [HideInInspector] public PlayerMovement playerScript;
+    [HideInInspector] public Pillar currentPillar; //set when charging generator
 
     private bool chargingStamina = false;
     public bool start = true;
@@ -45,7 +38,8 @@ public class UIManager : MonoBehaviour
 
 
     //all possible messages, do not modify order, only add messages
-    private string[] messages = {
+    private string[] messages =
+    {
         "System: Disabling generator: {1}%.",
         "System: {0}/4 generators found.",
         "System: Mission - Disable all generators.", //mission message
@@ -56,22 +50,25 @@ public class UIManager : MonoBehaviour
         "System: Mission failed.", //death
         "System: Generator disabled.",
         "System: Stopped disabling generator."
-        };
+    };
 
-    private string[] startText = {
+    private string[] startText =
+    {
         "This is the Euclidean Wormhole Research lab.",
         "Something has gone awry and it is you must fix the anomaly to escape.",
         "Your communicator on the bottom left will give you vital information about the mission status as well as your own, use it well.",
         "Turn off the generators that power the anomaly.",
         "Escape through the portal in this room. Good luck.",
-        };
+    };
 
-    private string[] escapeText = {
+    private string[] escapeText =
+    {
         "Congradulations on stopping the anomaly.",
         "(Press space to try again.)"
     };
 
-    private string[] dieText = {
+    private string[] dieText =
+    {
         "Mission failed...",
         "(Press space to try again.)"
     };
@@ -97,6 +94,11 @@ public class UIManager : MonoBehaviour
 
         blood_UI.GetComponent<Image>().color = new Color(1, 1, 1, 0);
         ammo_UI.text = "6 • 12";
+
+        glitchEffect.material.SetColor("_Color0", GameManager.instance.colorsPillar[0]);
+        glitchEffect.material.SetColor("_Color1", GameManager.instance.colorsPillar[1]);
+        glitchEffect.material.SetColor("_Color2", GameManager.instance.colorsPillar[2]);
+        glitchEffect.material.SetColor("_Color3", GameManager.instance.colorsPillar[3]);
 
         minimapRooms = new ArrayList();
     }
@@ -172,7 +174,8 @@ public class UIManager : MonoBehaviour
     {
         string str;
         if (currentPillar != null)
-            str = string.Format(messages[messageIndex], GameManager.instance.TotalFoundPillars(), currentPillar.GetCurrentChargePercentage());
+            str = string.Format(messages[messageIndex], GameManager.instance.TotalFoundPillars(),
+                currentPillar.GetCurrentChargePercentage());
         else
             str = string.Format(messages[messageIndex], GameManager.instance.TotalFoundPillars(), "0");
         chat[0] = chat[1];
@@ -233,6 +236,7 @@ public class UIManager : MonoBehaviour
         {
             StopCoroutine(flashBlood);
         }
+
         if (health != 1) //flash doen't happen if 1 hp
         {
             blood_UI.GetComponent<Image>().color = new Color(1, 1, 1, 1);
@@ -290,7 +294,8 @@ public class UIManager : MonoBehaviour
         foreach ((int, int) coord in RoomManager.instance.foundRooms.Keys)
         {
             var roomMapIcon = Instantiate(room_UI_Prefab, minimap_room_UI.transform);
-            roomMapIcon.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0f + coord.Item1 * 87f, 0f + coord.Item2 * 42f, 0f);
+            roomMapIcon.GetComponent<RectTransform>().anchoredPosition3D =
+                new Vector3(0f + coord.Item1 * 87f, 0f + coord.Item2 * 42f, 0f);
             minimapRooms.Add(roomMapIcon);
             UI_MinimapRoom roomDetail = roomMapIcon.GetComponent<UI_MinimapRoom>();
             if (RoomManager.instance.foundRooms[coord].nsewExits.north)
@@ -312,12 +317,15 @@ public class UIManager : MonoBehaviour
             {
                 roomDetail.leftWall.SetActive(false);
             }
+
             if (RoomManager.instance.CheckIfHasPillar(coord.Item1, coord.Item2))
             {
                 roomDetail.generator.SetActive(true);
             }
         }
-        minimap_room_UI.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0f - currentCoords.x * 87f, 0f - currentCoords.y * 42f, 0f);
+
+        minimap_room_UI.GetComponent<RectTransform>().anchoredPosition3D =
+            new Vector3(0f - currentCoords.x * 87f, 0f - currentCoords.y * 42f, 0f);
     }
 
     public void UpdateAmmo()
@@ -325,4 +333,10 @@ public class UIManager : MonoBehaviour
         var str = playerGO.GetComponent<Firing>().GetClip() + " • " + playerGO.GetComponent<Firing>().GetLeftoverAmmo();
         ammo_UI.text = str;
     }
+
+    public void ToggleGlitch(bool active)
+    {
+        glitchEffect.gameObject.SetActive(active);
+    }
+
 }
