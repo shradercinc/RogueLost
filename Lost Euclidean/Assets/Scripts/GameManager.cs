@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     //player reference
     public GameObject playerGO;
 
+    public Color[] colorsPillar;
+
     private void Awake()
     {
         instance = this;
@@ -32,6 +34,10 @@ public class GameManager : MonoBehaviour
         Transform player = Instantiate(playerPrefab, RoomManager.instance.GetCurrentRoom().transform).transform;
         distort = player.GetChild(1).GetComponent<SpriteRenderer>();
         portalDistort = GameObject.FindGameObjectWithTag("distort").GetComponent<SpriteRenderer>();
+        distort.sharedMaterial.SetColor("_PillarColor0", colorsPillar[0]);
+        distort.sharedMaterial.SetColor("_PillarColor1", colorsPillar[1]);
+        distort.sharedMaterial.SetColor("_PillarColor2", colorsPillar[2]);
+        distort.sharedMaterial.SetColor("_PillarColor3", colorsPillar[3]);
         playerGO = player.gameObject;
 
         UIManager.instance.playerGO = playerGO;

@@ -1735,6 +1735,11 @@ MonoBehaviour:
   distort: {fileID: 0}
   portalDistort: {fileID: 0}
   playerGO: {fileID: 0}
+  colorsPillar:
+  - {r: 0.5660378, g: 0.10672001, b: 0.092659265, a: 1}
+  - {r: 0.28235295, g: 0.074239954, b: 0, a: 1}
+  - {r: 0.16462865, g: 0.5566038, b: 0.5136476, a: 1}
+  - {r: 0.0815094, g: 0.4245283, b: 0.1556756, a: 1}
 --- !u!4 &441005960
 Transform:
   m_ObjectHideFlags: 0
@@ -6180,7 +6185,7 @@ Light:
     m_CustomResolution: -1
     m_Strength: 0.1
     m_Bias: 0.05
-    m_NormalBias: 0.4
+    m_NormalBias: 0.1
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
       e00: 1

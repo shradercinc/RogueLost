@@ -162,26 +162,26 @@ public class Room : MonoBehaviour
             case RoomManager.RoomState.blue:
                 var blue = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 blue.GetComponent<Pillar>().state = RoomManager.RoomState.blue;
-                blue.transform.GetChild(1).GetComponent<Light>().color = Color.cyan;
-                blue.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, Color.cyan);
+                blue.transform.GetChild(1).GetComponent<Light>().color = GameManager.instance.colorsPillar[0];
+                blue.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[0]);
                 break;
             case RoomManager.RoomState.purple:
                 var purple = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 purple.GetComponent<Pillar>().state = RoomManager.RoomState.purple;
-                purple.transform.GetChild(1).GetComponent<Light>().color = Color.magenta;
-                purple.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, Color.magenta);
+                purple.transform.GetChild(1).GetComponent<Light>().color = GameManager.instance.colorsPillar[2];
+                purple.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[2]);
                 break;
             case RoomManager.RoomState.yellow:
                 var yellow = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 yellow.GetComponent<Pillar>().state = RoomManager.RoomState.yellow;
-                yellow.transform.GetChild(1).GetComponent<Light>().color = Color.yellow;
-                yellow.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, Color.yellow);
+                yellow.transform.GetChild(1).GetComponent<Light>().color = GameManager.instance.colorsPillar[1];
+                yellow.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[1]);
                 break;
             case RoomManager.RoomState.green:
                 var green = Instantiate(obstaclePrefabs[1], gameObject.transform);
                 green.GetComponent<Pillar>().state = RoomManager.RoomState.green;
-                green.transform.GetChild(1).GetComponent<Light>().color = Color.green;
-                green.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, Color.green);
+                green.transform.GetChild(1).GetComponent<Light>().color = GameManager.instance.colorsPillar[3];
+                green.transform.GetChild(2).GetComponent<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[3]);
                 break;
             case RoomManager.RoomState.exit:
                 break;
@@ -207,29 +207,29 @@ public class Room : MonoBehaviour
         if (state == RoomManager.RoomState.blue && !GameManager.instance.bluePillar)
         {
             // Debug.Log(state);
-            light.GetComponent<Light>().color = Color.cyan;
-            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, Color.cyan);
+            light.GetComponent<Light>().color = GameManager.instance.colorsPillar[0];
+            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[0]);
             interestingRoom = true;
         }
         if (state == RoomManager.RoomState.yellow && !GameManager.instance.yellowPillar)
         {
             // Debug.Log(state);
-            light.GetComponent<Light>().color = Color.yellow;
-            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, Color.yellow);
+            light.GetComponent<Light>().color = GameManager.instance.colorsPillar[1];
+            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[1]);
             interestingRoom = true;
         }
         if (state == RoomManager.RoomState.purple && !GameManager.instance.purplePillar)
         {
             // Debug.Log(state);
-            light.GetComponent<Light>().color = Color.magenta;
-            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, Color.magenta);
+            light.GetComponent<Light>().color = GameManager.instance.colorsPillar[2];
+            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[2]);
             interestingRoom = true;
         }
         if (state == RoomManager.RoomState.green && !GameManager.instance.greenPillar)
         {
             // Debug.Log(state);
-            light.GetComponent<Light>().color = Color.green;
-            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, Color.green);
+            light.GetComponent<Light>().color = GameManager.instance.colorsPillar[3];
+            light.GetComponentInChildren<SpriteRenderer>().material.SetColor(colorProperty, GameManager.instance.colorsPillar[3]);
             interestingRoom = true;
         }
 
