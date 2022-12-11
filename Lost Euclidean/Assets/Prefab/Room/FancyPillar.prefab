@@ -166,7 +166,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 503
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -561,6 +561,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6271076168085016889}
     m_Modifications:
+    - target: {fileID: -9184705739177209979, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -621,41 +625,73 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4965515176461294267, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: -4696272533040948479, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4056507548108361376, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -2955993908196458916, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2882251596971188211, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 90262568146255394, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_Name
       value: generator
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1323338757704007346, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648144511227798695, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6213026607097217300, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401542929647968470, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7442354291211544300, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7812845362473317136, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9000006452535305911, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9005997691480586449, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
       propertyPath: m_CastShadows
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b186e02a9d214dd41a8c2136855612f3, type: 3}
