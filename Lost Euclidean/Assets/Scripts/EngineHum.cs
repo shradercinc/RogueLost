@@ -7,14 +7,16 @@ public class EngineHum : MonoBehaviour
     public RoomManager RoomManager;
     private Transform pos;
     private AudioSource aud;
+    public GameManager Manager;
     [SerializeField] private float level = 0.3f;
     // Start is called before the first frame update
     void Start()
     {
         RoomManager = GameObject.Find("Room Manager").GetComponent<RoomManager>();
+
         pos = GetComponent<Transform>();
         aud = GetComponent<AudioSource>();
-
+        Manager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -22,14 +24,18 @@ public class EngineHum : MonoBehaviour
     {
         if (aud.volume < level)
         {
-            aud.volume += 0.05f;
+            aud.volume += 0.01f;
         }
         if (aud.volume > level)
         {
-            aud.volume -= 0.05f;
+            aud.volume -= 0.01f;
         }
         var Position = RoomManager.GetCurrentRoom().roomCoords;
-        if (RoomManager.CheckIfHasPillar(Position))
+        if (Manager.isTeleporting == false)
+        {
+            level = 0;
+        }
+        else if (RoomManager.CheckIfHasPillar(Position))
         {
             level = 1f;
         }
@@ -40,8 +46,9 @@ public class EngineHum : MonoBehaviour
         {
             level = 0.4f;
         }
+
         else
-        {
+        { 
             level = 0.2f;
         }
     }

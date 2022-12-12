@@ -357,15 +357,21 @@ public class RoomManager : MonoBehaviour
 
     public bool CheckIfHasPillar(Coords coord)
     {
-        if (roomGrid[coord.x, coord.y] >= 2 && roomGrid[coord.x, coord.y] <= 5)
+        if (coord.x > 5 || coord.x < 0 || coord.y > 5 || coord.y < 0)
+        {
+            return false;
+        }else if (roomGrid[coord.x, coord.y] >= 2 && roomGrid[coord.x, coord.y] <= 5)
             return true;
         else
             return false;
     }
     public bool CheckIfHasPillar(int x, int y)
     {
-        // Debug.Log(string.Format("{0},{1}:{2}", x, y, roomGrid[x, y]));
-        if (roomGrid[x, y] >= 2 && roomGrid[x, y] <= 5)
+        if (x > 5 || x < 0 || y > 5 || y < 0)
+        {
+            return false;
+        }
+        else if (roomGrid[x, y] >= 2 && roomGrid[x, y] <= 5)
             return true;
         else
             return false;
