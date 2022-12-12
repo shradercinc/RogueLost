@@ -53,6 +53,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip[] StepEffect;
     public AudioSource aud;
 
+
+    //audio variables for getting hit
+    [SerializeField] private AudioClip GetHit;
+    [SerializeField] private AudioSource HitAud;
     void Start()
     {
         coolDownTimer = coolDown;
@@ -93,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
             //checks if the enemy has already been hit
             if (enemy.canHit == true)
             {
+                HitAud.PlayOneShot(GetHit);
                 //decreases health, flash blood effect, sets canHit to false redundantly, resets the enemy reload    
                 Health--;
                 _bleeds = (GameManager.instance.totalHealth - Health) * 10;

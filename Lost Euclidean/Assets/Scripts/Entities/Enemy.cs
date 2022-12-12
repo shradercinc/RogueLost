@@ -62,6 +62,7 @@ public class Enemy : MonoBehaviour
             health--;
             speed /= speedDecrease;
             _isHurt = true;
+            HitAud.PlayOneShot(GetHit);
         }
     }
 
@@ -161,6 +162,7 @@ public class Enemy : MonoBehaviour
     // Script for when an enemy dies.
     private void Die()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>().PlayOneShot(GetHit);
         var temp = Instantiate(splatter, new Vector3(transform.position.x, 0.001f, transform.position.z), transform.rotation);
         //temp.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Random.ColorHSV();
         Destroy(this.gameObject);

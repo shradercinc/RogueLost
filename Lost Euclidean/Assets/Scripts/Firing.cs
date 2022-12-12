@@ -22,9 +22,11 @@ public class Firing : MonoBehaviour
     [SerializeField] private AudioSource ReloadPlayer;
     [SerializeField] private AudioClip reloadSound;
     [SerializeField] private AudioClip fireSound;
+    [SerializeField] private AudioClip Empty;
     private AudioSource aud;
     private bool reloading = false;
     private int leftoverAmmo;
+
 
     private int muzzleFlashFrames = 2;
 
@@ -43,24 +45,33 @@ public class Firing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ammo = 1; 
         // Debug.Log(clip + ", " + leftoverAmmo);
         mPos = Input.mousePosition;
         fireT += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Mouse0) && fireT > fireR && ammo > 0 && clip > 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && fireT > fireR)
         {
-            aud.PlayOneShot(fireSound);
-            fireT = 0;
-            Object.Instantiate(Bullet, pos.position, pos.rotation);
-            //to be entered when ammo is functional or nessecary
-            ammo--;
-            clip--;
-            // UIManager.instance.UpdateAmmo();
-            roguebanim.SetBool("Shoot", true);
-            muzzleFlash.SetActive(true);
-            muzzleFlashFrames = 3;
-            UIManager.instance.UpdateAmmo();
-            // print(clip + "/" + clipSize);
-            // print("Ammo = " + ammo);
+            if (ammo > 0 && clip > 0)
+            {
+                aud.PlayOneShot(fireSound);
+                fireT = 0;
+                Object.Instantiate(Bullet, pos.position, pos.rotation);
+                //to be entered when ammo is functional or nessecary
+                clip--;
+                // UIManager.instance.UpdateAmmo();
+                roguebanim.SetBool("Shoot", true);
+                muzzleFlash.SetActive(true);
+                muzzleFlashFrames = 3;
+                UIManager.instance.UpdateAmmo();
+                // print(clip + "/" + clipSize);
+                // print("Ammo = " + ammo);
+            }
+            else
+            {
+                aud.PlayOneShot(Empty);
+            }
+
+
         }
         else
         {
@@ -75,7 +86,7 @@ public class Firing : MonoBehaviour
         }
 
         reload -= Time.deltaTime;
-        if (((Input.GetKeyDown(KeyCode.R)) && clip < clipSize) && reloading == false)
+        if (((Input.GetKeyDown(KeyCode.R)) && clip < clipSize) && reloading == false && ammo > 0)
         {
             roguebanim.SetTrigger("Reload");
             ReloadPlayer.PlayOneShot(reloadSound);
@@ -86,15 +97,8 @@ public class Firing : MonoBehaviour
         }
         if (reloading == true && reload < 0)
         {
+            clip = clipSize;
             reloading = false;
-            if (ammo > clipSize)
-                clip = clipSize;
-            else
-                clip = ammo;
-
-            leftoverAmmo = ammo - clip;
-            UIManager.instance.UpdateAmmo();
-            // print("Ready to go!");
         }
     }
 
