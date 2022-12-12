@@ -48,6 +48,11 @@ public class PlayerMovement : MonoBehaviour
 
     public float healTimer = 0f;
 
+    private float StepT;
+    [SerializeField] private float StepRate = 3f;
+    [SerializeField] private AudioClip[] StepEffect;
+    public AudioSource aud;
+
     void Start()
     {
         coolDownTimer = coolDown;
@@ -95,6 +100,24 @@ public class PlayerMovement : MonoBehaviour
                 enemy.canHit = false;
                 enemy.reload = enemy.hitSpeed;
             }
+        }
+    }
+
+    void UpdateStep()
+    {
+        //setting and reseting the timer between step sound effects
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        {
+            StepT -= Time.deltaTime;
+        }
+        if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+        {
+            StepT = 0.2f;
+        }
+        if (StepT <= 0)
+        {
+            aud.PlayOneShot(StepEffect[Random.Range(0, StepEffect.Length - 1)]);
+            StepT = StepRate / WalkSpeed;
         }
     }
 
@@ -164,8 +187,10 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        
         if (!UIManager.instance.start && !UIManager.instance.escape && !UIManager.instance.die)
         {
+            UpdateStep();
             if (Rolling == false)
             {
                 coolDownTimer -= Time.deltaTime;

@@ -12,6 +12,9 @@ public class Enemy : MonoBehaviour
     public Transform pos;
     private GameObject pl;
 
+    [SerializeField] private AudioSource HitAud;
+    [SerializeField] private AudioClip GetHit;
+
     private AudioSource aud;
     [SerializeField] private AudioClip[] stepSounds;
     [SerializeField] private float stepRate = 0.35f;

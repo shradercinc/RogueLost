@@ -193,6 +193,7 @@ public class RoomManager : MonoBehaviour
         var purpleCoords = tempCoords.ElementAt(Random.Range(0, tempCoords.Count)).Value;
         roomGrid[purpleCoords.x, purpleCoords.y] = (int)RoomState.purple;
         tempCoords.Remove(purpleCoords.x + "," + purpleCoords.y);
+
         // //exit
         // var exitCoords = tempCoords.ElementAt(Random.Range(0, tempCoords.Count)).Value;
         // roomGrid[exitCoords.x, exitCoords.y] = (int)RoomState.exit;
