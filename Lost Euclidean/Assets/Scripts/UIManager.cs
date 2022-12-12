@@ -93,7 +93,7 @@ public class UIManager : MonoBehaviour
         SetChat();
 
         blood_UI.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        ammo_UI.text = "6 • 12";
+        ammo_UI.text = "6";
 
         glitchEffect.material.SetColor("_Color0", GameManager.instance.colorsPillar[0]);
         glitchEffect.material.SetColor("_Color1", GameManager.instance.colorsPillar[1]);
@@ -330,7 +330,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateAmmo()
     {
-        var str = playerGO.GetComponent<Firing>().GetClip() + " • " + playerGO.GetComponent<Firing>().GetLeftoverAmmo();
+        var str = "" + playerGO.GetComponent<Firing>().GetClip();
         ammo_UI.text = str;
     }
 

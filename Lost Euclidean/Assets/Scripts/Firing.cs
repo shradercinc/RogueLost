@@ -45,7 +45,7 @@ public class Firing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ammo = 1; 
+        ammo = 1;
         // Debug.Log(clip + ", " + leftoverAmmo);
         mPos = Input.mousePosition;
         fireT += Time.deltaTime;
@@ -82,7 +82,7 @@ public class Firing : MonoBehaviour
             {
                 muzzleFlash.SetActive(false);
             }
-            
+
         }
 
         reload -= Time.deltaTime;
@@ -99,6 +99,7 @@ public class Firing : MonoBehaviour
         {
             clip = clipSize;
             reloading = false;
+            UIManager.instance.UpdateAmmo();
         }
     }
 
